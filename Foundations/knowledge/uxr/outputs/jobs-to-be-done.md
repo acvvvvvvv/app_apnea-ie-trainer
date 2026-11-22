@@ -1,255 +1,221 @@
-# Jobs To Be Done — Pratiques d'entretien de plantes
+# Jobs To Be Done — Préparation à l'examen IE et construction de séances d'apnée
 
-Date : 2026-07-01
-Corpus : 16 entretiens
-Méthode : repérage des verbes d'accomplissement dans les verbatims, reformulation en job statements (situation → motivation → résultat), traçage aux sources
+Date : 2026-11-22
+Corpus : aucun entretien réalisé — jobs déduits de la base de connaissances IE/FFESSM (référentiel d'examen, publics, catalogue, architecture de séance)
+Méthode : repérage des tâches et exigences de l'épreuve dans le référentiel, reformulation en job statements (situation → motivation → résultat), traçage aux fichiers sources. Aucune citation ni statistique d'usage : les priorités sont des hypothèses à valider en entretien.
 
 ## Jobs fonctionnels
 
-### JTBD-F1 : Savoir quand arroser sans tuer ma plante — 16/16 interviewés
+### JTBD-F1 : Construire une séance cohérente avec un objectif mesurable — Priorité hypothétique : critique
 
-> Quand je dois décider si ma plante a besoin d'eau, je veux comprendre les signaux réels de la plante (et pas suivre une fréquence fixe arbitraire), afin d'éviter le sur-arrosage ou le sous-arrosage.
+> Quand je dois préparer une séance pour un public donné, je veux partir d'un objectif SMART lié au niveau des élèves et enchaîner des exercices logiques, afin de présenter une séance cohérente que le jury peut évaluer.
 
-**Verbatims :**
-- « Arroser tous les 7 jours c'est une bêtise — ça dépend de la saison, de l'expo, de la terre. » — entretien_Sophie_M.docx
-- « J'étais trop gentille avec lui. » (sur-arrosage fatal) — entretien_Lucie_P.docx
-- « Il attend généralement que les feuilles commencent à tomber ou à s'affaisser pour arroser. Il sait lui-même que c'est trop tard mais ne sait pas comment anticiper. » — entretien_Romain_G.docx
-- « Mes clients tuent leurs plantes par excès d'amour — trop d'arrosage, toujours. » — entretien_Valerie_N.docx
+**Ancrage dans la base de connaissances :**
+- Le bloc « fond » de la pédagogie pratique pèse 8 points sur 20 : réalisme des objectifs, chronologie logique, pertinence des exercices — 01_referentiel_exam_ie.md
+- Structure obligatoire briefing, échauffement, corps de séance, retour au calme, débriefing — 04_architecture_seance_ffessm.md
+- Erreur fréquente listée : mal cibler ses objectifs (trop dur ou pas assez) — 01_referentiel_exam_ie.md
 
-**Personas liés :** Léa (débutante), Sophie (passionnée), Jean (collectionneur)
-
----
-
-### JTBD-F2 : Identifier ce qui ne va pas avant qu'il soit trop tard — 11/16 interviewés
-
-> Quand je vois des signes inhabituels sur ma plante (feuilles jaunes, taches, affaissement), je veux obtenir un diagnostic fiable de la cause (maladie, carence, parasite, arrosage), afin de pouvoir agir avec le bon traitement avant que la plante ne meure.
-
-**Verbatims :**
-- « Je vois des taches sur les feuilles et je ne sais jamais si c'est un champignon, un manque de nutriments ou une brûlure. » — entretien_Sophie_M.docx
-- « Ce que je cherche c'est un diagnostic fiable, pas juste des conseils génériques. La différence entre mildiou et manque d'humidité ça se règle pas de la même façon. » — entretien_Isabelle_C.docx
-- « Je connais chaque plante par coeur, mais j'aimerais qu'on m'aide à identifier ce qui cloche avant que ce soit trop tard. Souvent quand je vois les signes, c'est déjà trop avancé. » — entretien_Sophie_M.docx
-- « L'identification des maladies reste mon angle mort. Je vois que quelque chose ne va pas mais je suis rarement sûre de ce que c'est. » — entretien_Isabelle_C.docx
-
-**Personas liés :** Léa (débutante), Sophie (passionnée)
+**Personas liés :** Camille (candidat novice), Thomas (apnéiste performant), Anaïs (encadrant bénévole)
 
 ---
 
-### JTBD-F3 : Partir en vacances sans tuer mes plantes — 14/16 interviewés
+### JTBD-F2 : Garantir la sécurité de chaque exercice — Priorité hypothétique : critique
 
-> Quand je dois partir en vacances, je veux savoir comment préparer mes plantes et organiser leur entretien pendant mon absence, afin de les retrouver en bonne santé à mon retour.
+> Quand je place un exercice dans ma séance, je veux savoir quels risques il porte (hypoxie, syncope, perte de contrôle moteur) et quelle surveillance prévoir, afin de ne mettre aucun élève en danger.
 
-**Verbatims :**
-- « Lors de ses premières vacances depuis avoir des plantes, il a simplement fermé son appartement en partant. Il a perdu une plante à son retour. » — entretien_Romain_G.docx
-- « J'avais pas pensé à ça. Heureusement que les cactus sont durs. » — entretien_Hugo_L.docx
-- « Elle utilise des systèmes capillaires et une minuterie pour ses arrosages. Elle prépare ses départs plusieurs jours à l'avance. » — entretien_Amandine_S.docx
-- « Elle fait appel à une personne qui s'occupe des plantes contre rémunération — un plant sitter professionnel. Pour mes plantes les plus rares, je peux pas demander ça à n'importe qui. » — entretien_Oceane_P.docx
+**Ancrage dans la base de connaissances :**
+- La sécurité est évaluée dans 4 blocs sur 5 de la grille pratique — 01_referentiel_exam_ie.md
+- Les exercices hypoxiques sont les plus accidentogènes ; surveillance rapprochée jusqu'à 1 minute après la sortie — 03_catalogue_exercices_adaptables.md
+- Tags d'alerte associés aux exercices — 05_modele_donnees_app.md
 
-**Personas liés :** Léa (débutante), Sophie (passionnée), Jean (collectionneur)
-
----
-
-### JTBD-F4 : Choisir une plante compatible avec mon logement — 8/16 interviewés
-
-> Quand je veux acheter une nouvelle plante, je veux savoir si elle sera compatible avec l'orientation et la lumière disponible dans mon appartement, afin d'éviter d'acheter une plante qui va dépérir faute de lumière.
-
-**Verbatims :**
-- « J'ai un appart nord, est-ce que certaines plantes vont vraiment m'être inaccessibles ? » — entretien_Charlotte_R.docx
-- « Vérifiez l'orientation de votre appartement avant d'acheter une plante. Ça évite beaucoup de déceptions. » — entretien_Charlotte_R.docx
-- « Il a mal positionné une succulente dans un couloir sans fenêtre pendant des mois avant de réaliser qu'elle étiolait. » — entretien_Thomas_B.docx
-- « Elle a aussi eu du mal avec le manque de lumière de son studio orienté nord. » — entretien_Lucie_P.docx
-
-**Personas liés :** Léa (débutante), Sophie (passionnée)
+**Personas liés :** Camille (candidat novice), Thomas (apnéiste performant), Anaïs (encadrant bénévole)
 
 ---
 
-### JTBD-F5 : Eradiquer un parasite durablement — 6/16 interviewés
+### JTBD-F3 : Maîtriser les accidents pour l'écrit et pour le terrain — Priorité hypothétique : critique
 
-> Quand mes plantes sont infestées de parasites (cochenilles, araignées rouges, pucerons), je veux accéder à un protocole de traitement efficace et progressif, afin d'éradiquer complètement le parasite et éviter la contamination en cascade.
+> Quand je révise la partie sécurité de l'examen, je veux disposer pour chaque accident du mécanisme, des causes, des symptômes, de la conduite à tenir et de la prévention, afin d'être capable de les présenter à l'écrit et de réagir en situation réelle.
 
-**Verbatims :**
-- « J'ai tout essayé — savon noir, alcool à 70°, bioinsecticide — rien ne marche complètement. » — entretien_Sophie_M.docx (cochenilles farineuses)
-- « Les araignées rouges sont son problème récurrent, surtout en été quand l'air est sec. Elle a du mal à les éradiquer complètement. » — entretien_Isabelle_C.docx
-- « Les pucerons sont son ennemie jurée, notamment sur les rosiers. » — entretien_Marie_Christine_D.docx
+**Ancrage dans la base de connaissances :**
+- Le groupe sécurité et prévention des accidents pèse un coefficient 2 sur 3 à l'écrit — 01_referentiel_exam_ie.md
+- Format imposé nom, mécanisme, causes, facteurs favorisants, symptômes, conduite à tenir, prévention — 01_referentiel_exam_ie.md
+- Seuls la perte de contrôle moteur et la syncope sont détaillées dans les documents ; les autres accidents sont à compléter — 05_modele_donnees_app.md
 
-**Personas liés :** Sophie (passionnée), Jean (collectionneur)
-
----
-
-### JTBD-F6 : Apprendre à observer mes plantes — 13/16 interviewés
-
-> Quand je débute ou progresse dans l'entretien de plantes, je veux développer ma capacité à observer et "lire" mes plantes, afin de détecter les problèmes tôt et d'anticiper leurs besoins sans dépendre d'un système externe.
-
-**Verbatims :**
-- « Observer chaque jour. Pas besoin de toucher, pas besoin d'arroser — juste regarder. C'est comme ça qu'on apprend à lire une plante. » — entretien_Marie_Christine_D.docx
-- « Elle pratique également une inspection visuelle rapide chaque matin comme on vérifierait ses mails. » — entretien_Sophie_M.docx
-- « Je sais même pas si mes plantes sont heureuses ou juste pas encore mortes. » — entretien_Lucie_P.docx
-- « Avant d'acheter une plante, lisez au moins une source sérieuse sur son origine géographique et ses conditions naturelles. C'est la base de tout. » — entretien_Jean_Paul_F.docx
-
-**Personas liés :** Léa (débutante), Sophie (passionnée)
+**Personas liés :** Camille (candidat novice), Anaïs (encadrant bénévole)
 
 ---
 
-### JTBD-F7 : Accéder à des données botaniques fiables pour des espèces rares — 6/16 interviewés
+### JTBD-F4 : Rester dans mes prérogatives et la réglementation — Priorité hypothétique : importante
 
-> Quand je collectionne des espèces rares ou complexes, je veux accéder à des données taxonomiques précises et des protocoles de culture spécifiques à l'espèce/sous-espèce, afin d'optimiser mes conditions de culture et réussir la refloraison ou l'acclimatation.
+> Quand je prévois un exercice en profondeur ou un effectif, je veux connaître les limites de mon brevet (6 m pour un IE1) et les obligations réglementaires associées, afin de ne pas sortir du cadre FFESSM.
 
-**Verbatims :**
-- « Les applications grand public sont trop superficielles pour un collectionneur sérieux. Ce qu'il faut c'est de la donnée de qualité, pas des notifications d'arrosage génériques. » — entretien_Jean_Paul_F.docx
-- « Ni Planta ni Happy Plant ne couvrent les besoins d'un collectionneur d'orchidées sérieux. La granularité est insuffisante. » — entretien_Jean_Paul_F.docx
-- « Une interface vers les bases de données botaniques mondiales — GBIF, The Plant List. » — entretien_Pierre_Antoine_L.docx
-- « Il n'existe pas d'outil numérique à la hauteur des besoins d'un botaniste amateur sérieux. » — entretien_Pierre_Antoine_L.docx
+**Ancrage dans la base de connaissances :**
+- Prérogatives d'encadrement par brevet et par profondeur ; matériel de secours obligatoire au-delà de 6 m — 01_referentiel_exam_ie.md
+- Alerte bloquante si la profondeur dépasse la prérogative — 05_modele_donnees_app.md
 
-**Personas liés :** Jean (collectionneur)
+**Personas liés :** Camille (candidat novice), Anaïs (encadrant bénévole)
 
 ---
 
-### JTBD-F8 : Obtenir des réponses rapides sans lire des articles longs — 6/16 interviewés
+### JTBD-F5 : Faire évoluer les objectifs au fil de la saison — Priorité hypothétique : importante
 
-> Quand j'ai un problème ou une question sur ma plante, je veux obtenir une réponse courte, visuelle et actionnable (format TikTok/Instagram), afin de résoudre mon problème immédiatement sans avoir à lire des articles de 3000 mots.
+> Quand je planifie mes séances entre novembre et l'examen, je veux savoir quelle dominante travailler à chaque période (foncier, technique, hypercapnie, hypoxie), afin de proposer des séances adaptées au moment de la saison.
 
-**Verbatims :**
-- « Regardez une vidéo TikTok sur votre plante avant de faire quoi que ce soit. En 60 secondes vous apprenez l'essentiel. » — entretien_Hugo_L.docx
-- « J'ai pas besoin d'une appli complexe. Juste un guide simple pour pas tuer mes plantes. En mode TikTok — court, visuel, pas de jargon. » — entretien_Hugo_L.docx
-- « Je suis une débutante assumée, j'ai besoin qu'on me guide sans me juger si je rate. Et j'ai besoin de trucs courts — j'ai pas le temps de lire des articles de 3000 mots. » — entretien_Lucie_P.docx
-- « Un truc comme Instagram mais utile — avec des posts personnalisés à mes plantes, des conseils en format court. » — entretien_Lucie_P.docx
+**Ancrage dans la base de connaissances :**
+- Trois phases : préparation physique générale, spécifique, ciblée et affûtage — 02_publics_et_saisonnalite.md
+- La place de la séance dans la saison fait partie de la présentation au jury (« Quand ? ») — 01_referentiel_exam_ie.md
 
-**Personas liés :** Léa (débutante)
+**Personas liés :** Thomas (apnéiste performant), Anaïs (encadrant bénévole)
+
+---
+
+### JTBD-F6 : Justifier mes choix devant le jury — Priorité hypothétique : critique
+
+> Quand j'explique ma séance au jury, je veux pouvoir dire pourquoi je propose chaque exercice et ce qu'il développe, afin de montrer que mes choix sont réfléchis et pas copiés.
+
+**Ancrage dans la base de connaissances :**
+- Présentation au jury : objectif, critère d'évaluation, prérequis, place dans le cursus, sécurité — 01_referentiel_exam_ie.md
+- Chaque exercice du catalogue porte une justification pédagogique — 03_catalogue_exercices_adaptables.md
+
+**Personas liés :** Camille (candidat novice), Thomas (apnéiste performant)
+
+---
+
+### JTBD-F7 : Adapter un exercice au niveau réel du groupe — Priorité hypothétique : importante
+
+> Quand un élève est en difficulté ou au contraire trop à l'aise, je veux simplifier ou complexifier l'exercice sans perdre l'objectif ni la sécurité, afin de garder tout le groupe en progression.
+
+**Ancrage dans la base de connaissances :**
+- Variables d'adaptation pour AEL (simplifier) et ACEL (complexifier) — 03_catalogue_exercices_adaptables.md
+- Remédiation : décomposer en tâches élémentaires, changer de méthode — 04_architecture_seance_ffessm.md
+
+**Personas liés :** Camille (candidat novice), Anaïs (encadrant bénévole)
+
+---
+
+### JTBD-F8 : Intégrer les épreuves physiques dans mon propre entraînement — Priorité hypothétique : de niche
+
+> Quand je prépare les épreuves physiques de l'IE (400 m, 3×50 m, statique-dynamique, sauvetage), je veux les intégrer à mon entraînement sans me mettre en danger, afin d'arriver au jour J avec les épreuves validées.
+
+**Ancrage dans la base de connaissances :**
+- Standards et intégration des tests physiques — 01_referentiel_exam_ie.md
+- Le 400 m peut être validé en amont par le tuteur sur le carnet — 01_referentiel_exam_ie.md
+
+**Personas liés :** Camille (candidat novice), Anaïs (encadrant bénévole)
 
 ---
 
 ## Jobs émotionnels
 
-### JTBD-E1 : Me sentir responsable de quelque chose de vivant sans être jugé — 9/16 interviewés
+### JTBD-E1 : Me sentir prêt et confiant avant le jour J — Priorité hypothétique : critique
 
-> Quand j'entretiens mes plantes, je veux ressentir un sentiment de responsabilité et d'accomplissement positif, afin de créer un rituel apaisant et un contrepoids à mon travail stressant ou abstrait.
+> Quand l'examen approche, je veux vérifier objectivement si ma séance passerait, afin de réduire mon stress et d'arriver serein devant le jury.
 
-**Verbatims :**
-- « J'avais besoin d'un truc qui dépende de moi mais qui ne me juge pas. Les plantes, c'est parfait. » — entretien_Charlotte_R.docx
-- « Quand je rentre chez moi et que mes plantes ont l'air bien, j'ai l'impression d'avoir fait quelque chose de bien dans la journée. » — entretien_Charlotte_R.docx
-- « Quand je suis dans ma période de rush créatif, mes plantes sont le seul truc que je fais vraiment en pleine conscience. » — entretien_Sophie_M.docx
-- « Avoir un truc vivant dans sa chambre. Ça donne une raison d'ouvrir les rideaux le matin. » — entretien_Hugo_L.docx
+**Ancrage dans la base de connaissances :**
+- Épreuve de 30 minutes avec 2-3 jurés qui jouent des apnéistes ; toute note inférieure à 5/20 invalide le groupe — 01_referentiel_exam_ie.md
+- Checklist d'auto-évaluation calquée sur la grille officielle — 04_architecture_seance_ffessm.md
 
-**Personas liés :** Léa (débutante), Sophie (passionnée)
+**Personas liés :** Camille (candidat novice), Thomas (apnéiste performant)
 
 ---
 
-### JTBD-E2 : Ressentir la fierté d'avoir réussi quelque chose de difficile — 10/16 interviewés
+### JTBD-E2 : Ne pas craindre de mettre un élève en danger — Priorité hypothétique : critique
 
-> Quand je vois une nouvelle feuille sortir, une plante refleurir, ou une plante que j'ai sauvée se rétablir, je veux ressentir la satisfaction d'avoir réussi quelque chose de concret et vivant, afin de valider mes efforts et mon apprentissage.
+> Quand j'encadre des apnées, je veux ressentir que ma séance est sous contrôle, afin de pouvoir animer sans peur permanente de l'accident.
 
-**Verbatims :**
-- « Voir une nouvelle feuille sortir, c'est une vraie récompense. Ça prend des semaines parfois et quand ça arrive tu te dis que t'as bien fait ton boulob. » — entretien_Sophie_M.docx
-- « Son monstera, acheté minuscule il y a 2 ans, mesure maintenant 1,20m. » — entretien_Charlotte_R.docx
-- « Elle a sauvé une orchidée phalaenopsis que sa voisine lui avait donnée en la croyant morte. Après 8 mois de soins, elle a refleurie. Je l'appelle la Lazare. » — entretien_Sophie_M.docx
-- « Une orchidée qui refleurit c'est la validation d'une hypothèse. » — entretien_Jean_Paul_F.docx
-- « C'est con mais ça m'a rendu heureux. » (nouvelle feuille sur son monstera) — entretien_Romain_G.docx
+**Ancrage dans la base de connaissances :**
+- Devoirs de l'encadrant : information, surveillance, compétence, sécurité ; responsabilité pénale en cas de mise en danger — 01_referentiel_exam_ie.md
+- Syncope possible jusqu'à 1 minute après la remontée — 01_referentiel_exam_ie.md
 
-**Personas liés :** Léa (débutante), Sophie (passionnée), Jean (collectionneur)
+**Personas liés :** Camille (candidat novice), Anaïs (encadrant bénévole)
 
 ---
 
-### JTBD-E3 : Ne pas ressentir de culpabilité quand je perds une plante — 10/16 interviewés
+### JTBD-E3 : Ressentir la fierté de voir mes élèves progresser — Priorité hypothétique : importante
 
-> Quand une de mes plantes meurt, je veux comprendre ce qui s'est passé et tirer des apprentissages sans culpabilité excessive, afin de progresser sans abandonner ma pratique.
+> Quand un élève réussit un exercice que je lui ai fait préparer, je veux ressentir la satisfaction d'avoir bien enseigné, afin de valider mon choix de devenir encadrant.
 
-**Verbatims :**
-- « Elle décrit la perte d'une plante comme un vrai deuil, même si ça paraît exagéré. » — entretien_Sophie_M.docx
-- « J'étais plus choqué d'avoir tué quelque chose que triste pour la plante elle-même. » — entretien_Romain_G.docx
-- « Elle décrit ces pertes comme frustrantes car elle a du mal à comprendre ce qui a mal tourné. » — entretien_Isabelle_C.docx
-- « Elle en parle avec pragmatisme : On perd des plantes, c'est la vie. Ce qui compte c'est de comprendre pourquoi. » — entretien_Marie_Christine_D.docx
-- « Elle a documenté les erreurs et recommencé avec un protocole amélioré. » (terrarium) — entretien_Amandine_S.docx
+**Ancrage dans la base de connaissances :**
+- Pédagogie par la réussite et débriefing positif valorisés par la grille — 01_referentiel_exam_ie.md
 
-**Personas liés :** Léa (débutante), Sophie (passionnée)
+**Personas liés :** Camille (candidat novice), Anaïs (encadrant bénévole), Thomas (apnéiste performant)
 
 ---
 
-### JTBD-E4 : Créer un environnement qui reflète ma personnalité — 7/16 interviewés
+### JTBD-E4 : Pouvoir m'entraîner sans jugement ni enjeu — Priorité hypothétique : importante
 
-> Quand j'organise mes plantes dans mon appartement, je veux créer un espace de vie cohérent, esthétique et apaisant qui reflète ma personnalité, afin de me sentir bien chez moi et de transformer mon logement en un lieu vivant.
+> Quand je m'essaie à construire des séances, je veux pouvoir me tromper et comprendre pourquoi, afin de progresser sans la pression d'un vrai groupe ni du jury.
 
-**Verbatims :**
-- « Un intérieur qui respire et qui reflète sa personnalité. » — entretien_Claire_T.docx
-- « Créer un espace de vie cohérent, apaisant, et qui reflète une démarche consciente. » — entretien_Amandine_S.docx
-- « Elle a commencé en cherchant à créer un environnement de travail plus agréable chez elle pendant le COVID. » — entretien_Amandine_S.docx
-- « Elle aime l'ambiance que ses plantes créent dans son studio. » — entretien_Lucie_P.docx
-- « L'aspect esthétique est clairement prioritaire. Si mes plantes mouraient demain, je pense que j'en rachèterais des artificielles. » — entretien_Thomas_B.docx
+**Ancrage dans la base de connaissances :**
+- Conception de l'application comme simulateur pédagogique qui explique le pourquoi — 05_modele_donnees_app.md
+- Évaluation formative : corriger et chercher des remèdes en cours de formation — 04_architecture_seance_ffessm.md
 
-**Personas liés :** Léa (débutante), Sophie (passionnée)
+**Personas liés :** Camille (candidat novice), Thomas (apnéiste performant)
 
 ---
 
 ## Jobs sociaux
 
-### JTBD-S1 : Appartenir à une communauté de passionnés — 9/16 interviewés
+### JTBD-S1 : Être jugé crédible par mon tuteur et par le jury — Priorité hypothétique : importante
 
-> Quand je partage mes plantes, mes réussites ou mes questions avec d'autres passionnés, je veux me sentir membre d'une communauté d'entraide, afin d'apprendre des autres, d'être valorisé pour mes réussites et d'accéder à des diagnostics collaboratifs.
+> Quand je présente une séance à mon tuteur ou au jury, je veux être perçu comme un encadrant fiable et compétent, afin d'obtenir sa confiance et mon brevet.
 
-**Verbatims :**
-- « L'aspect communautaire est crucial pour moi. J'apprends autant en postant une photo et en lisant les commentaires qu'en cherchant sur Google. » — entretien_Claire_T.docx
-- « Reddit (r/plantclinic) est sa ressource de diagnostic préférée : Les gens y mettent des photos et des experts répondent en 2h. » — entretien_Sophie_M.docx
-- « Son compte Instagram dédié à ses plantes a atteint 2000 abonnés. Elle reçoit régulièrement des messages de gens qui lui demandent des conseils. » — entretien_Claire_T.docx
-- « Une communauté d'entraide avec accès à des diagnostics fiables — Pas un algorithme, mais de vraies personnes qui savent identifier une maladie à partir d'une photo. » — entretien_Isabelle_C.docx
-- « Sa propre communauté est sa ressource principale. » — entretien_Oceane_P.docx
+**Ancrage dans la base de connaissances :**
+- Jury composé de MEF2, MEF1 et IE2 ; carnet validé sous la supervision du tuteur — 01_referentiel_exam_ie.md
 
-**Personas liés :** Sophie (passionnée), Jean (collectionneur)
+**Personas liés :** Camille (candidat novice), Anaïs (encadrant bénévole)
 
 ---
 
-### JTBD-S2 : Partager et transmettre ma passion — 7/16 interviewés
+### JTBD-S2 : Transmettre mon expérience à d'autres candidats — Priorité hypothétique : de niche
 
-> Quand je fais des boutures, que je donne des conseils ou que je partage mes plantes avec d'autres, je veux transmettre quelque chose de vivant et de positif, afin de créer du lien et de perpétuer ma passion.
+> Quand j'ai déjà vécu la préparation, je veux partager mes séances et mes retours avec les autres candidats, afin de les aider et de consolider mes acquis.
 
-**Verbatims :**
-- « Donner une bouture, c'est donner un bout de quelque chose de vivant. Mes élèves s'en souviennent longtemps. » — entretien_Isabelle_C.docx
-- « Elle estime avoir donné plus de 100 boutures à des familles d'élèves, des amis et des voisins en 15 ans. » — entretien_Isabelle_C.docx
-- « Donnez et recevez des boutures. C'est la meilleure école qui soit — vous apprenez d'autres personnes et vous créez du lien. » — entretien_Isabelle_C.docx
-- « Mon jardin nourrissait ma famille et maintenant il nourrit mes petits-enfants. Avoir transmis la passion du jardin à ses trois enfants. » — entretien_Bernard_M.docx
-- « Transmettre l'amour des plantes à ses apprentis et à ses clients. Former ses apprentis à lire les plantes. » — entretien_Valerie_N.docx
+**Ancrage dans la base de connaissances :**
+- Séances de pédagogie avec le tuteur et la commission régionale — 01_referentiel_exam_ie.md
 
-**Personas liés :** Sophie (passionnée), Jean (collectionneur)
+**Personas liés :** Anaïs (encadrant bénévole), Thomas (apnéiste performant)
 
 ---
 
-### JTBD-S3 : Être reconnu comme quelqu'un qui s'y connaît — 5/16 interviewés
+### JTBD-S3 : Appartenir à la communauté des encadrants du club et de la commission — Priorité hypothétique : de niche
 
-> Quand mes amis ou ma communauté me demandent des conseils sur leurs plantes, je veux être perçu comme quelqu'un de compétent et d'aidant, afin de valoriser ma progression et mon expertise.
+> Quand je prépare l'IE, je veux me sentir membre du collectif d'encadrants de mon club, afin d'être intégré au planning d'encadrement et reconnu par mes pairs.
 
-**Verbatims :**
-- « Ses amis lui demandent parfois des conseils sur leurs plantes — ce qu'elle trouve paradoxal vu son niveau. Je suis la borgne du pays des aveugles mais ça me fait plaisir quand même. » — entretien_Lucie_P.docx
-- « Elle reçoit régulièrement des messages de gens qui lui demandent des conseils. » — entretien_Claire_T.docx
-- « Sa chaîne YouTube pour documenter cette passion et partager avec d'autres collectionneurs. » — entretien_Oceane_P.docx
+**Ancrage dans la base de connaissances :**
+- Planning d'encadrement du club et rôle de l'IE dans l'organisation des séances — 01_referentiel_exam_ie.md
 
-**Personas liés :** Léa (débutante), Sophie (passionnée)
+**Personas liés :** Anaïs (encadrant bénévole)
 
 ---
 
 ## Synthèse : priorisation des jobs
 
-### Jobs critiques (mentionnés par 10+ interviewés)
-1. **JTBD-F1** : Savoir quand arroser sans tuer ma plante (16/16)
-2. **JTBD-F3** : Partir en vacances sans tuer mes plantes (14/16)
-3. **JTBD-F6** : Apprendre à observer mes plantes (13/16)
-4. **JTBD-F2** : Identifier ce qui ne va pas avant qu'il soit trop tard (11/16)
-5. **JTBD-E2** : Ressentir la fierté d'avoir réussi (10/16)
-6. **JTBD-E3** : Ne pas ressentir de culpabilité (10/16)
+### Jobs critiques (hypothèse : poids élevé dans la grille d'examen)
+1. **JTBD-F1** : Construire une séance cohérente avec un objectif mesurable
+2. **JTBD-F2** : Garantir la sécurité de chaque exercice
+3. **JTBD-F3** : Maîtriser les accidents pour l'écrit et pour le terrain
+4. **JTBD-F6** : Justifier mes choix devant le jury
+5. **JTBD-E1** : Me sentir prêt et confiant avant le jour J
+6. **JTBD-E2** : Ne pas craindre de mettre un élève en danger
 
-### Jobs importants (mentionnés par 6-9 interviewés)
-- **JTBD-E1** : Me sentir responsable sans être jugé (9/16)
-- **JTBD-S1** : Appartenir à une communauté (9/16)
-- **JTBD-F4** : Choisir une plante compatible avec mon logement (8/16)
-- **JTBD-E4** : Créer un environnement qui reflète ma personnalité (7/16)
-- **JTBD-S2** : Partager et transmettre ma passion (7/16)
+### Jobs importants (hypothèse : utiles à l'examen mais non éliminatoires)
+- **JTBD-F4** : Rester dans mes prérogatives et la réglementation
+- **JTBD-F5** : Faire évoluer les objectifs au fil de la saison
+- **JTBD-F7** : Adapter un exercice au niveau réel du groupe
+- **JTBD-E3** : Ressentir la fierté de voir mes élèves progresser
+- **JTBD-E4** : Pouvoir m'entraîner sans jugement ni enjeu
+- **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury
 
-### Jobs de niche (mentionnés par 5-6 interviewés)
-- **JTBD-F5** : Eradiquer un parasite durablement (6/16)
-- **JTBD-F7** : Accéder à des données botaniques fiables (6/16) — spécifique aux collectionneurs
-- **JTBD-F8** : Obtenir des réponses rapides (6/16) — spécifique aux débutants
-- **JTBD-S3** : Être reconnu comme compétent (5/16)
+### Jobs de niche (hypothèse : périphériques au cœur du produit)
+- **JTBD-F8** : Intégrer les épreuves physiques dans mon propre entraînement
+- **JTBD-S2** : Transmettre mon expérience à d'autres candidats
+- **JTBD-S3** : Appartenir à la communauté des encadrants
 
 ---
 
 ## Conclusion
 
-Les **jobs fonctionnels critiques** (F1, F2, F3, F6) forment le socle de valeur attendu par tous les segments. Les **jobs émotionnels** (E1, E2, E3) sont essentiels pour créer de l'engagement et de la rétention. Les **jobs sociaux** (S1, S2) sont différenciants pour le segment "Sophie" (passionnée) mais moins pertinents pour "Léa" (débutante) et "Jean" (collectionneur).
+Les **jobs fonctionnels critiques** (F1, F2, F3, F6) forment le socle de valeur attendu par tous les segments. Les **jobs émotionnels** (E1, E2) sont essentiels pour réduire le stress de l'épreuve et créer de l'engagement. Les **jobs sociaux** (S1) sont secondaires pour un premier produit centré sur l'entraînement individuel.
 
-Un outil qui échoue sur les jobs critiques (sur-arrosage, diagnostic, vacances, observation) échouera quels que soient ses autres atouts. Un outil qui réussit sur ces jobs ET sur les jobs émotionnels créera de la fidélité. Un outil qui intègre les jobs sociaux créera une communauté.
+Un outil qui échoue sur les jobs critiques (cohérence de séance, sécurité, accidents, justification) échouera quels que soient ses autres atouts. Un outil qui réussit sur ces jobs ET rassure avant l'examen créera de la fidélité. Toutes ces priorités restent des hypothèses : elles doivent être confrontées à des entretiens avant de figer la roadmap.
