@@ -1,30 +1,39 @@
-# App Plante — Suivi de plantes
+# App Apnée — Simulateur de séances pour futurs IE
 
 Arborescence des fonctionnalités (vision non technique)
 
 ```
-App Plante — Suivi de plantes
+App Apnée — Simulateur de séances pour futurs IE
 │
-├── Ajouter une plante
-│     Ajouter sa plante en moins de 30 secondes (nom + photo), sans jargon
+├── Construire une séance
+│     Choisir niveau, saison, milieu et philosophie, puis assembler la séance phase par phase,
+│     avec objectif mesurable et critères de réussite
 │
-├── Apprendre à arroser au bon moment
-│     Guide interactif : toucher la terre, observer les feuilles, soupeser le pot
+├── Comprendre chaque exercice
+│     Catalogue filtré selon la séance : pourquoi on le fait, points de sécurité,
+│     variantes pour simplifier ou complexifier, origine et statut de validation de chaque règle
 │
-├── Comprendre sa plante
-│     Fiche courte par plante : origine, lumière, arrosage, signes de bonne santé
+├── Construire son Carnet IE
+│     10 séances liées dans l'ordre, enchaînement d'une séance à l'autre,
+│     indicateurs de progression et vue de cohérence pour justifier ses choix devant le jury
 │
-├── Démarrer facilement (onboarding)
-│     Prise en main en moins de 60 secondes, sans création de compte
+├── Être alerté sur la sécurité
+│     Avertissements clairs et explicatifs : hypoxie en début de saison,
+│     profondeur au-delà du brevet, échauffement ou protocole de sortie oubliés
 │
-├── Suivre ses arrosages
-│     Historique visuel + rappels bienveillants (optionnels, jamais insistants)
+├── Réviser les accidents
+│     Fiches au format de l'examen : mécanisme, causes, symptômes, conduite à tenir, prévention
 │
-├── Diagnostiquer un problème
-│     Prendre une photo d'une feuille suspecte → diagnostic + conseils de traitement
+├── Se tester avant le jour J
+│     Checklist calquée sur la grille officielle /20, avec score et points à corriger
 │
-└── Utiliser l'app sans connexion
-      Continuer à consulter et utiliser l'app même hors ligne
+├── Partager et importer
+│     Envoyer une séance par lien court, ou une séance ou le carnet par fichier (PDF ou fichier importable),
+│     et importer ce qu'on reçoit
+│
+└── Garder ses séances et utiliser l'app sans connexion
+      Séances et carnet enregistrés sur l'appareil, sans compte, utilisables au bord du bassin ;
+      message de disclaimer au premier lancement
 ```
 
-7 fonctionnalités, pensées pour Léa (débutante) en priorité, avec un ton bienveillant et non jugeant sur toute l'app.
+8 fonctionnalités, pensées pour Camille (candidat novice) en priorité, avec un ton bienveillant et non jugeant sur toute l'app.
