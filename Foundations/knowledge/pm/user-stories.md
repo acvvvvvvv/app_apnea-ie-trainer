@@ -3,7 +3,7 @@
 > Statut : A VALIDER
 > Source : knowledge/pm/feature-breakdown.md
 > Date : 2026-11-22
-> Scope : Must + Should uniquement (9 features sur 10)
+> Scope : Must + Should uniquement (8 features sur 10)
 > Découpage : granulaire avec séparation Design / Tech — une US par comportement distinct
 
 ## Vue d'ensemble
@@ -15,28 +15,29 @@
 | US-002 | Tech | F01 — Paramétrage de séance | Backlog | Camille | JTBD-F1, F4 |
 | US-003 | Design | F02 — Catalogue d'exercices explicatif | Backlog | Camille, Anaïs | JTBD-F1, F6, F2 |
 | US-004 | Tech | F02 — Base d'exercices embarquée | Backlog | Camille, Anaïs | JTBD-F1, F6, F2 |
-| US-021 | Design | F02 — Revue du contenu par le porteur | Backlog | Porteur du projet | JTBD-F2 |
-| US-022 | Tech | F02 — Statut de validation du contenu | Backlog | Porteur du projet, Camille | JTBD-F2 |
+| US-021 | Design | F02 — Statut de validation et page « Contenu à relire » | Backlog | Porteur du projet, Camille | JTBD-F2 |
+| US-022 | Tech | F02 — Statut de validation dans les fichiers de contenu | Backlog | Porteur du projet, Camille | JTBD-F2 |
 | US-005 | Design | F03 — Constructeur de séance structuré | Backlog | Camille, Anaïs | JTBD-F1, F6 |
 | US-006 | Tech | F03 — Modèle de séance et sauvegarde | Backlog | Camille, Anaïs | JTBD-F1, F6 |
 | US-007 | Design | F04 — Alertes de sécurité | Backlog | Camille, Anaïs | JTBD-F2, F4 |
 | US-008 | Tech | F04 — Moteur de règles de sécurité | Backlog | Camille, Anaïs | JTBD-F2 |
 | US-009 | Tech | F04 — Contrôle des prérogatives et de la profondeur | Backlog | Camille, Anaïs | JTBD-F2, F4 |
-| US-016 | Design | F09 — Compte, connexion et rôles | Backlog | Camille, Anaïs, Porteur du projet | Transverse |
-| US-017 | Tech | F09 — Authentification et rôles | Backlog | Camille, Anaïs, Porteur du projet | Transverse |
-| US-018 | Tech | F09 — Sauvegarde des séances dans le compte | Backlog | Camille, Anaïs | Transverse |
+| US-016 | Design | F09 — « Mes séances » et sauvegarde sur l'appareil | Backlog | Camille, Anaïs | Transverse |
+| US-017 | Tech | F09 — Sauvegarde dans le localStorage | Backlog | Camille, Anaïs | Transverse |
 | US-010 | Design | F06 — Fiches accidents | Backlog | Camille, Anaïs | JTBD-F3, F2 |
 | US-011 | Tech | F06 — Base de fiches accidents | Backlog | Camille, Anaïs | JTBD-F3, F2 |
 | US-012 | Design | F07 — Checklist d'auto-évaluation | Backlog | Camille | JTBD-E1, F6 |
 | US-013 | Tech | F07 — Calcul du score et du diagnostic sécurité | Backlog | Camille | JTBD-E1, F6 |
-| US-019 | Design | F05 — Export et partage d'une séance | Backlog | Camille, Anaïs | JTBD-S1, F6 |
-| US-020 | Tech | F05 — Génération de l'export | Backlog | Camille, Anaïs | JTBD-S1, F6 |
-| US-014 | Tech | F10 — Stockage local, service worker et synchronisation | Backlog | Camille, Anaïs | Transverse |
-| US-015 | Design | F10 — États dégradés hors connexion | Backlog | Camille, Anaïs | Transverse |
+| US-019 | Design | F05 — Export, import et partage d'une séance | Backlog | Camille, Anaïs | JTBD-S1, F6 |
+| US-020 | Tech | F05 — Export et import côté navigateur | Backlog | Camille, Anaïs | JTBD-S1, F6 |
+| US-014 | Tech | F09 — Mise en cache pour l'usage hors connexion | Backlog | Camille, Anaïs | Transverse |
+| US-015 | Design | F09 — États hors connexion et données locales | Backlog | Camille, Anaïs | Transverse |
 
-**Total** : 23 User Stories (1 Scaffolding + 14 Must + 8 Should)
+**Total** : 22 User Stories (1 Scaffolding + 15 Must + 6 Should)
 - **Design** : 10 US
-- **Tech** : 13 US
+- **Tech** : 12 US
+
+Note : US-018 est retirée (comptes supprimés en v1) ; la numérotation n'a pas été décalée pour garder les références stables.
 
 ---
 
@@ -77,12 +78,12 @@ Scénario : Données de référence — Dossier de contenu versionné
   And chaque fichier porte un numéro de version et une date de dernière mise à jour
   And un schéma de validation vérifie la structure au build
 
-Scénario : Backend — Service d'authentification et de données
-  Given le produit impose un compte par utilisateur
-  When je configure le backend
-  Then un service d'authentification, une base de données des utilisateurs et des séances et un déploiement de dev sont en place
-  And les rôles « porteur » et « testeur » sont définis dans le schéma
-  And les secrets sont gérés hors du dépôt
+Scénario : Déploiement statique — Vercel et GitHub Pages
+  Given le produit est 100 % front-end, sans backend ni base de données externe
+  When je configure le déploiement
+  Then l'app se construit en fichiers statiques déployables sur Vercel et sur GitHub Pages
+  And le chemin de base est configurable (GitHub Pages sert l'app dans un sous-dossier)
+  And aucune variable secrète ni service externe n'est nécessaire au fonctionnement
 
 Scénario : Tests — Cadre en place
   Given je configure le framework de tests
@@ -167,7 +168,7 @@ Scénario : Happy path — Enregistrement des paramètres
   When il valide
   Then un objet de paramètres est créé avec les champs : niveau_eleves, moment_saison, milieu, philosophie_instructeur, profil_encadrant
   And les valeurs sont validées contre les enums définis (05_modele_donnees_app.md)
-  And les paramètres sont sauvegardés en local et rattachés au compte de l'utilisateur
+  And les paramètres sont sauvegardés dans le localStorage de l'appareil
 
 Scénario : Valeur par défaut — Profil d'encadrant absent
   Given l'utilisateur ne choisit pas de profil d'encadrant
@@ -186,7 +187,7 @@ Scénario : Erreur — Valeur hors enum
 - Changement de paramètres sur une séance en cours : réévaluation des alertes
 - Données corrompues : réinitialisation des paramètres uniquement
 
-**Dépend de :** US-000, US-014, US-017
+**Dépend de :** US-000, US-017
 
 ---
 
@@ -277,57 +278,55 @@ Scénario : Erreur — Contenu invalide
 - Mise à jour du contenu : migration des séances qui référencent un exercice modifié ou supprimé
 - Recherche par nom ou par discipline : correspondance floue (STA, DYN, DNF)
 
-**Dépend de :** US-000, US-014
+**Dépend de :** US-000
 
 ---
 
-### US-021 [Design] — Concevoir la revue du contenu par le porteur du projet
+### US-021 [Design] — Concevoir l'affichage du statut de validation et la page « Contenu à relire »
 
-**Feature source :** F02 — Revue du contenu par le porteur
+**Feature source :** F02 — Statut de validation et page de relecture
 **Status :** Backlog
 **Type :** Design
-**Persona :** Porteur du projet — relit et valide lui-même le contenu hors documents sources avant sa mise à disposition des testeurs
+**Persona :** Porteur du projet — relit et valide lui-même le contenu hors documents sources ; Camille, qui doit savoir ce qui est validé
 **JTBD :** JTBD-F2 (Garantir la sécurité de chaque exercice)
 
 En tant que designer
-Je veux concevoir un écran de revue qui liste le contenu hors documents sources et permet de le valider ou de l'amender
-Afin que le porteur relise méthodiquement chaque règle, exercice ou paramètre avant que les testeurs ne le voient
+Je veux concevoir un badge de statut de validation sur chaque entrée et une page en lecture seule qui liste le contenu restant à relire
+Afin que le porteur relise méthodiquement ce qui est hors documents sources et que les utilisateurs voient ce qui est validé
 
 **Critères d'acceptation**
 
-Scénario : Happy path — Liste de revue
-  Given le porteur ouvre l'écran de revue
+Scénario : Happy path — Badge de statut
+  Given une entrée de contenu (règle, exercice, paramètre)
+  When elle s'affiche
+  Then un badge indique son origine (corpus, suggestion, hors corpus) et son statut (à valider, validé)
+  And le badge est lisible sur mobile et ne repose pas uniquement sur la couleur
+
+Scénario : Page « Contenu à relire »
+  Given le porteur ouvre la page « Contenu à relire »
   When la liste se charge
-  Then les entrées sont regroupées par origine (suggestion, hors corpus) et par statut (à valider, validé)
-  And chaque entrée affiche son texte, sa source éventuelle et ses boutons « Valider » et « Modifier »
+  Then les entrées sont regroupées par origine (suggestion, hors corpus) et par statut
+  And chaque entrée affiche son texte, sa source éventuelle et son identifiant
   And un compteur indique le nombre d'entrées restant à valider
-  And l'écran est utilisable sur mobile (une entrée par écran, lecture à une main)
+  And une aide explique comment valider une entrée (modification du fichier de contenu, voir US-022)
 
-Scénario : Validation d'une entrée
-  Given le porteur lit une entrée
-  When il appuie sur « Valider »
-  Then l'entrée passe au statut « validé » avec la date
-  And le compteur diminue
-  And une annulation est possible pendant 5 secondes
-
-Scénario : Accès réservé
-  Given un testeur ouvre l'application
-  When il cherche l'écran de revue
-  Then l'écran n'est pas accessible
-  And les entrées non validées lui apparaissent avec la mention « À valider »
+Scénario : Aucune entrée à relire
+  Given toutes les entrées sont validées
+  When la page s'affiche
+  Then un message positif : « Tout le contenu hors documents sources est relu et validé. »
 
 **Edge cases à couvrir**
-- Entrée modifiée après validation : retour au statut « à valider »
 - Liste longue : filtres par discipline et par origine
-- Commentaire libre pour noter une source consultée ou un doute
-- Reprise de la revue là où le porteur s'était arrêté
-- Accessibilité : le statut n'est pas porté uniquement par la couleur
+- Page accessible à tous (aucune authentification) ; elle est en lecture seule
+- Entrée dont le texte a changé depuis la validation : retour au statut « à valider »
+- Écran petit : une entrée par bloc, lecture à une main
+- Accessibilité : statut annoncé au lecteur d'écran
 
-**Dépend de :** US-003, US-016
+**Dépend de :** US-003
 
 ---
 
-### US-022 [Tech] — Implémenter le statut de validation du contenu
+### US-022 [Tech] — Implémenter le statut de validation dans les fichiers de contenu
 
 **Feature source :** F02 — Statut de validation du contenu
 **Status :** Backlog
@@ -336,37 +335,37 @@ Scénario : Accès réservé
 **JTBD :** JTBD-F2
 
 En tant que développeur
-Je veux implémenter un statut de validation (à valider, validé) et un historique pour chaque entrée de contenu, modifiable uniquement par le rôle porteur
-Afin que les testeurs voient l'état de validation de chaque règle et que seul le porteur puisse le modifier
+Je veux implémenter un statut de validation (à valider, validé, date) pour chaque entrée dans les fichiers de contenu, avec un contrôle au build
+Afin que le porteur valide le contenu en modifiant un fichier versionné, sans backend ni compte
 
 **Critères d'acceptation**
 
-Scénario : Happy path — Validation par le porteur
-  Given le porteur est connecté avec le rôle « porteur »
-  When il valide une entrée hors documents sources
-  Then le statut passe à « validé » avec l'identifiant du porteur et la date
-  And l'historique conserve les changements de statut
+Scénario : Happy path — Validation d'une entrée
+  Given une entrée au statut « à valider » dans un fichier de contenu
+  When le porteur passe son statut à « validé » avec une date et republie l'app
+  Then le badge « validé » s'affiche pour tous les utilisateurs
+  And l'historique des validations reste lisible dans le dépôt
 
-Scénario : Accès refusé à un testeur
-  Given un testeur est connecté
-  When il tente de modifier un statut de validation
-  Then la requête est refusée côté serveur
-  And l'app affiche un message neutre sans exposer de détail technique
+Scénario : Contrôle au build
+  Given des fichiers de contenu contenant des entrées hors documents sources
+  When le build s'exécute
+  Then un rapport liste les entrées restant à valider
+  And le build échoue si une entrée n'a pas de statut ou d'origine
 
 Scénario : Affichage dans le catalogue
   Given une entrée a le statut « à valider »
-  When un testeur ouvre la fiche
+  When un utilisateur ouvre la fiche
   Then la mention « À valider » est affichée à côté de l'entrée
-  And l'entrée reste utilisable dans les séances avec un rappel `[A DECIDER]`
+  And l'entrée reste utilisable dans les séances
 
 **Edge cases à couvrir**
-- Entrée du corpus (documents sources) : statut « corpus » sans validation requise
-- Modification du texte d'une entrée validée : statut remis à « à valider »
-- Mise à jour du contenu embarqué : conservation des statuts existants par identifiant
-- Cohérence entre statut local et serveur après synchronisation
-- Journalisation des changements pour traçabilité
+- Entrée du corpus (documents sources) : statut « corpus », sans validation requise
+- Modification du texte d'une entrée validée : le contrôle au build impose de repasser le statut à « à valider »
+- Statut inconnu dans un fichier : le build échoue avec un message explicite
+- Exportée dans une séance : l'entrée conserve son statut au moment de l'export
+- Tests unitaires : validation du schéma des statuts
 
-**Dépend de :** US-000, US-004, US-017
+**Dépend de :** US-000, US-004
 
 ---
 
@@ -434,7 +433,7 @@ Afin que l'utilisateur retrouve ses séances et les affine avant l'examen
 Scénario : Happy path — Création et sauvegarde
   Given l'utilisateur a saisi un objectif et placé des exercices dans des phases
   When il enregistre sa séance
-  Then la séance est sauvegardée en local puis dans le compte avec : id (UUID), titre, paramètres, objectif, phases, sécurité, date de création, date de modification
+  Then la séance est sauvegardée dans le localStorage avec : id (UUID), titre, paramètres, objectif, phases, sécurité, date de création, date de modification
   And la séance apparaît immédiatement dans la liste « Mes séances »
 
 Scénario : Modification d'une séance
@@ -457,7 +456,7 @@ Scénario : Erreur — Séance corrompue
 - Grand nombre de séances (> 100) : pagination
 - Export pour partage : traité dans US-019 et US-020
 
-**Dépend de :** US-000, US-002, US-004, US-014, US-018
+**Dépend de :** US-000, US-002, US-004, US-017
 
 ---
 
@@ -593,139 +592,95 @@ Scénario : Profil IE2 avec conditions
 
 ---
 
-## F09 — Comptes et sauvegarde des séances (Must)
+## F09 — Sauvegarde locale et fonctionnement hors connexion (Must)
 
-### US-016 [Design] — Concevoir la création de compte, la connexion et les rôles
+### US-016 [Design] — Concevoir « Mes séances » et la sauvegarde sur l'appareil
 
-**Feature source :** F09 — Compte, connexion et rôles
+**Feature source :** F09 — Sauvegarde locale et fonctionnement hors connexion
 **Status :** Backlog
 **Type :** Design
-**Persona :** Camille et Anaïs (testeuses et utilisatrices), Porteur du projet — veulent retrouver leurs séances sur leur téléphone
+**Persona :** Camille et Anaïs — veulent retrouver leurs séances sur leur téléphone, sans créer de compte
 **JTBD :** Transverse
 
 En tant que designer
-Je veux concevoir un parcours de création de compte et de connexion très court, adapté au mobile, avec deux rôles (porteur, testeur)
-Afin que chaque utilisateur sauvegarde ses séances sans que le compte ne soit un frein
+Je veux concevoir la liste « Mes séances » et les messages qui expliquent que les séances sont enregistrées sur l'appareil
+Afin que l'utilisateur retrouve ses séances sans compte et comprenne comment ne pas les perdre
 
 **Critères d'acceptation**
 
-Scénario : Happy path — Création de compte
-  Given l'utilisateur ouvre l'app pour la première fois
-  When il choisit de créer un compte
-  Then l'écran demande le minimum (adresse e-mail et mot de passe, ou lien de connexion `[A DECIDER]`)
-  And une phrase explique pourquoi un compte est utile (« Pour retrouver tes séances sur tous tes appareils »)
-  And l'écran est conçu pour le téléphone (champ unique visible avec le clavier ouvert)
-  And aucune information inutile n'est demandée
+Scénario : Happy path — Liste « Mes séances »
+  Given l'utilisateur a enregistré des séances
+  When il ouvre « Mes séances »
+  Then la liste affiche titre, paramètres clés (niveau, saison, milieu) et date de modification
+  And chaque séance propose ouvrir, dupliquer, supprimer et partager
+  And l'écran est conçu d'abord pour le téléphone (zones tactiles d'au moins 44 px, actions au pouce)
 
-Scénario : Connexion et retour
-  Given l'utilisateur a déjà un compte
-  When il ouvre l'app
-  Then il est reconnecté automatiquement s'il l'était déjà
-  And un lien « Mot de passe oublié » est visible
+Scénario : Mention de sauvegarde sur l'appareil
+  Given l'utilisateur enregistre sa première séance
+  When la confirmation s'affiche
+  Then un message explique : « Ta séance est enregistrée sur cet appareil. Exporte-la pour la garder en sécurité ou la partager. »
+  And la mention est répétée de façon discrète dans « Mes séances »
+  And aucun compte n'est demandé à aucun moment
 
-Scénario : Erreur — Identifiants incorrects
-  Given l'utilisateur saisit de mauvais identifiants
-  When il valide
-  Then un message bienveillant s'affiche : « On ne retrouve pas ton compte. Vérifie ton adresse et réessaie. »
-  And le message n'utilise jamais les mots « erreur », « invalide »
+Scénario : État vide
+  Given l'utilisateur n'a enregistré aucune séance
+  When il ouvre « Mes séances »
+  Then un message accueillant : « Tu n'as pas encore enregistré de séance. Prêt·e à commencer ? »
+  And un bouton principal mène au paramétrage de séance
 
 **Edge cases à couvrir**
-- Invitation de testeur : arrivée par lien ou code, inscription préremplie `[A DECIDER]`
-- Rôle porteur : accès à l'écran de revue du contenu (US-021) uniquement pour ce rôle
-- Accessibilité : champs étiquetés, contrastes, navigation au lecteur d'écran
-- Déconnexion : confirmation douce, séances non synchronisées signalées
-- Suppression du compte : parcours expliqué, avec rappel de l'export des séances (US-019)
+- Suppression : confirmation douce et annulation possible pendant 5 secondes
+- Beaucoup de séances : tri par date et recherche par titre
+- Espace de stockage presque plein : message de prévention avec invitation à exporter et à supprimer
+- Données effacées par le navigateur : message neutre et invitation à importer une sauvegarde
+- Accessibilité : actions annoncées au lecteur d'écran, contrastes suffisants
 
-**Dépend de :** Aucune
+**Dépend de :** US-005
 
 ---
 
-### US-017 [Tech] — Implémenter l'authentification et les rôles
+### US-017 [Tech] — Implémenter la sauvegarde des séances dans le localStorage
 
-**Feature source :** F09 — Authentification et rôles
-**Status :** Backlog
-**Type :** Tech
-**Persona :** Camille, Anaïs, Porteur du projet
-**JTBD :** Transverse
-
-En tant que développeur
-Je veux implémenter l'authentification et la gestion de deux rôles (porteur, testeur) avec contrôle d'accès côté serveur
-Afin que chaque utilisateur accède uniquement à ses séances et que seul le porteur accède à la revue du contenu
-
-**Critères d'acceptation**
-
-Scénario : Happy path — Inscription et connexion
-  Given un utilisateur crée un compte avec une adresse e-mail valide
-  When il valide
-  Then le compte est créé avec le rôle « testeur » par défaut
-  And une session sécurisée est ouverte
-  And aucun mot de passe n'est stocké en clair
-
-Scénario : Rôle porteur
-  Given le compte du porteur du projet est désigné
-  When il se connecte
-  Then il dispose du rôle « porteur »
-  And il accède à l'écran de revue du contenu (US-021) en plus des fonctions de testeur
-
-Scénario : Erreur — Accès à la séance d'un autre utilisateur
-  Given un utilisateur tente d'accéder à la séance d'un autre utilisateur
-  When la requête est reçue
-  Then elle est refusée côté serveur
-  And aucune donnée de la séance n'est révélée
-
-**Edge cases à couvrir**
-- Nombre limité de tentatives de connexion : blocage temporaire
-- Réinitialisation du mot de passe par e-mail
-- Adresse e-mail déjà utilisée : message neutre
-- Expiration de session hors connexion : l'utilisateur garde accès à ses données locales
-- Attribution du rôle porteur : opération manuelle réservée, jamais auto-attribuée
-- Mode d'inscription des testeurs (invitation, code, ouverture libre) `[A DECIDER]`
-
-**Dépend de :** US-000
-
----
-
-### US-018 [Tech] — Implémenter la sauvegarde des séances dans le compte
-
-**Feature source :** F09 — Sauvegarde des séances dans le compte
+**Feature source :** F09 — Sauvegarde locale (localStorage)
 **Status :** Backlog
 **Type :** Tech
 **Persona :** Camille, Anaïs
 **JTBD :** Transverse
 
 En tant que développeur
-Je veux implémenter l'enregistrement des séances sur le serveur, rattachées au compte, avec récupération sur tout appareil
-Afin que l'utilisateur retrouve ses séances après changement de téléphone ou réinstallation
+Je veux implémenter l'enregistrement, la lecture, la duplication et la suppression des séances dans le localStorage, avec un schéma versionné
+Afin que les séances soient conservées sur l'appareil sans backend, sans compte et sans connexion
 
 **Critères d'acceptation**
 
-Scénario : Happy path — Sauvegarde et récupération
+Scénario : Happy path — Enregistrement et relecture
   Given l'utilisateur enregistre une séance
-  When la connexion est disponible
-  Then la séance est envoyée au serveur et rattachée à son compte
-  And elle est retrouvée à la connexion sur un autre appareil
+  When la page est rechargée, y compris sans connexion
+  Then la séance est retrouvée avec tous ses champs
+  And aucune requête réseau n'est émise pour la sauvegarde
 
-Scénario : Séance créée hors connexion
-  Given l'utilisateur crée une séance sans réseau
-  When la connexion revient
-  Then la séance est synchronisée automatiquement en arrière-plan
-  And un indicateur discret confirme « Séances à jour »
+Scénario : Schéma versionné et migration
+  Given des séances ont été enregistrées avec une version précédente du schéma
+  When l'app est mise à jour
+  Then les séances sont migrées vers le nouveau schéma sans perte
+  And la version du schéma est stockée avec les données
 
-Scénario : Erreur — Échec d'enregistrement serveur
-  Given le serveur ne répond pas
-  When l'app tente d'enregistrer
-  Then la séance reste en local avec le statut « en attente de synchronisation »
-  And l'app réessaie avec un délai croissant
-  And un message rassurant informe que la séance est en sécurité sur l'appareil
+Scénario : Erreur — Stockage plein ou indisponible
+  Given le localStorage est plein ou bloqué par le navigateur
+  When l'utilisateur enregistre une séance
+  Then l'app affiche : « On n'a pas pu enregistrer sur cet appareil. Exporte ta séance pour ne pas la perdre. »
+  And la séance en cours reste en mémoire et exportable
+  And aucune donnée existante n'est corrompue
 
 **Edge cases à couvrir**
-- Même séance modifiée sur deux appareils : la version la plus récente est conservée, l'ancienne est archivée
-- Suppression d'une séance : confirmation, mise en corbeille de 30 jours `[A DECIDER]`
-- Séance volumineuse : compression avant envoi
-- Quotas de stockage par compte
-- Suppression du compte : suppression des séances avec confirmation
+- Mode de navigation privée : stockage non persistant, message d'avertissement
+- Données corrompues : isolation de la séance fautive, les autres restent disponibles
+- Plusieurs onglets ouverts : mise à jour de la liste via l'événement de stockage
+- Taille : mesure de l'espace utilisé et alerte avant la limite (de l'ordre de 5 Mo)
+- Accès au localStorage protégé par un try/catch et repli en mémoire
+- Tests unitaires : enregistrement, migration, quota dépassé
 
-**Dépend de :** US-000, US-006, US-014, US-017
+**Dépend de :** US-000
 
 ---
 
@@ -813,7 +768,7 @@ Scénario : Lien accident-exercice
 - Fiche absente pour un tag : lien masqué
 - Recherche par nom d'accident et par synonyme (PCM, samba)
 
-**Dépend de :** US-000, US-014
+**Dépend de :** US-000
 
 ---
 
@@ -907,24 +862,24 @@ Scénario : Erreur — Barème absent
 
 ## F05 — Export et partage des séances (Should)
 
-### US-019 [Design] — Concevoir l'export et le partage d'une séance
+### US-019 [Design] — Concevoir l'export, l'import et le partage d'une séance
 
 **Feature source :** F05 — Export et partage d'une séance
 **Status :** Backlog
 **Type :** Design
-**Persona :** Camille, qui veut montrer sa séance à son tuteur ; Anaïs, qui veut la partager avec d'autres candidats
+**Persona :** Camille, qui veut montrer sa séance à son tuteur ; Anaïs, qui veut la partager et la transférer vers un autre téléphone
 **JTBD :** JTBD-S1 (Être jugé crédible par mon tuteur), JTBD-F6 (Justifier mes choix)
 
 En tant que designer
-Je veux concevoir un parcours d'export et de partage d'une séance depuis son écran, adapté au mobile
-Afin que l'utilisateur envoie une séance lisible à son tuteur ou à un autre candidat en quelques gestes
+Je veux concevoir le parcours d'export, de partage et d'import d'une séance, adapté au mobile
+Afin que l'utilisateur envoie une séance lisible à son tuteur, la sauvegarde hors de l'appareil ou la transfère vers un autre appareil
 
 **Critères d'acceptation**
 
 Scénario : Happy path — Export depuis une séance
-  Given l'utilisateur consulte une séance
+  Given l'utilisateur consulte une séance enregistrée
   When il appuie sur « Partager »
-  Then un choix simple propose les formats disponibles (fichier lisible, lien, fichier de données `[A DECIDER]`)
+  Then un choix simple propose : fichier lisible (PDF), fichier de séance importable et lien de partage `[A DECIDER]`
   And le partage utilise le menu de partage du téléphone
   And un aperçu montre ce qui sera envoyé
 
@@ -935,123 +890,127 @@ Scénario : Contenu de l'export
   And chaque règle conserve son origine (corpus, suggestion, hors corpus) et son statut de validation
   And la mention « Outil d'entraînement, ne remplace pas le tuteur ni le MFA » figure en pied
 
-Scénario : Séance non sauvegardée
-  Given la séance n'est pas encore enregistrée
-  When l'utilisateur appuie sur « Partager »
-  Then un message invite à l'enregistrer d'abord : « Enregistre ta séance pour pouvoir la partager. »
+Scénario : Import d'une séance reçue
+  Given l'utilisateur reçoit un fichier ou un lien de séance
+  When il l'ouvre dans l'app
+  Then un aperçu de la séance s'affiche avec le bouton « Ajouter à mes séances »
+  And une séance déjà présente propose de la dupliquer ou de l'ignorer
 
 **Edge cases à couvrir**
+- Séance non enregistrée : invitation à l'enregistrer avant de la partager
 - Séance très longue : mise en page lisible sur plusieurs pages
 - Séance avec une alerte bloquante : mention visible dans l'export
-- Destinataire sans compte : le fichier se lit sans compte
-- Lien de partage : possibilité de le désactiver
+- Destinataire sans l'app : le fichier lisible s'ouvre sans l'app
+- Fichier importé invalide : message bienveillant sans mot « erreur »
 - Accessibilité : fichier exporté avec une structure de titres lisible
 
 **Dépend de :** US-005, US-016
 
 ---
 
-### US-020 [Tech] — Implémenter la génération de l'export
+### US-020 [Tech] — Implémenter l'export et l'import côté navigateur
 
-**Feature source :** F05 — Génération de l'export
+**Feature source :** F05 — Export et import
 **Status :** Backlog
 **Type :** Tech
 **Persona :** Camille, Anaïs
 **JTBD :** JTBD-S1, JTBD-F6
 
 En tant que développeur
-Je veux implémenter la génération de l'export d'une séance et son envoi via le partage du système
-Afin que la séance soit transmise sous une forme fidèle et lisible
+Je veux implémenter la génération du fichier lisible, du fichier de séance et du lien de partage, ainsi que l'import, entièrement dans le navigateur
+Afin que la séance soit transmise ou sauvegardée sans serveur
 
 **Critères d'acceptation**
 
-Scénario : Happy path — Génération du fichier
+Scénario : Happy path — Génération de l'export
   Given l'utilisateur demande l'export d'une séance enregistrée
-  When le fichier est généré
+  When le fichier est généré dans le navigateur
   Then il contient tous les champs du modèle de séance et ses alertes en cours
   And la génération prend moins de 3 secondes pour une séance de 20 phases
-  And le menu de partage du système s'ouvre avec le fichier
+  And le menu de partage du système s'ouvre avec le fichier, ou le fichier est téléchargé
 
-Scénario : Statuts et mentions conservés
-  Given la séance contient des entrées hors documents sources
+Scénario : Fichier de séance et lien
+  Given l'utilisateur choisit le fichier de séance ou le lien
   When l'export est généré
-  Then chaque entrée garde son origine et son statut de validation
-  And la mention de non-remplacement du tuteur figure dans l'export
+  Then le fichier est au format JSON versionné et portant une signature de format
+  And le lien contient la séance encodée dans son adresse, sans serveur
+  And l'import relit la séance à l'identique
 
-Scénario : Erreur — Génération impossible
-  Given la génération échoue
-  When l'utilisateur réessaie
-  Then un message explique : « On n'a pas pu préparer ton export. Réessaie dans un instant. »
-  And la séance n'est pas altérée
+Scénario : Erreur — Import invalide ou trop volumineux
+  Given le fichier ou le lien est corrompu, d'une version inconnue ou trop volumineux
+  When l'utilisateur l'importe
+  Then l'app affiche : « On n'a pas pu lire cette séance. Demande à la personne de te la renvoyer. »
+  And aucune donnée existante n'est modifiée
 
 **Edge cases à couvrir**
-- Hors connexion : l'export fichier fonctionne sans réseau ; le lien de partage nécessite une connexion
-- Navigateur sans partage système : téléchargement du fichier
+- Hors connexion : toutes les formes d'export et l'import fonctionnent sans réseau
+- Longueur maximale d'un lien : repli vers le fichier si la séance est trop grande `[A DECIDER]`
+- Statuts d'origine et de validation conservés dans l'export
+- Entrées malveillantes dans un fichier importé : validation stricte du schéma, aucun contenu exécuté
 - Caractères spéciaux et accents correctement rendus
-- Lien de partage : expiration et révocation `[A DECIDER]`
-- Taille du fichier : limite et compression
+- Tests unitaires : aller-retour export puis import
 
-**Dépend de :** US-000, US-006, US-018
+**Dépend de :** US-000, US-006, US-017
 
 ---
 
-## F10 — Fonctionnement hors connexion et synchronisation (Should)
+## F09 — Fonctionnement hors connexion (Must)
 
-### US-014 [Tech] — Implémenter le stockage local, le service worker et la synchronisation
+### US-014 [Tech] — Implémenter la mise en cache de l'app pour l'usage hors connexion
 
-**Feature source :** F10 — Stockage local, service worker et synchronisation
+**Feature source :** F09 — Fonctionnement hors connexion (service worker)
 **Status :** Backlog
 **Type :** Tech
 **Persona :** Camille, Anaïs — candidats dont le bassin ou le vestiaire n'a pas toujours de réseau
 **JTBD :** Transverse
 
 En tant que développeur
-Je veux implémenter le stockage local (IndexedDB) et un service worker qui met en cache l'app et le contenu
-Afin que l'app fonctionne sans connexion pour toutes les opérations de la v1
+Je veux implémenter un service worker qui met en cache l'app et tout son contenu (exercices, règles, fiches accidents, sujets)
+Afin que l'app fonctionne totalement hors connexion, sans backend et sans authentification
 
 **Critères d'acceptation**
 
 Scénario : Happy path — App utilisable hors connexion
-  Given l'utilisateur a déjà ouvert l'app en ligne au moins une fois
+  Given l'utilisateur a ouvert l'app en ligne au moins une fois
   When il perd la connexion
-  Then l'app reste fonctionnelle : paramétrage, catalogue, constructeur, alertes, fiches accidents, checklist
-  And les séances sont sauvegardées en local
+  Then l'app reste fonctionnelle : paramétrage, catalogue, constructeur, alertes, fiches accidents, checklist, export et import
+  And les séances sont sauvegardées dans le localStorage
   And un indicateur discret montre « Mode hors ligne »
+
+Scénario : Installation sur l'écran d'accueil
+  Given l'app est servie en HTTPS (Vercel ou GitHub Pages)
+  When l'utilisateur l'ajoute à l'écran d'accueil
+  Then l'app s'ouvre en plein écran avec son icône et son nom
+  And le manifeste de l'application est valide
 
 Scénario : Première ouverture sans connexion
   Given l'utilisateur ouvre l'app pour la première fois sans réseau
-  When le service worker n'a pas encore mis en cache le contenu
+  When le service worker n'a pas encore mis le contenu en cache
   Then un message explique qu'une première connexion est nécessaire
   And l'app ne plante pas
 
-Scénario : Erreur — Stockage plein
-  Given le stockage local est plein
-  When l'utilisateur enregistre une séance
-  Then l'app affiche : « L'espace de stockage est plein. Libère de l'espace pour continuer. »
-  And les séances existantes ne sont pas corrompues
-
 **Edge cases à couvrir**
 - Navigateur sans service worker : fonctionnement en ligne avec avertissement
-- Mise à jour du contenu : activation silencieuse au prochain lancement
-- Données locales effacées par le navigateur : restauration des séances depuis le compte à la prochaine connexion
-- Synchronisation avec le compte : traitée dans US-018 ; ce stockage local sert de file d'attente des modifications
-- Schéma de stockage versionné avec migrations
+- Mise à jour de l'app et du contenu : activation silencieuse au prochain lancement, proposition discrète de recharger
+- Hébergement sur GitHub Pages : chemin de base de l'app correctement configuré
+- Cache plein ou purgé par le navigateur : rechargement du contenu à la prochaine connexion, séances intactes
+- Aucun appel à un service externe nécessaire au fonctionnement
 
 **Dépend de :** US-000
 
 ---
 
-### US-015 [Design] — Concevoir les états dégradés hors connexion
+### US-015 [Design] — Concevoir les états hors connexion et les messages de données locales
 
-**Feature source :** F10 — États dégradés hors connexion
+**Feature source :** F09 — États hors connexion et données locales
 **Status :** Backlog
 **Type :** Design
 **Persona :** Camille, Anaïs
 **JTBD :** Transverse
 
 En tant que designer
-Je veux concevoir les états de l'app quand la connexion est absente ou que le stockage local est limité
-Afin que l'utilisateur comprenne ce qui fonctionne sans être inquiété pour ses séances
+Je veux concevoir les états de l'app sans connexion et les messages qui rappellent que les données sont sur l'appareil
+Afin que l'utilisateur comprenne que tout fonctionne au bord de la piscine et sache comment protéger ses séances
 
 **Critères d'acceptation**
 
@@ -1059,21 +1018,20 @@ Scénario : Happy path — Indicateur hors connexion discret
   Given l'utilisateur perd la connexion
   When l'app passe en mode hors ligne
   Then une barre fine apparaît en haut (pas de popup bloquant)
-  And le message est rassurant : « Mode hors ligne — tes séances sont enregistrées sur cet appareil et seront synchronisées au retour de la connexion »
-  And toutes les fonctionnalités de la v1 restent accessibles
+  And le message est rassurant : « Mode hors ligne — tout fonctionne, tes séances sont enregistrées sur cet appareil »
+  And toutes les fonctionnalités restent accessibles
 
-Scénario : Modifications en attente de synchronisation
-  Given l'utilisateur a modifié des séances hors connexion
-  When il consulte la liste de ses séances
-  Then un indicateur discret précise « Modifications en attente de synchronisation »
-  And les séances restent entièrement consultables et modifiables
-  And une aide explique qu'elles seront enregistrées dans le compte au retour de la connexion
+Scénario : Premier lancement — Mention des données locales
+  Given l'utilisateur ouvre l'app pour la première fois
+  When il atteint l'écran de paramétrage
+  Then un bandeau discret explique que les séances restent sur cet appareil et qu'un export sert de sauvegarde
+  And le bandeau se ferme en un geste et ne revient pas
 
 Scénario : Retour de connexion
   Given l'utilisateur retrouve la connexion
   When l'app détecte le retour
   Then l'indicateur disparaît avec une animation douce
-  And un message éphémère confirme « Connexion retrouvée »
+  And aucun message technique n'apparaît, car rien ne dépend du réseau
 
 **Edge cases à couvrir**
 - Hors ligne prolongé (> 24 h) : aucun message alarmiste
@@ -1089,9 +1047,9 @@ Scénario : Retour de connexion
 
 | Persona | US associées |
 |---------|-------------|
-| Camille | US-000 à US-020 (toutes sauf US-021 et US-022) |
-| Anaïs | US-000, US-003 à US-009, US-010, US-011, US-014 à US-020 |
-| Porteur du projet | US-016, US-017, US-021, US-022 |
+| Camille | US-000 à US-020 (toutes sauf US-018) et US-021 |
+| Anaïs | US-000, US-003 à US-020 (sauf US-012, US-013, US-018), US-021 |
+| Porteur du projet | US-021, US-022 |
 
 ## Points d'attention pour le design
 - Ton bienveillant et non-jugeant sur TOUS les écrans (principe transversal JTBD-E4)
@@ -1104,12 +1062,13 @@ Scénario : Retour de connexion
 - Accessibilité : contrastes, lecteur d'écran, navigation clavier, information jamais portée par la couleur seule
 
 ## Points d'attention pour le dev
-- Architecture avec backend : comptes, séances sauvegardées dans le compte, rôles porteur et testeur, contrôle d'accès côté serveur
-- Stockage local prioritaire pour la consultation et file d'attente de synchronisation
+- Architecture 100 % front-end (décision validée) : aucun backend, compte ni base de données externe ; déploiement statique sur Vercel ou GitHub Pages
+- Séances dans le localStorage (schéma versionné, gestion du quota) ; contenu embarqué dans l'app ; service worker pour l'usage hors connexion
 - Setup technique (US-000) est prérequis à toutes les US Tech
-- Dépendances : US-017 (authentification) est prérequis pour US-002, US-018, US-021, US-022 ; US-014 (stockage local) pour US-002, US-004, US-006, US-011 ; US-018 (sauvegarde) pour US-020
+- Dépendances : US-017 (localStorage) est prérequis pour US-002 et US-020 ; US-006 (modèle de séance) pour US-020 ; US-004 (base d'exercices) pour US-022
 - Contenu pédagogique en JSON versionné et validé par schéma ; modèle de données défini dans 05_modele_donnees_app.md
 - Moteur de règles testé règle par règle (ALR-001 à ALR-020)
 - Contenu hors corpus : jamais présenté comme règle FFESSM ; relu et validé par le porteur du projet avant mise à disposition des testeurs (US-021, US-022)
 - Export : conserve origine, statut de validation et mention de non-remplacement du tuteur
-- Mode d'inscription des testeurs et format d'export préféré `[A DECIDER]`
+- Forme du lien de partage et limites de taille `[A DECIDER]`
+- Sécurité de l'import : valider strictement le schéma, n'exécuter aucun contenu importé

@@ -49,7 +49,7 @@ Raison : besoins centrés sur sa propre performance et les épreuves physiques (
 | **JTBD-E1** : Me sentir prêt et confiant avant le jour J | Oui | Via checklist calquée sur la grille officielle |
 | **JTBD-F3** : Maîtriser les accidents pour l'écrit et le terrain | Partiel | Fiches PCM et syncope uniquement — autres accidents hors corpus |
 | **JTBD-F4** : Rester dans mes prérogatives et la réglementation | Partiel | Couvert par les alertes (profondeur IE1 = 6 m), pas de module réglementaire complet |
-| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | **NON** | Pris en compte via le paramètre « moment de la saison » ; planning détaillé hors scope v1 |
+| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | Partiel | Paramètre « moment de la saison » en base ; planning de saison conservé en Could |
 | **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury | Partiel | Export des séances pour les partager avec le tuteur ; pas de validation par un tiers dans l'app |
 | **JTBD-F7** : Adapter un exercice au niveau réel du groupe | Partiel | Variantes dans les fiches d'exercices |
 | **JTBD-F8** : Intégrer les épreuves physiques à mon entraînement | **NON** | De niche, hors scope v1 |
@@ -65,6 +65,7 @@ Justification :
 - Décision de l'utilisateur : le produit est conçu d'abord pour le téléphone
 - L'usage au bord du bassin (consulter une séance, vérifier une alerte) et la préparation entre deux séances plaident pour une interface lisible sur mobile (hypothèse personas.md)
 - Dépôt existant en Vite/TypeScript (dossier app/) : une webapp reste la cible la plus directe
+- Architecture 100 % front-end (décision de l'utilisateur, designer) : aucun backend ni base de données externe, déploiement statique sur Vercel ou GitHub Pages, données stockées sur l'appareil
 
 ## Ce que le produit fait
 
@@ -74,7 +75,7 @@ Une webapp, simulateur pédagogique, qui aide les futurs IE à :
 2. **Vérifier la sécurité** de chaque exercice et de l'enchaînement selon la doctrine FFESSM : alertes calculées par un moteur de règles (hypoxie en début de saison, profondeur au-delà des prérogatives, absence d'échauffement ou de protocole de sortie, etc.).
 3. **Expliquer le « pourquoi »** de chaque exercice (justification pédagogique, points de sécurité, variantes) pour préparer la présentation au jury.
 4. **Se tester** avec une checklist d'auto-évaluation calquée sur la grille officielle /20, et réviser les fiches accidents.
-5. **Retrouver et partager ses séances** : chaque utilisateur a un compte qui sauvegarde ses séances, et peut les exporter pour les montrer à son tuteur ou à d'autres candidats. Deux types de comptes au minimum : le compte du porteur du projet (sauvegarde de ses séances, relecture et validation du contenu) et des comptes testeurs.
+5. **Retrouver et partager ses séances** : les séances sont enregistrées sur l'appareil de l'utilisateur (localStorage), sans compte, et l'app fonctionne entièrement hors connexion au bord de la piscine. L'utilisateur peut exporter une séance pour la montrer à son tuteur ou à d'autres candidats, et importer une séance reçue.
 
 Le produit **explique** plutôt que de remplacer le jugement de l'encadrant. Il **accompagne le développement de compétence** plutôt que de générer une séance clé en main sans compréhension.
 
@@ -85,7 +86,8 @@ Le produit **explique** plutôt que de remplacer le jugement de l'encadrant. Il 
 - **Pas de contenu présenté comme doctrine FFESSM quand il est absent des documents** : chaque règle porte un statut (corpus, suggestion, hors corpus)
 - **Pas de contenu hors documents sources mis en ligne sans relecture** : le porteur du projet relit et valide ce contenu (statut de validation visible sur chaque entrée)
 - **Pas de protocoles de fosse chiffrés tant qu'ils ne sont pas fournis et validés** (hors corpus)
-- **Pas de planning de saison détaillé** (le paramètre « moment de la saison » suffit en v1)
+- **Pas de backend, de compte, d'authentification ni de base de données externe** (architecture 100 % front-end) : pas de synchronisation entre appareils
+- **Pas d'onboarding dédié pour l'instant** (retiré du scope ; à rouvrir si les testeurs se perdent au premier lancement)
 - **Pas de suivi des épreuves physiques** [A DECIDER — voir JTBD-F8]
 - **Pas de fonctionnalité communautaire (commentaires, fil, diagnostic collaboratif) ni de suivi multi-candidats pour tuteurs** : le partage se fait uniquement par export [A DECIDER — voir JTBD-S1]
 - **Pas de milieu naturel** (lac, mer, carrière) en v1
@@ -103,8 +105,9 @@ Le produit **explique** plutôt que de remplacer le jugement de l'encadrant. Il 
 | Le contenu du corpus est suffisant pour alimenter un catalogue crédible | Base de connaissances | **PARTIEL** | Critères AEL/ACEL, protocoles fosse et accidents hors PCM/syncope absents |
 | Les candidats utilisent aujourd'hui carnet, tableur et supports PDF | Déduction personas.md | **NON** | À vérifier (axes 4 et 10) |
 | Le produit doit être pensé mobile-first | Décision utilisateur | **NON** | Décision prise ; à vérifier sur l'usage réel (bord de bassin ou domicile) |
-| Un compte est nécessaire pour sauvegarder ses séances | Décision utilisateur | **NON** | Décision prise ; à tester : le compte peut freiner un testeur occasionnel |
-| L'export des séances est important pour les partager | Décision utilisateur | **NON** | Décision prise ; format préféré (PDF, lien, fichier) à déterminer en entretien |
+| Une sauvegarde locale sans compte suffit aux utilisateurs | Décision utilisateur | **NON** | Décision prise (architecture 100 % front-end) ; risque de perte si l'utilisateur vide les données du site ou change d'appareil |
+| Les utilisateurs ont besoin de l'app hors connexion au bord de la piscine | Décision utilisateur | **NON** | Décision prise ; à confirmer sur l'usage réel |
+| L'export des séances est important pour les partager | Décision utilisateur | **NON** | Décision prise ; sert aussi de sauvegarde de secours ; format préféré (fichier, lien) à déterminer |
 | Le contenu hors documents sources est correct après relecture par le porteur | Décision utilisateur | **PARTIEL** | Le porteur relit et valide ; une relecture par un tuteur ou un encadrant reste souhaitable |
 
 ## Différenciation vs apps existantes
@@ -131,7 +134,7 @@ Les seuils ci-dessous sont des cibles de conception à valider, pas des mesures 
 
 **Critères de rétention :**
 - Le candidat revient avant l'examen (24-25 avril 2027) pour affiner ses séances
-- Le candidat enregistre au moins 3 séances dans son compte
+- Le candidat enregistre au moins 3 séances sur son appareil et les retrouve après rechargement, y compris hors connexion
 - Le candidat exporte au moins une séance pour la partager
 
 **Critères émotionnels :**

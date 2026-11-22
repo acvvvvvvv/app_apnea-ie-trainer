@@ -4,7 +4,7 @@
 > Source : knowledge/pm/brief.md
 > Date : 2026-11-22
 > Personas cibles : Camille (prioritaire), Anaïs (secondaire)
-> JTBD couverts : F1, F2, F6, E1 (+ F3 en Should, S1 en partie via l'export)
+> JTBD couverts : F1, F2, F6, E1 (+ F3 en Should, S1 en partie via l'export, F5 en Could)
 
 ## Couverture JTBD
 
@@ -16,7 +16,8 @@
 | **JTBD-E1** : Me sentir prêt et confiant avant le jour J | F07, F08 | Critique |
 | **JTBD-F3** : Maîtriser les accidents pour l'écrit et le terrain | F06 | Critique |
 | **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury | F05 | Importante |
-| *Transverse* | F09, F10 | — |
+| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | F10 | Importante |
+| *Transverse* | F09 | — |
 
 ## Features proposées
 
@@ -25,8 +26,8 @@
 | # | Feature | Description | JTBD | Persona | Testable |
 |---|---------|-------------|------|---------|----------|
 | **F01** | Paramétrage de séance | Saisir 5 paramètres : niveau des élèves (AEL, ACEL), moment de la saison (Reprise, Développement, Pré-compétition/Examen), milieu (piscine, fosse), philosophie de l'instructeur (technique, volume, ludique/détente), profil d'encadrant (IE1 par défaut). Valeurs par défaut proposées, aucun champ superflu. | JTBD-F1, F4 | Camille, Anaïs | Oui : le candidat paramètre sa séance en moins de 60 secondes sur mobile |
-| **F02** | Catalogue d'exercices explicatif | Liste d'exercices (STA, DYN, DNF, fosse, sauvetage, mental) filtrée par les paramètres. Chaque fiche affiche : justification pédagogique (« pourquoi on fait ça »), points de sécurité critiques, variantes pour simplifier ou complexifier, niveau de risque. Chaque règle porte un statut d'origine (corpus, suggestion, hors corpus) et un statut de validation par le porteur du projet (à valider, validé). | JTBD-F1, F6, F2 | Camille, Anaïs | Oui : le candidat ouvre une fiche et lit la justification, la sécurité et le statut en un tap |
-| **F03** | Constructeur de séance structuré | Assembler une séance par phases (accueil et briefing, exercices à sec, échauffement, prérequis, cœur de séance, application, retour au calme, débriefing). Pour chaque phase : durée, contenu, consignes, position de l'encadrant, critères de réussite. Objectif SMART et critère d'évaluation saisis en tête. Enregistrement dans le compte de l'utilisateur. | JTBD-F1, F6 | Camille, Anaïs | Oui : le candidat obtient une séance complète avec objectif, phases et critères |
+| **F02** | Catalogue d'exercices explicatif | Liste d'exercices (STA, DYN, DNF, fosse, sauvetage, mental) filtrée par les paramètres. Chaque fiche affiche : justification pédagogique (« pourquoi on fait ça »), points de sécurité critiques, variantes pour simplifier ou complexifier, niveau de risque. Chaque règle porte un statut d'origine (corpus, suggestion, hors corpus) et un statut de validation par le porteur du projet (à valider, validé), enregistré dans les fichiers de contenu. | JTBD-F1, F6, F2 | Camille, Anaïs | Oui : le candidat ouvre une fiche et lit la justification, la sécurité et le statut en un tap |
+| **F03** | Constructeur de séance structuré | Assembler une séance par phases (accueil et briefing, exercices à sec, échauffement, prérequis, cœur de séance, application, retour au calme, débriefing). Pour chaque phase : durée, contenu, consignes, position de l'encadrant, critères de réussite. Objectif SMART et critère d'évaluation saisis en tête. Enregistrement local sur l'appareil (voir F09). | JTBD-F1, F6 | Camille, Anaïs | Oui : le candidat obtient une séance complète avec objectif, phases et critères |
 
 **Challenge F01-F03** : Ces 3 features répondent au pain point supposé majeur (savoir par où commencer et enchaîner des exercices logiques, hypothèse personas.md). Elles reprennent la structure obligatoire d'une séance FFESSM et le gabarit de préparation écrite du support de stage. Aucune donnée terrain ne confirme encore leur poids relatif.
 
@@ -91,28 +92,38 @@
 - Phrases courtes, hiérarchie claire, pas de jargon non expliqué
 - Optimisé pour une consultation rapide au bord du bassin
 
----
+#### 4. Architecture 100 % front-end
 
-### Bloc 4 : Comptes, sauvegarde et partage (Transverse, JTBD-S1)
+**Ancrage** : décision de l'utilisateur (designer, déploiement simple sur Vercel ou GitHub Pages). Aucun backend, aucune base de données externe, aucune authentification.
 
-| # | Feature | Description | JTBD | Persona | Testable |
-|---|---------|-------------|------|---------|----------|
-| **F09** | Comptes et sauvegarde des séances | Création de compte et connexion. Deux rôles au minimum : **porteur** (sauvegarde ses séances, relit et valide le contenu hors documents sources) et **testeur** (utilise l'app et sauvegarde ses propres séances). Les séances sont enregistrées dans le compte et retrouvées sur tout appareil. | Transverse | Camille, Anaïs | Oui : l'utilisateur crée un compte, sauvegarde une séance, se reconnecte sur un autre appareil et la retrouve |
-| **F05** | Export et partage des séances | Exporter une séance (fichier lisible type PDF, lien de partage ou fichier de données) pour la montrer à son tuteur ou la partager avec d'autres candidats. L'export reprend objectif, phases, sécurité et alertes en cours. | JTBD-S1, F6 | Camille, Anaïs | Oui : l'utilisateur exporte une séance et la reçoit sous une forme lisible sur un autre appareil |
-
-**Challenge F09** : Décision de l'utilisateur : le porteur doit pouvoir sauvegarder ses séances et des comptes testeurs sont nécessaires. Risque : un compte obligatoire peut freiner un testeur occasionnel ; hypothèse à tester (inscription la plus courte possible, par exemple par lien ou code d'invitation `[A DECIDER]`).
-
-**Challenge F05** : L'export est jugé important par l'utilisateur pour partager ses séances. Format préféré (PDF, lien, fichier) à déterminer. Point de vigilance : une séance exportée circule hors de l'app ; elle doit conserver le statut d'origine et de validation de son contenu et la mention de non-remplacement du tuteur.
+**Application** :
+- Tout le contenu (exercices, règles, fiches accidents, sujets) est embarqué dans l'app sous forme de fichiers versionnés
+- Toutes les données de l'utilisateur restent sur son appareil
+- L'app fonctionne entièrement hors connexion une fois chargée
+- Le partage passe uniquement par l'export (fichier, lien contenant la séance)
 
 ---
 
-### Bloc 5 : Infra et transverse (contraintes techniques)
+### Bloc 4 : Planification de saison (JTBD-F5)
 
 | # | Feature | Description | JTBD | Persona | Testable |
 |---|---------|-------------|------|---------|----------|
-| **F10** | Fonctionnement hors connexion et synchronisation | Le catalogue, les alertes, les fiches accidents et les séances sont consultables et modifiables sans réseau (bassin ou vestiaire sans connexion). Les modifications sont synchronisées avec le compte au retour de la connexion. | Transverse | Camille, Anaïs | Oui : l'utilisateur modifie une séance sans internet et la retrouve à jour sur son compte ensuite |
+| **F10** | Planning de saison et objectifs mensuels | Vue des trois phases (préparation générale, spécifique, ciblée et affûtage) calée sur l'examen des 24-25 avril 2027, avec objectifs types par mois et séances recommandées. | JTBD-F5 | Anaïs | Oui : le candidat voit les dominantes de chaque mois jusqu'à l'examen |
 
-**Challenge F10** : Le compte impose une synchronisation ; le hors connexion devient un confort lié au compte. Le catalogue étant statique et embarqué, la consultation hors connexion est peu coûteuse ; la modification hors connexion avec synchronisation l'est davantage. `[A DECIDER]` : lancer d'abord en ligne seulement pour les modifications.
+**Challenge F10** : Utile mais déjà partiellement couvert par le paramètre « moment de la saison » de F01. Conservée à la demande de l'utilisateur, en Could.
+
+---
+
+### Bloc 5 : Infra et transverse (sauvegarde locale et partage)
+
+| # | Feature | Description | JTBD | Persona | Testable |
+|---|---------|-------------|------|---------|----------|
+| **F09** | Sauvegarde locale et fonctionnement hors connexion | Les séances créées sont enregistrées sur l'appareil via le localStorage du navigateur, sans compte ni authentification. L'app (catalogue, alertes, fiches accidents, constructeur, checklist) fonctionne totalement hors connexion, au bord de la piscine, une fois chargée. Liste « Mes séances » avec ouverture, duplication et suppression. | Transverse | Camille, Anaïs | Oui : l'utilisateur crée une séance en mode avion, recharge la page et la retrouve |
+| **F05** | Export et partage des séances | Exporter une séance pour la montrer à son tuteur ou la partager : fichier lisible (type PDF) et fichier de données importable ; lien contenant la séance encodée dans l'adresse, sans serveur `[A DECIDER]`. Importer une séance reçue. L'export reprend objectif, phases, sécurité et alertes en cours. | JTBD-S1, F6 | Camille, Anaïs | Oui : l'utilisateur exporte une séance puis l'importe sur un autre appareil |
+
+**Challenge F09** : Décision de l'utilisateur : architecture 100 % front-end, sans compte. Compromis assumés : les données restent sur l'appareil et le navigateur ; elles sont perdues si l'utilisateur vide les données du site ou change d'appareil ; le localStorage est limité (de l'ordre de 5 Mo). Le fonctionnement hors connexion n'est plus une feature séparée : il découle de l'architecture (contenu embarqué, mise en cache de l'app) et est fusionné ici avec la sauvegarde locale.
+
+**Challenge F05** : Sans compte, l'export est le seul moyen de partager une séance, de la sauvegarder hors de l'appareil et de la transférer d'un téléphone à un autre : il devient aussi la sauvegarde de secours. Point de vigilance : une séance exportée circule hors de l'app ; elle doit conserver le statut d'origine et de validation de son contenu et la mention de non-remplacement du tuteur.
 
 ---
 
@@ -120,11 +131,10 @@
 
 | JTBD | Priorité hypothétique | Raison hors scope |
 |------|-----------------------|-------------------|
-| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | Importante | Pris en compte via le paramètre « moment de la saison » de F01 ; planning de saison détaillé reporté en v2. |
 | **JTBD-F8** : Intégrer les épreuves physiques à mon entraînement | De niche | Hors périmètre du simulateur de séances. Peut être adressé en v2. |
 | **JTBD-F7** : Adapter un exercice au niveau réel du groupe | Importante | Couvert partiellement par les variantes des fiches F02, sans module dédié. |
 | **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury | Importante | Couvert partiellement par l'export (F05) ; pas de validation par un tiers dans l'app. |
-| **JTBD-S2** : Transmettre mon expérience à d'autres candidats | De niche | Partage possible par export uniquement ; pas de dimension communautaire en v1. |
+| **JTBD-S2** : Transmettre mon expérience à d'autres candidats | De niche | Partage possible par export uniquement ; pas de dimension communautaire ni de compte en v1. |
 | **JTBD-S3** : Appartenir à la communauté des encadrants | De niche | Hors scope v1. |
 
 ---
@@ -135,15 +145,16 @@
 - **3 features construction** (JTBD-F1) — cœur de l'app
 - **2 features sécurité et accidents** (JTBD-F2, F3) — garde-fous différenciants
 - **2 features préparation au jury** (JTBD-F6, E1) — réduction de l'angoisse
-- **2 features comptes, sauvegarde et partage** (transverse, JTBD-S1) — décisions de l'utilisateur
-- **1 feature hors connexion et synchronisation** — contrainte technique
+- **1 feature planification** (JTBD-F5) — vue de saison, conservée à la demande de l'utilisateur
+- **2 features sauvegarde locale et partage** (transverse, JTBD-S1) — architecture 100 % front-end
 
 **Principes de conception transversaux** :
 - **Sécurité d'abord et transparence sur l'origine des règles** — s'applique à tout le contenu
 - **Ton bienveillant et non-jugeant** (JTBD-E4) — copie, alertes, états vides
 - **Design mobile-first** — bottom nav, zones tactiles larges, lecture à une main
+- **Architecture 100 % front-end** — sans backend, compte ni base de données externe
 
-**Couverture JTBD** : 4 JTBD critiques couverts (F1, F2, F6, E1) plus F3 en Should et S1 en partie. 5 JTBD hors scope v1 (F5, F8, F7 en partie, S2, S3) avec justifications explicites.
+**Couverture JTBD** : 4 JTBD critiques couverts (F1, F2, F6, E1) plus F3 en Should, S1 en partie et F5 en Could. 4 JTBD hors scope v1 (F8, F7 en partie, S2, S3) avec justifications explicites.
 
 **Alignement personas** : 10/10 features répondent aux besoins de Camille (prioritaire) à des degrés divers. 8/10 répondent aussi à Anaïs (secondaire). Thomas (apnéiste performant) non couvert, conformément au brief.
 
@@ -153,7 +164,7 @@
 - Axe 3 (transparence sur l'origine des règles) : F02, F04, principe transversal
 - Axe 4 (checklist calquée sur la grille officielle) : F07, F08
 - Axe 5 (ton bienveillant) : principe de conception transversal
-- **Nouveau** : Axe 6 (séances sauvegardées et partageables) : F09, F05 — décision de l'utilisateur
+- **Nouveau** : Axe 6 (séances sauvegardées sur l'appareil, utilisables hors connexion et partageables) : F09, F05
 
 ---
 
@@ -165,7 +176,7 @@
 
 **Décision utilisateur** : le porteur du projet relit et valide lui-même le contenu hors documents sources avant sa mise à disposition.
 
-**Compromis retenu** : Afficher sur chaque règle et chaque exercice son origine (corpus, suggestion, hors corpus) et son statut de validation (à valider, validé). Le contenu non validé n'est visible que du porteur, ou signalé « À valider » aux testeurs `[A DECIDER]`.
+**Compromis retenu** : Afficher sur chaque règle et chaque exercice son origine (corpus, suggestion, hors corpus) et son statut de validation (à valider, validé). Sans compte ni backend, le statut de validation est écrit dans les fichiers de contenu du dépôt ; le porteur le modifie par un changement de fichier. Le contenu non validé reste visible avec la mention « À valider ».
 
 **A valider** : Une seconde relecture par un tuteur ou un MEF est-elle souhaitable avant les tests ? Quelles sources officielles complètent le catalogue ?
 
@@ -184,26 +195,26 @@
 **Questions à challenger** :
 - Faut-il une feature « Quiz accidents » pour réviser l'écrit, au-delà des fiches F06 ?
 - Faut-il un suivi de l'avancement du carnet (10 séances pratiques, 2 séances théoriques) ?
-- Faut-il un accès en lecture seule à une séance partagée, sans compte, pour un tuteur ?
+- Faut-il un onboarding minimal ? (retiré pour l'instant à la demande de l'utilisateur ; à rouvrir si les testeurs se perdent au premier lancement)
 
-**Décision** : `[A DECIDER]` — Pas de réponse reçue. On garde le scope actuel (10 features) sauf si l'utilisateur signale une feature critique manquante.
+**Décision** : `[A DECIDER]` — On garde le scope actuel (10 features). L'onboarding est écarté pour l'instant. Si une nouvelle feature doit entrer, il faudra choisir laquelle sortir.
 
-### 4. Scope technique, comptes et contrainte hors connexion — DECISION VALIDEE
+### 4. Scope technique : 100 % front-end, sans compte — DECISION VALIDEE
 
-**Décision utilisateur** : OUI à un compte par utilisateur (porteur et testeurs au minimum) pour sauvegarder les séances ; webapp mobile-first.
+**Décision utilisateur** : architecture 100 % front-end (déploiement sur Vercel ou GitHub Pages), sans backend ni base de données externe ; sauvegarde des séances dans le localStorage ; fonctionnement totalement hors connexion, sans authentification.
 
-**Contrainte technique identifiée** : Un backend est nécessaire (authentification, stockage des séances, rôles). L'app reste utilisable hors connexion pour la consultation.
+**Contraintes identifiées** :
+- Données liées à un navigateur et à un appareil : pas de synchronisation entre appareils, perte possible si l'utilisateur vide les données du site
+- Limite de stockage du localStorage (de l'ordre de 5 Mo) : suffisant pour des séances en texte
+- Mise en cache de l'app par un service worker pour l'usage hors connexion (HTTPS fourni par Vercel et GitHub Pages)
+- Pas de contrôle d'accès : le contenu est public ; le statut de validation vit dans les fichiers de contenu
 
 **Impact sur le scope fonctionnel** :
-- **F02 (Catalogue)** : contenu statique et statuts de validation, disponible hors connexion
-- **F03 (Constructeur)** : séances enregistrées dans le compte, copie locale
-- **F04 (Alertes)** : moteur de règles exécuté côté client
-- **F06 (Fiches accidents)** : contenu embarqué
-- **F09 (Comptes)** : prérequis de F03, F05 et F10
+- **F02, F04, F06** : contenu et moteur de règles embarqués côté client
+- **F03, F09** : séances enregistrées dans le localStorage
+- **F05** : export et import par fichier et lien, seul moyen de sauvegarder hors de l'appareil et de partager
 
-**Implications pour le dev** : Backend et authentification dès la v1, gestion des rôles (porteur, testeur), synchronisation et gestion des conflits. `[A DECIDER]` : mode d'inscription des testeurs (invitation, code, ouverture libre).
-
-**Proposition** : Ajouter une note transversale « Contrainte comptes et synchronisation » dans le bloc 5 (Infra et transverse).
+**Proposition** : Afficher dès le premier lancement une mention claire que les séances restent sur l'appareil et qu'un export sert de sauvegarde.
 
 ---
 
@@ -211,14 +222,18 @@
 
 **Décisions validées par l'utilisateur** :
 - Plateforme : webapp mobile-first
-- Comptes : OUI, un compte par utilisateur pour sauvegarder ses séances, avec au minimum un compte porteur et des comptes testeurs (F09)
+- Architecture : 100 % front-end, sans backend, sans base de données externe, sans authentification (déploiement Vercel ou GitHub Pages)
+- Sauvegarde : localStorage du navigateur, sur l'appareil de l'utilisateur ; la feature Comptes et rôles est supprimée en v1 et remplacée par F09
+- Hors connexion : l'app fonctionne totalement hors connexion au bord de la piscine
 - Export des séances : OUI, important pour les partager (F05)
+- Planning de saison : conservé (F10) ; onboarding : retiré pour l'instant
 - Contenu hors documents sources : relu et validé par le porteur du projet avant mise à disposition
 - Produit : simulateur pédagogique de séances d'apnée pour futurs IE FFESSM (piscine et fosse), 5 paramètres d'entrée, alertes de sécurité par tags d'exercices
 
-**Points `[A DECIDER]` restants (pour le dev et le PM)** :
-- Mode d'inscription des testeurs (invitation, code, ouverture libre)
-- Format d'export préféré (PDF, lien, fichier)
+**Ajustement du PM à confirmer** : pour tenir 10 features, l'ancienne feature « Fonctionnement hors connexion » est fusionnée dans F09 (elle ne se distingue plus de la sauvegarde locale sans backend). Aucune fonctionnalité n'est retirée.
+
+**Points `[A DECIDER]` restants** :
+- Forme du lien de partage (séance encodée dans l'adresse) et limites de taille
 - Formulation légale et responsabilité d'usage
 - Seconde relecture du contenu par un tuteur ou un MEF
 
@@ -229,7 +244,7 @@
 ## Priorisation MoSCoW
 
 > Filtre appliqué : "Si on enlève ça, le produit résout-il quand même le problème central du brief ?"
-> Problème central : **Permettre à un candidat IE (Camille) de construire une séance cohérente, de vérifier sa sécurité selon la doctrine FFESSM, de savoir la justifier devant le jury et de la retrouver dans son compte.**
+> Problème central : **Permettre à un candidat IE (Camille) de construire une séance cohérente, de vérifier sa sécurité selon la doctrine FFESSM, de savoir la justifier devant le jury et de la retrouver sur son appareil, y compris hors connexion.**
 
 | # | Feature | Priorité | Justification |
 |---|---------|----------|---------------|
@@ -237,12 +252,12 @@
 | **F02** | Catalogue d'exercices explicatif | **Must** | Sans ça, le « pourquoi » n'est pas expliqué : c'est le cœur de la proposition de valeur (JTBD-F6, F1). Porte aussi les statuts de validation du contenu. |
 | **F03** | Constructeur de séance structuré | **Must** | Sans ça, il n'y a pas de séance à vérifier ni à présenter. Cœur du JTBD-F1. |
 | **F04** | Alertes de sécurité en temps réel | **Must** | La sécurité est évaluée dans 4 blocs sur 5 de la grille ; sans garde-fous, l'app ne se distingue pas d'un catalogue. Cœur du JTBD-F2. |
-| **F09** | Comptes et sauvegarde des séances | **Must** | Décision de l'utilisateur : le porteur doit sauvegarder ses séances et des comptes testeurs sont requis. Sans compte, les testeurs ne peuvent pas tester dans la durée. |
-| **F05** | Export et partage des séances | **Should** | Jugé important par l'utilisateur pour partager ses séances, mais le produit résout le problème central sans export. Dépend de F03 et F09. |
+| **F09** | Sauvegarde locale et fonctionnement hors connexion | **Must** | Décision de l'utilisateur : séances enregistrées sur l'appareil, app utilisable hors connexion au bord de la piscine. Sans elle, une séance disparaît au rechargement. |
+| **F05** | Export et partage des séances | **Should** | Seul moyen de partager et de sauvegarder hors de l'appareil, mais le produit résout le problème central sans export. Dépend de F03 et F09. |
 | **F06** | Fiches accidents | **Should** | Pèse 2/3 de l'écrit (JTBD-F3) mais contenu complet seulement pour PCM et syncope ; le simulateur fonctionne sans. |
 | **F07** | Checklist d'auto-évaluation | **Should** | Forte valeur pour JTBD-E1, mais le produit résout le problème central sans score. |
 | **F08** | Mode examen blanc | **Could** | Hypothèse de valeur forte non validée ; à tester avant d'investir. |
-| **F10** | Fonctionnement hors connexion et synchronisation | **Should** | Utile au bord du bassin, mais le lancement en ligne est possible ; la consultation hors connexion est peu coûteuse, la modification hors connexion plus coûteuse. |
+| **F10** | Planning de saison et objectifs mensuels | **Could** | Valeur additionnelle ; le paramètre « moment de la saison » de F01 couvre l'essentiel. Conservé à la demande de l'utilisateur. |
 
 ---
 
@@ -251,8 +266,8 @@
 | Priorité | Nombre | % du total | Features |
 |----------|--------|-----------|----------|
 | **Must** | 5 | 50% | F01, F02, F03, F04, F09 |
-| **Should** | 4 | 40% | F05, F06, F07, F10 |
-| **Could** | 1 | 10% | F08 |
+| **Should** | 3 | 30% | F05, F06, F07 |
+| **Could** | 2 | 20% | F08, F10 |
 | **Won't v1** | 0 | 0% | — |
 
 **Total** : 10 features
@@ -265,7 +280,7 @@
 
 **Règle** : Must < 40%. On est à 50%, au-dessus de la règle.
 
-**Cause** : F09 (comptes et sauvegarde) a été ajoutée à la demande explicite de l'utilisateur. Sans elle, on serait à 4 sur 10 (40%), dans les clous.
+**Cause** : F09 (sauvegarde locale et hors connexion) est une contrainte posée par l'utilisateur, à faible coût technique (localStorage, sans backend). Sans elle, on serait à 4 sur 10 (40%), dans les clous.
 
 **Test de cohérence** : Si on enlève un seul Must, le produit résout-il encore le problème central ?
 
@@ -273,9 +288,9 @@
 - **Sans F02 (Catalogue explicatif)** : Non. Le candidat n'a plus d'exercices ni de « pourquoi » pour justifier ses choix devant le jury.
 - **Sans F03 (Constructeur)** : Non. Pas de séance à construire, à vérifier ni à présenter.
 - **Sans F04 (Alertes)** : Non. Le produit devient un catalogue sans garde-fous, sans différenciation sur la sécurité.
-- **Sans F09 (Comptes)** : Non au regard de la décision de l'utilisateur : sans compte, ni le porteur ni les testeurs ne peuvent sauvegarder leurs séances.
+- **Sans F09 (Sauvegarde locale)** : Non. Aucune séance n'est conservée entre deux ouvertures et l'usage hors connexion au bord du bassin n'est pas garanti.
 
-**Verdict** : Les 5 Must sont justifiés, mais le dépassement du seuil de 40% est une conséquence directe d'une décision de l'utilisateur. Pour revenir à 40%, il faudrait fusionner F01 dans F03 (paramètres comme première étape du constructeur) ; à challenger.
+**Verdict** : Les 5 Must sont justifiés. Pour revenir à 40%, il faudrait fusionner F01 dans F03 (paramètres comme première étape du constructeur) ; à challenger.
 
 ---
 
@@ -283,29 +298,29 @@
 
 ---
 
-### 1. F09 (Comptes) en Must — impact sur la vélocité ?
+### 1. F09 (Sauvegarde locale) en Must — limites assumées ?
 
-**Tension** : Un compte impose un backend, de l'authentification et des rôles dès la v1, ce qui alourdit le lancement.
+**Tension** : Sans compte, les séances restent sur un seul appareil et un seul navigateur ; elles disparaissent si l'utilisateur vide les données du site.
 
 **Justification** :
-1. Décision explicite de l'utilisateur : porteur et testeurs ont chacun un compte.
-2. Les rôles (porteur, testeur) servent aussi à la revue du contenu hors documents sources.
-3. F03, F05 et F10 en dépendent.
+1. Décision explicite de l'utilisateur : architecture 100 % front-end, déploiement simple.
+2. Le coût technique est faible et l'usage hors connexion est garanti.
+3. L'export (F05) sert de sauvegarde de secours et de moyen de transfert entre appareils.
 
-**Décision** : Must maintenu. `[A DECIDER]` : mode d'inscription des testeurs le plus léger possible (invitation ou code).
+**Décision** : Must maintenu. Afficher clairement la limite à l'utilisateur et l'inciter à exporter ses séances importantes.
 
 ---
 
 ### 2. F05 (Export) en Should — acceptable ?
 
-**Tension** : L'utilisateur juge l'export important. Pourquoi pas Must ?
+**Tension** : Sans compte, l'export est le seul moyen de partager et de sauvegarder hors de l'appareil. Pourquoi pas Must ?
 
 **Justification** :
 1. Le problème central du brief est la construction, la sécurité et la justification de la séance ; l'export les prolonge sans les conditionner.
 2. L'export dépend de F03 et F09 : il peut être livré dès qu'ils sont stables.
-3. Un export simple (fichier lisible) peut être livré avant le lien de partage.
+3. Un export simple (fichier de données) peut être livré avant le fichier lisible et le lien de partage.
 
-**Proposition** : Garder F05 en Should, en tête des Should prioritaires. À monter en Must si les testeurs ont besoin de partager leurs séances dès les premiers tests.
+**Proposition** : Garder F05 en Should, en tête des Should prioritaires. À monter en Must si le risque de perte de données inquiète les testeurs.
 
 ---
 
@@ -342,18 +357,16 @@
 - F02 : Catalogue d'exercices explicatif
 - F03 : Constructeur de séance structuré
 - F04 : Alertes de sécurité en temps réel
-- F09 : Comptes et sauvegarde des séances
+- F09 : Sauvegarde locale et fonctionnement hors connexion
 
 **Should prioritaires (à livrer si vélocité permet)** :
 - F05 : Export et partage des séances
 - F07 : Checklist d'auto-évaluation
 - F06 : Fiches accidents (PCM et syncope complètes)
 
-**Should secondaires** :
-- F10 : Fonctionnement hors connexion et synchronisation (reporter en v1.1 si complexité trop forte)
-
 **Could (nice-to-have v1, ou v2)** :
 - F08 : Mode examen blanc
+- F10 : Planning de saison et objectifs mensuels
 
 ---
 
@@ -367,6 +380,7 @@
 | **JTBD-E1** : Me sentir prêt et confiant avant le jour J | — | F07 | F08 | ⚠️ Couverture en Should et Could uniquement |
 | **JTBD-F3** : Maîtriser les accidents | — | F06 | — | ⚠️ Couverture partielle (contenu limité à PCM et syncope) |
 | **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury | — | F05 | — | ⚠️ Couverture partielle (export, pas de validation par un tiers) |
+| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | F01 (paramètre) | — | F10 | ⚠️ Couverture minimale via le paramètre saison, planning en Could |
 
 **Verdict** : Les 3 JTBD fondateurs (F1, F2, F6) sont couverts par des Must. JTBD-E1 repose sur un Should (F07), ce qui est cohérent avec la hiérarchie de priorité (F1 > F2 > F6 > E1) mais à surveiller : si l'angoisse de l'épreuve est confirmée comme moteur d'usage, F07 doit monter en Must.
 
@@ -377,9 +391,9 @@
 **Points à valider avec l'utilisateur** :
 
 1. **Must = 5 features (50%)** : Es-tu d'accord de dépasser le seuil de 40% à cause de F09, ou veux-tu fusionner F01 dans F03 pour revenir à 4 Must ?
-2. **F05 (Export) en Should** : Es-tu d'accord de livrer l'export après le noyau, ou veux-tu le forcer en Must pour les premiers tests ?
-3. **F06 (Fiches accidents) en Should** : Es-tu d'accord d'avancer avec PCM et syncope seulement ?
-4. **F10 (Hors connexion) en Should** : Es-tu d'accord de lancer d'abord avec la consultation hors connexion, et la modification hors connexion avec synchronisation en v1.1 ?
+2. **F10 (Planning) conservé en Could, onboarding retiré** : à confirmer. Si une nouvelle feature doit entrer dans la v1, laquelle sortir parmi les Could (F08 ou F10) ?
+3. **F05 (Export) en Should** : Es-tu d'accord de livrer l'export après le noyau, ou veux-tu le forcer en Must pour garantir une sauvegarde de secours ?
+4. **F06 (Fiches accidents) en Should** : Es-tu d'accord d'avancer avec PCM et syncope seulement ?
 5. **Scope v1 recommandé** : Must (5) + Should prioritaires (F05, F06, F07) = 8 features. C'est ambitieux. Es-tu d'accord avec ce scope ?
 
 **Une fois ces 5 points validés, on passe aux User Stories (Must + Should uniquement).**
