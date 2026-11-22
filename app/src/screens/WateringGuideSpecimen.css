@@ -1,0 +1,87 @@
+/*
+  Design system: Foundations/knowledge/design/DESIGN-specimen-vivant.md
+  Screen-specific rules only — shared shell/frame/button/pill live in
+  src/styles/specimen-vivant.css.
+*/
+.sv-guide-intro {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--sv-ink-muted);
+  line-height: 1.5;
+}
+
+.sv-guide-zones {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sv-guide-zone-wrapper {
+  position: relative;
+}
+
+.sv-guide-zone-icon {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+  color: var(--sv-iris-teal);
+}
+
+.sv-guide-tip {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  background: var(--sv-canvas-raised);
+  border: 1px solid var(--sv-line-strong);
+  color: var(--sv-ink);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  padding: 4px 7px;
+  max-width: 140px;
+  text-align: right;
+}
+
+.sv-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 20px;
+  z-index: 10;
+}
+
+.sv-overlay-card {
+  width: 100%;
+  max-width: 440px;
+  background: var(--sv-canvas-raised);
+  border: 1px solid var(--sv-line-strong);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+.sv-overlay-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.sv-overlay-title {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.sv-overlay-text {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--sv-ink-muted);
+  line-height: 1.55;
+}

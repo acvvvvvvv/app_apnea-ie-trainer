@@ -1,0 +1,53 @@
+/*
+  Design system: Foundations/knowledge/design/DESIGN-specimen-vivant.md
+  Screen-specific rules only — shared shell/frame/button/pill live in
+  src/styles/specimen-vivant.css.
+*/
+.sv-detail-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  padding: 4px 0 8px;
+}
+
+.sv-detail-header .sv-hero-frame {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--sv-canvas-raised);
+}
+
+.sv-detail-name {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.25rem;
+  margin: 0;
+  text-align: center;
+}
+
+.sv-detail-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sv-detail-row-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.sv-detail-row-title {
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.sv-detail-row-subtitle {
+  font-size: 0.76rem;
+  color: var(--sv-ink-muted);
+}

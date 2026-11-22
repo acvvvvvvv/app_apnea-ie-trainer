@@ -1,0 +1,166 @@
+/*
+  Design system: Foundations/knowledge/design/DESIGN-specimen-vivant.md
+  Shared base for every screen migrated to this DA. Tokens are scoped to
+  .specimen-shell only — the rest of the app still runs on the "Wise"
+  system until it migrates screen by screen.
+*/
+.specimen-shell {
+  --sv-canvas: #08080b;
+  --sv-canvas-raised: #101019;
+  --sv-line: #262a35;
+  --sv-line-strong: #454b5c;
+  --sv-ink: #f2f1f5;
+  --sv-ink-muted: #8b8fa3;
+  --sv-ink-faint: #52566a;
+  --sv-iris-violet: #a78ce0;
+  --sv-iris-teal: #5fd1c6;
+  --sv-iris-rose: #e39fc4;
+  --sv-warm: #e8895f;
+  --sv-positive: #7fd9b8;
+
+  width: 100%;
+  max-width: 480px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: var(--sv-canvas);
+  color: var(--sv-ink);
+  font-family: 'Manrope', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 20px 32px;
+  gap: 20px;
+}
+
+.specimen-shell .sv-top-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.specimen-shell .sv-back {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border: 1px solid var(--sv-line-strong);
+  background: transparent;
+  color: var(--sv-ink);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.specimen-shell .sv-title {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  margin: 0;
+}
+
+.sv-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Cadre à coins de viseur — `specimen-frame` du DA */
+.sv-specimen-frame {
+  position: relative;
+}
+
+.sv-bracket {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  border: 1.4px solid var(--sv-iris-teal);
+}
+.sv-bracket.tl { top: -4px; left: -4px; border-right: none; border-bottom: none; }
+.sv-bracket.tr { top: -4px; right: -4px; border-left: none; border-bottom: none; }
+.sv-bracket.bl { bottom: -4px; left: -4px; border-right: none; border-top: none; }
+.sv-bracket.br { bottom: -4px; right: -4px; border-left: none; border-top: none; }
+
+.sv-frame-caption {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--sv-ink-faint);
+}
+
+/* Bouton fantôme — `ghost-button` du DA. Jamais de bouton plein. */
+.sv-ghost-btn {
+  background: transparent;
+  border: 1px solid var(--sv-line-strong);
+  color: var(--sv-ink);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 10px 14px;
+  cursor: pointer;
+}
+
+.sv-ghost-btn:disabled {
+  color: var(--sv-ink-faint);
+  border-color: var(--sv-line);
+  cursor: not-allowed;
+}
+
+.sv-ghost-btn-block {
+  width: 100%;
+  text-align: center;
+}
+
+/* Ligne hairline cliquable (liste de plantes, cartes de navigation) */
+.sv-row {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid var(--sv-line);
+  background: transparent;
+  color: var(--sv-ink);
+  cursor: pointer;
+  text-align: left;
+}
+
+.sv-row-chevron {
+  color: var(--sv-ink-faint);
+  flex-shrink: 0;
+}
+
+/* Titre de section — `section-header-rule` du DA */
+.sv-section-header {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.sv-section-header span {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--sv-ink-muted);
+}
+.sv-section-header .sv-rule {
+  height: 1px;
+  background: var(--sv-line-strong);
+  width: 100%;
+}
+
+/* Statut sémantique — `status-pill` du DA */
+.sv-status-pill {
+  display: inline-flex;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.56rem;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 3px 7px;
+  border: 1px solid currentColor;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.sv-status-pill.warn { color: var(--sv-warm); }
+.sv-status-pill.ok { color: var(--sv-positive); }

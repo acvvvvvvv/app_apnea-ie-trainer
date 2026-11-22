@@ -1,0 +1,50 @@
+/*
+  Design system: Foundations/knowledge/design/DESIGN-specimen-vivant.md
+  Screen-specific rules only — shared shell/frame/button/pill live in
+  src/styles/specimen-vivant.css.
+*/
+.sv-onboarding {
+  position: relative;
+}
+
+.sv-skip {
+  align-self: flex-end;
+  background: none;
+  border: none;
+  color: var(--sv-ink-muted);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.sv-onboarding-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 18px;
+}
+
+.sv-onboarding-illustration {
+  align-self: center;
+}
+
+.sv-onboarding-title {
+  font-family: 'Archivo', system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1.25;
+  margin: 0;
+  text-align: center;
+}
+
+.sv-onboarding-text {
+  font-size: 0.88rem;
+  color: var(--sv-ink-muted);
+  text-align: center;
+  margin: 0;
+  line-height: 1.5;
+}

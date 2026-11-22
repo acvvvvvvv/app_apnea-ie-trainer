@@ -1,0 +1,39 @@
+/*
+  Design system: Foundations/knowledge/design/DESIGN-specimen-vivant.md
+  Screen-specific rules only — shared shell/frame/button/pill live in
+  src/styles/specimen-vivant.css.
+*/
+.sv-sheet-unknown {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--sv-ink-muted);
+  border: 1px solid var(--sv-line);
+  padding: 10px 12px;
+}
+
+.sv-sheet-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sv-sheet-body {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.sv-sheet-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  color: var(--sv-iris-teal);
+  margin-top: 2px;
+}
+
+.sv-sheet-body p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: var(--sv-ink);
+}
