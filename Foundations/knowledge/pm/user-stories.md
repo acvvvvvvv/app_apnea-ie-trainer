@@ -3,7 +3,7 @@
 > Statut : A VALIDER
 > Source : knowledge/pm/feature-breakdown.md
 > Date : 2026-11-22
-> Scope : Must + Should uniquement (8 features sur 10)
+> Scope : Must + Should uniquement (9 features sur 10)
 > Découpage : granulaire avec séparation Design / Tech — une US par comportement distinct
 
 ## Vue d'ensemble
@@ -24,6 +24,14 @@
 | US-009 | Tech | F04 — Contrôle des prérogatives et de la profondeur | Backlog | Camille, Anaïs | JTBD-F2, F4 |
 | US-016 | Design | F09 — « Mes séances » et sauvegarde sur l'appareil | Backlog | Camille, Anaïs | Transverse |
 | US-017 | Tech | F09 — Sauvegarde dans le localStorage | Backlog | Camille, Anaïs | Transverse |
+| US-029 | Design | F09 — Disclaimer | Backlog | Camille, Anaïs | JTBD-E2, Transverse |
+| US-030 | Tech | F09 — Affichage et mémorisation du disclaimer | Backlog | Camille, Anaïs | Transverse |
+| US-023 | Design | F10 — Dossier Carnet IE et organisation des 10 séances | Backlog | Camille, Anaïs | JTBD-F5, F1, F6 |
+| US-024 | Tech | F10 — Modèle Carnet et stockage local | Backlog | Camille, Anaïs | JTBD-F5 |
+| US-025 | Design | F10 — Suivi d'une séance à l'autre | Backlog | Camille, Anaïs | JTBD-F5, F6 |
+| US-026 | Tech | F10 — Indicateurs de progression par séance | Backlog | Camille, Anaïs | JTBD-F5 |
+| US-027 | Design | F10 — Vue de cohérence globale du carnet | Backlog | Camille, Anaïs | JTBD-F6, F5, E1 |
+| US-028 | Tech | F10 — Contrôles de cohérence du carnet | Backlog | Camille, Anaïs | JTBD-F5, F6 |
 | US-010 | Design | F06 — Fiches accidents | Backlog | Camille, Anaïs | JTBD-F3, F2 |
 | US-011 | Tech | F06 — Base de fiches accidents | Backlog | Camille, Anaïs | JTBD-F3, F2 |
 | US-012 | Design | F07 — Checklist d'auto-évaluation | Backlog | Camille | JTBD-E1, F6 |
@@ -33,9 +41,9 @@
 | US-014 | Tech | F09 — Mise en cache pour l'usage hors connexion | Backlog | Camille, Anaïs | Transverse |
 | US-015 | Design | F09 — États hors connexion et données locales | Backlog | Camille, Anaïs | Transverse |
 
-**Total** : 22 User Stories (1 Scaffolding + 15 Must + 6 Should)
-- **Design** : 10 US
-- **Tech** : 12 US
+**Total** : 30 User Stories (1 Scaffolding + 20 Must + 9 Should)
+- **Design** : 14 US
+- **Tech** : 16 US
 
 Note : US-018 est retirée (comptes supprimés en v1) ; la numérotation n'a pas été décalée pour garder les références stables.
 
@@ -460,7 +468,7 @@ Scénario : Erreur — Séance corrompue
 
 ---
 
-## F04 — Alertes de sécurité en temps réel (Must)
+## F04 — Alertes de sécurité en temps réel (Should)
 
 ### US-007 [Design] — Concevoir l'affichage des alertes de sécurité
 
@@ -684,6 +692,356 @@ Scénario : Erreur — Stockage plein ou indisponible
 
 ---
 
+### US-029 [Design] — Concevoir le disclaimer
+
+**Feature source :** F09 — Disclaimer
+**Status :** Backlog
+**Type :** Design
+**Persona :** Camille, Anaïs — doivent savoir que l'outil est théorique avant d'appliquer une séance à de vrais élèves
+**JTBD :** JTBD-E2 (Ne pas craindre de mettre un élève en danger), transverse
+
+En tant que designer
+Je veux concevoir un disclaimer simple, visible au premier lancement et accessible à tout moment
+Afin que chaque utilisateur sache que l'outil est théorique et que le créateur décline toute responsabilité
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Premier lancement
+  Given l'utilisateur ouvre l'app pour la première fois
+  When l'écran d'accueil se charge
+  Then un message court est affiché avant l'usage : « Cet outil est théorique et destiné à l'entraînement. Il ne remplace ni le MFA, ni ton tuteur, ni le directeur de bassin. Son créateur décline toute responsabilité quant à l'usage des séances et des informations proposées. »
+  And un bouton « J'ai compris » ferme le message
+  And le texte est en langage simple, lisible sur un petit écran sans défilement excessif
+
+Scénario : Accès permanent
+  Given l'utilisateur a déjà fermé le message
+  When il ouvre le menu ou la page « À propos »
+  Then le texte complet du disclaimer est accessible
+  And un rappel discret figure en pied des écrans de séance, de carnet et d'export
+
+Scénario : Présence dans les exports
+  Given l'utilisateur exporte une séance ou un carnet
+  When il prévisualise l'export
+  Then le disclaimer figure sur l'aperçu et dans le fichier
+
+**Edge cases à couvrir**
+- Texte modifié : le message se réaffiche une fois au prochain lancement
+- Ton neutre, sans alarmisme ni jargon juridique
+- Accessibilité : texte annoncé au lecteur d'écran, contraste suffisant, bouton atteignable au pouce
+- Formulation simple décidée par l'utilisateur ; relecture juridique `[A DECIDER]` si l'app sort du cercle des testeurs
+
+**Dépend de :** Aucune
+
+---
+
+### US-030 [Tech] — Implémenter l'affichage et la mémorisation du disclaimer
+
+**Feature source :** F09 — Disclaimer
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs
+**JTBD :** Transverse
+
+En tant que développeur
+Je veux implémenter l'affichage du disclaimer au premier lancement, sa mémorisation locale et son insertion dans les exports
+Afin que le message soit toujours présent sans backend ni compte
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Acceptation mémorisée
+  Given l'utilisateur ferme le disclaimer avec « J'ai compris »
+  When il rouvre l'app
+  Then le disclaimer n'est plus affiché automatiquement
+  And la version du texte acceptée est stockée dans le localStorage avec la date
+
+Scénario : Nouvelle version du texte
+  Given le texte du disclaimer a changé dans l'app
+  When l'utilisateur ouvre l'app
+  Then le disclaimer s'affiche à nouveau une fois
+  And la nouvelle version est mémorisée après acceptation
+
+Scénario : Erreur — Stockage indisponible
+  Given le localStorage est bloqué ou en navigation privée
+  When l'utilisateur ouvre l'app
+  Then le disclaimer s'affiche à chaque lancement
+  And l'app reste utilisable
+
+**Edge cases à couvrir**
+- Texte du disclaimer dans un fichier de contenu unique, réutilisé à l'écran et dans les exports
+- Hors connexion : affichage identique
+- Export : le texte et sa version sont inclus dans le fichier lisible et dans le fichier de séance
+- Tests unitaires : première ouverture, texte modifié, stockage indisponible
+
+**Dépend de :** US-000, US-017, US-029
+
+---
+
+## F10 — Carnet IE de 10 séances / macro-cycle (Must)
+
+### US-023 [Design] — Concevoir le dossier « Carnet IE » et l'organisation des 10 séances
+
+**Feature source :** F10 — Dossier Carnet IE
+**Status :** Backlog
+**Type :** Design
+**Persona :** Camille, qui doit préparer un carnet exact de 10 séances encadrées avec une progression logique ; Anaïs, qui doit planifier ses séances jusqu'à l'examen
+**JTBD :** JTBD-F5 (Faire évoluer les objectifs au fil de la saison), JTBD-F1, JTBD-F6
+
+En tant que designer
+Je veux concevoir un dossier « Carnet IE » qui présente 10 emplacements ordonnés chronologiquement, chacun lié à une séance
+Afin que Camille voie en un coup d'œil où elle en est de son carnet et construise ses séances dans l'ordre
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Création du carnet
+  Given l'utilisateur n'a pas encore de carnet
+  When il crée son carnet
+  Then l'écran propose un titre et la date de l'examen (24-25 avril 2027 proposée par défaut)
+  And 10 emplacements numérotés de 1 à 10 sont affichés dans l'ordre chronologique
+  And chaque emplacement indique : titre, date prévue, phase de saison, séance liée ou « à construire »
+  And un compteur affiche « 0 séance sur 10 »
+
+Scénario : Création d'une séance depuis un emplacement
+  Given un emplacement « à construire »
+  When l'utilisateur appuie sur « Construire cette séance »
+  Then le paramétrage s'ouvre avec le moment de la saison pré-rempli d'après la phase de l'emplacement
+  And à l'enregistrement la séance est liée à l'emplacement
+
+Scénario : Réorganisation
+  Given plusieurs emplacements sont remplis
+  When l'utilisateur déplace une séance par glisser-déposer
+  Then les numéros d'ordre sont mis à jour
+  And un message doux signale si l'ordre des dates devient incohérent (ex : « La séance 5 est datée avant la séance 4. »)
+
+**Edge cases à couvrir**
+- Exactement 10 emplacements : ni plus ni moins, conformément au carnet de l'examen
+- Un seul carnet en v1 `[A DECIDER]`
+- Lier une séance existante à un emplacement : liste de choix avec aperçu
+- Retirer une séance d'un emplacement sans la supprimer
+- Les 2 séances théoriques du carnet sont hors scope v1 `[A DECIDER]`
+- Mobile-first : emplacements empilés, actions au pouce
+- Accessibilité : ordre et numéros annoncés au lecteur d'écran
+
+**Dépend de :** US-005, US-016
+
+---
+
+### US-024 [Tech] — Implémenter le modèle Carnet et son stockage local
+
+**Feature source :** F10 — Modèle Carnet
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs
+**JTBD :** JTBD-F5
+
+En tant que développeur
+Je veux implémenter le modèle Carnet (titre, date d'examen, 10 emplacements ordonnés liés aux séances) avec un schéma versionné dans le localStorage
+Afin que le carnet soit conservé sur l'appareil, hors connexion, sans backend
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Création et lecture
+  Given l'utilisateur crée un carnet
+  When il le valide
+  Then un carnet est enregistré avec : id (UUID), titre, date d'examen, version du schéma, 10 emplacements (rang, séance liée ou vide, date prévue, phase de saison)
+  And le carnet est retrouvé après rechargement, y compris sans connexion
+
+Scénario : Intégrité des liens
+  Given une séance liée à un emplacement est supprimée
+  When l'app met à jour le carnet
+  Then l'emplacement repasse à « à construire »
+  And un message informe l'utilisateur avant la suppression
+
+Scénario : Erreur — Carnet corrompu
+  Given les données du carnet sont illisibles
+  When l'app les charge
+  Then un message neutre propose d'importer une sauvegarde
+  And les séances individuelles restent disponibles
+
+**Edge cases à couvrir**
+- Séance liée à un seul emplacement à la fois
+- Migration du schéma sans perte
+- Espace de stockage : le carnet référence les séances par identifiant pour limiter la taille
+- Export du carnet complet : traité dans US-019 et US-020
+- Tests unitaires : création, réordonnancement, suppression d'une séance liée
+
+**Dépend de :** US-000, US-006, US-017
+
+---
+
+### US-025 [Design] — Concevoir le suivi d'une séance à l'autre
+
+**Feature source :** F10 — Enchaînement des séances
+**Status :** Backlog
+**Type :** Design
+**Persona :** Camille, qui doit expliquer au jury la place de chaque séance dans sa progression ; Anaïs
+**JTBD :** JTBD-F5, JTBD-F6 (Justifier mes choix devant le jury)
+
+En tant que designer
+Je veux concevoir, sur chaque séance du carnet, un bloc de liaison avec la séance précédente et la suivante
+Afin que Camille construise une progression logique et puisse dire « séance avant / séance après » comme l'attend le jury
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Bloc « Dans ton carnet »
+  Given l'utilisateur consulte la séance 4 sur 10 de son carnet
+  When le bloc s'affiche
+  Then le rang (4/10), la séance précédente et la séance suivante sont visibles avec titre et dominante
+  And une ligne « Ce que cette séance suppose acquis » reprend les objectifs de la séance précédente
+  And une ligne « Ce qu'elle prépare » reprend l'objectif de la séance suivante
+
+Scénario : Évolution d'une séance à l'autre
+  Given les indicateurs de la séance précédente et de la séance courante sont disponibles
+  When l'utilisateur compare
+  Then l'évolution est dite en mots simples (ex : « Plus de travail hypercapnique que la séance 3 », « Même dominante que la séance 3 »)
+  And une flèche accompagne chaque évolution, sans reposer uniquement sur la couleur
+
+Scénario : Première et dernière séances
+  Given la séance est la première ou la dernière du carnet
+  When le bloc s'affiche
+  Then l'absence de séance précédente ou suivante est présentée positivement (ex : « Première séance : point de départ de ta progression »)
+
+**Edge cases à couvrir**
+- Séance voisine non encore construite : invitation à la construire
+- Indicateurs incomplets (exercice hors documents sources) : mention « données partielles »
+- Note de justification libre par séance, réutilisée dans la synthèse (US-027)
+- Navigation d'une séance à la suivante par swipe
+- Accessibilité : évolutions annoncées au lecteur d'écran
+
+**Dépend de :** US-005, US-023
+
+---
+
+### US-026 [Tech] — Implémenter les indicateurs de progression par séance
+
+**Feature source :** F10 — Suivi de progression
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs
+**JTBD :** JTBD-F5
+
+En tant que développeur
+Je veux calculer pour chaque séance des indicateurs de progression à partir de ses exercices et de ses paramètres
+Afin de comparer les séances entre elles et d'alimenter la vue de cohérence
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Calcul des indicateurs
+  Given une séance contient des exercices du catalogue avec leurs paramètres
+  When les indicateurs sont calculés
+  Then la séance reçoit : dominante (technique, foncier, hypercapnie, hypoxie, lactique, mental), volume d'apnée (nombre d'apnées, distance ou temps cumulé), volume de travail hypercapnique, rapport récupération sur apnée, niveau de risque maximal, moment de la saison
+  And le calcul est exécuté côté client en moins de 100 ms
+
+Scénario : Mise à jour
+  Given une séance du carnet est modifiée
+  When elle est enregistrée
+  Then ses indicateurs sont recalculés
+  And la vue de cohérence reflète le changement
+
+Scénario : Données partielles
+  Given un exercice n'a pas de paramètres chiffrés (hors documents sources)
+  When les indicateurs sont calculés
+  Then l'indicateur concerné est marqué « partiel »
+  And aucune valeur n'est inventée
+
+**Edge cases à couvrir**
+- Formule du volume hypercapnique : statut « suggestion », à valider par le porteur, documentée dans un fichier de contenu
+- Séance sans exercice : indicateurs vides
+- Plusieurs dominantes : la dominante principale est celle du plus grand volume, les autres sont conservées
+- Unités mixtes (distance et durée) : normalisation expliquée
+- Tests unitaires : une séance par dominante, séance mixte, données partielles
+
+**Dépend de :** US-000, US-004, US-006
+
+---
+
+### US-027 [Design] — Concevoir la vue de cohérence globale du carnet
+
+**Feature source :** F10 — Vue de cohérence
+**Status :** Backlog
+**Type :** Design
+**Persona :** Camille, qui doit justifier ses choix pédagogiques devant le jury ; Anaïs
+**JTBD :** JTBD-F6 (Justifier mes choix), JTBD-F5, JTBD-E1
+
+En tant que designer
+Je veux concevoir une vue d'ensemble des 10 séances qui montre la progression, les repères de saison et les points de vigilance
+Afin que Camille vérifie en quelques secondes la cohérence de son carnet et sache l'expliquer au jury
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Frise des 10 séances
+  Given l'utilisateur ouvre la vue de cohérence
+  When la vue s'affiche
+  Then une frise présente les 10 séances dans l'ordre avec leur dominante (icône et texte) et leur niveau de risque
+  And une courbe montre l'évolution du volume hypercapnique et de la charge d'une séance à l'autre
+  And une bande indique les phases de saison (Reprise, Développement, Pré-compétition/Examen) et la date de l'examen
+  And la vue tient sur un écran de téléphone, avec défilement horizontal doux si nécessaire
+
+Scénario : Points de vigilance
+  Given des contrôles de cohérence sont déclenchés
+  When la vue s'affiche
+  Then chaque point est repéré sur la frise avec une explication courte et sa source (corpus ou suggestion)
+  And un point de vigilance n'est jamais bloquant ni culpabilisant
+
+Scénario : Synthèse « pourquoi cet ordre »
+  Given les notes de justification des séances sont renseignées
+  When l'utilisateur ouvre la synthèse
+  Then un texte structuré résume la progression (foncier vers spécifique, évolution du volume, adaptation à la saison)
+  And le texte est modifiable et exportable avec le carnet
+
+**Edge cases à couvrir**
+- Carnet incomplet : emplacements vides visibles, vue utilisable dès 2 séances
+- Aucune séance de dominante hypoxique : message neutre
+- Impression ou capture de la vue pour la présenter au jury
+- Accessibilité : la courbe a une alternative textuelle (tableau des valeurs) ; aucune information portée par la couleur seule
+- Lecture rapide : la progression se perçoit en moins de 10 secondes
+
+**Dépend de :** US-023, US-026
+
+---
+
+### US-028 [Tech] — Implémenter les contrôles de cohérence du carnet
+
+**Feature source :** F10 — Contrôles de cohérence
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs
+**JTBD :** JTBD-F5, JTBD-F6
+
+En tant que développeur
+Je veux implémenter des contrôles de cohérence entre les séances du carnet, définis dans un fichier de contenu
+Afin que l'app signale une progression illogique et aide à la justifier
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Hypoxie avant hypercapnie
+  Given une séance hypoxique lourde précède toute séance de travail hypercapnique
+  When les contrôles sont exécutés
+  Then un point de vigilance est retourné avec l'explication (l'hypercapnie se travaille avant l'hypoxie dans la logique de saison) et sa source
+  And le niveau est « avertissement »
+
+Scénario : Saut de charge
+  Given le volume d'apnée augmente d'une séance à l'autre au-delà du seuil configuré
+  When les contrôles sont exécutés
+  Then un point de vigilance « progression trop brusque » est retourné
+  And le seuil est lu dans un fichier de contenu, avec statut « suggestion » et mention « à valider »
+
+Scénario : Répétition et ordre de saison
+  Given trois séances consécutives ont la même dominante, ou une séance d'une phase tardive précède une séance d'une phase précoce
+  When les contrôles sont exécutés
+  Then les points de vigilance correspondants sont retournés avec une explication
+
+**Edge cases à couvrir**
+- Les contrôles du carnet ne sont jamais bloquants : la progression relève du jugement pédagogique
+- Chaque contrôle porte son origine (corpus, suggestion, hors corpus) et son statut de validation
+- Seuils paramétrables, jamais codés en dur
+- Carnet de moins de 3 séances : contrôles limités à ce qui est calculable
+- Délais entre séances et récupération : aucun chiffre dans les documents sources, donc pas de règle chiffrée en v1
+- Tests unitaires : un test par contrôle
+
+**Dépend de :** US-000, US-024, US-026
+
+---
+
 ## F06 — Fiches accidents (Should)
 
 ### US-010 [Design] — Concevoir les fiches accidents
@@ -879,7 +1237,7 @@ Afin que l'utilisateur envoie une séance lisible à son tuteur, la sauvegarde h
 Scénario : Happy path — Export depuis une séance
   Given l'utilisateur consulte une séance enregistrée
   When il appuie sur « Partager »
-  Then un choix simple propose : fichier lisible (PDF), fichier de séance importable et lien de partage `[A DECIDER]`
+  Then un choix simple propose : fichier lisible (PDF), fichier de séance importable et lien de partage
   And le partage utilise le menu de partage du téléphone
   And un aperçu montre ce qui sera envoyé
 
@@ -889,6 +1247,20 @@ Scénario : Contenu de l'export
   Then l'export contient : titre, paramètres, objectif et critère d'évaluation, phases (durée, contenu, consignes, position de l'encadrant, critères de réussite), éléments de sécurité et alertes en cours
   And chaque règle conserve son origine (corpus, suggestion, hors corpus) et son statut de validation
   And la mention « Outil d'entraînement, ne remplace pas le tuteur ni le MFA » figure en pied
+
+Scénario : Lien trop long
+  Given la séance est trop longue pour tenir dans un lien de 2000 caractères
+  When l'utilisateur choisit « Lien de partage »
+  Then l'option est désactivée avec une explication douce : « Cette séance est trop longue pour un lien. Partage-la par fichier. »
+  And le fichier de séance est proposé à la place
+  And un indicateur discret montre si le lien tiendra avant de le générer
+
+Scénario : Export du carnet complet
+  Given l'utilisateur consulte son Carnet IE
+  When il appuie sur « Partager le carnet »
+  Then le fichier lisible reprend les 10 séances dans l'ordre, la vue de cohérence et la synthèse « pourquoi cet ordre »
+  And le fichier de données importable contient le carnet et ses séances
+  And le lien n'est pas proposé pour le carnet complet (trop long pour 2000 caractères)
 
 Scénario : Import d'une séance reçue
   Given l'utilisateur reçoit un fichier ou un lien de séance
@@ -904,7 +1276,7 @@ Scénario : Import d'une séance reçue
 - Fichier importé invalide : message bienveillant sans mot « erreur »
 - Accessibilité : fichier exporté avec une structure de titres lisible
 
-**Dépend de :** US-005, US-016
+**Dépend de :** US-005, US-016, US-023
 
 ---
 
@@ -934,7 +1306,23 @@ Scénario : Fichier de séance et lien
   When l'export est généré
   Then le fichier est au format JSON versionné et portant une signature de format
   And le lien contient la séance encodée dans son adresse, sans serveur
+  And l'adresse complète du lien, domaine compris, ne dépasse jamais 2000 caractères
   And l'import relit la séance à l'identique
+
+Scénario : Encodage compact et repli
+  Given une séance standard de 8 phases
+  When le lien est généré
+  Then la séance est encodée de façon compacte (clés courtes, identifiants d'exercices du catalogue au lieu de textes, compression, encodage adapté aux adresses)
+  And la longueur du lien est mesurée avant de l'afficher
+  And si elle dépasse 2000 caractères, aucun lien n'est généré et le fichier est proposé
+  And aucun texte n'est tronqué silencieusement
+
+Scénario : Export du carnet
+  Given l'utilisateur exporte son Carnet IE
+  When l'export est généré dans le navigateur
+  Then le fichier lisible contient les 10 séances, la vue de cohérence, la synthèse et le disclaimer
+  And le fichier de données contient le carnet, ses séances et la version du schéma
+  And l'import du fichier restaure le carnet et ses liens
 
 Scénario : Erreur — Import invalide ou trop volumineux
   Given le fichier ou le lien est corrompu, d'une version inconnue ou trop volumineux
@@ -944,13 +1332,14 @@ Scénario : Erreur — Import invalide ou trop volumineux
 
 **Edge cases à couvrir**
 - Hors connexion : toutes les formes d'export et l'import fonctionnent sans réseau
-- Longueur maximale d'un lien : repli vers le fichier si la séance est trop grande `[A DECIDER]`
+- Texte libre très long (notes, consignes) : repli vers le fichier plutôt que troncature
+- Tests unitaires : liens de séances de 4, 8 et 12 phases mesurés par rapport à la limite de 2000 caractères
 - Statuts d'origine et de validation conservés dans l'export
 - Entrées malveillantes dans un fichier importé : validation stricte du schéma, aucun contenu exécuté
 - Caractères spéciaux et accents correctement rendus
 - Tests unitaires : aller-retour export puis import
 
-**Dépend de :** US-000, US-006, US-017
+**Dépend de :** US-000, US-006, US-017, US-024
 
 ---
 
@@ -1047,8 +1436,8 @@ Scénario : Retour de connexion
 
 | Persona | US associées |
 |---------|-------------|
-| Camille | US-000 à US-020 (toutes sauf US-018) et US-021 |
-| Anaïs | US-000, US-003 à US-020 (sauf US-012, US-013, US-018), US-021 |
+| Camille | US-000 à US-017, US-019 à US-021, US-023 à US-030 (toutes sauf US-018 et US-022) |
+| Anaïs | US-000, US-003 à US-011, US-014 à US-017, US-019, US-020, US-023 à US-030 |
 | Porteur du projet | US-021, US-022 |
 
 ## Points d'attention pour le design
@@ -1057,6 +1446,8 @@ Scénario : Retour de connexion
 - Statut de fiabilité (corpus, suggestion, hors corpus) visible sur chaque règle et chaque exercice
 - Mobile-first (décision validée) : bottom nav, gestes swipe, zones tactiles d'au moins 44 px, lecture à une main
 - Statut d'origine et de validation du contenu visible partout, y compris dans les exports
+- Disclaimer simple : visible au premier lancement, accessible à tout moment, repris dans les exports
+- Carnet IE : la progression des 10 séances doit se lire en moins de 10 secondes ; aucun contrôle de cohérence n'est bloquant ni culpabilisant
 - États vides accueillants (jamais de « Aucun résultat » sec)
 - Messages sans les mots « erreur », « invalide », « obligatoire »
 - Accessibilité : contrastes, lecteur d'écran, navigation clavier, information jamais portée par la couleur seule
@@ -1069,6 +1460,8 @@ Scénario : Retour de connexion
 - Contenu pédagogique en JSON versionné et validé par schéma ; modèle de données défini dans 05_modele_donnees_app.md
 - Moteur de règles testé règle par règle (ALR-001 à ALR-020)
 - Contenu hors corpus : jamais présenté comme règle FFESSM ; relu et validé par le porteur du projet avant mise à disposition des testeurs (US-021, US-022)
-- Export : conserve origine, statut de validation et mention de non-remplacement du tuteur
+- Export : conserve origine, statut de validation et disclaimer ; lien limité à 2000 caractères, mesuré avant affichage, avec repli vers le fichier ; le carnet complet se partage par fichier
+- Carnet IE : modèle versionné qui référence les séances par identifiant ; indicateurs et contrôles de cohérence calculés côté client, seuils lus dans les fichiers de contenu (statut « suggestion », à valider)
+- Priorités : F04 (alertes) est en Should ; ses stories (US-007 à US-009) sont livrées après le noyau Must, F02 portant en attendant les points de sécurité
 - Forme du lien de partage et limites de taille `[A DECIDER]`
 - Sécurité de l'import : valider strictement le schéma, n'exécuter aucun contenu importé

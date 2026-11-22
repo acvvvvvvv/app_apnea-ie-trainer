@@ -49,13 +49,13 @@ Raison : besoins centrés sur sa propre performance et les épreuves physiques (
 | **JTBD-E1** : Me sentir prêt et confiant avant le jour J | Oui | Via checklist calquée sur la grille officielle |
 | **JTBD-F3** : Maîtriser les accidents pour l'écrit et le terrain | Partiel | Fiches PCM et syncope uniquement — autres accidents hors corpus |
 | **JTBD-F4** : Rester dans mes prérogatives et la réglementation | Partiel | Couvert par les alertes (profondeur IE1 = 6 m), pas de module réglementaire complet |
-| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | Partiel | Paramètre « moment de la saison » en base ; planning de saison conservé en Could |
+| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | Oui | Carnet IE de 10 séances (macro-cycle) : enchaînement, progression et vue de cohérence ; promu en Must par l'utilisateur |
 | **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury | Partiel | Export des séances pour les partager avec le tuteur ; pas de validation par un tiers dans l'app |
 | **JTBD-F7** : Adapter un exercice au niveau réel du groupe | Partiel | Variantes dans les fiches d'exercices |
 | **JTBD-F8** : Intégrer les épreuves physiques à mon entraînement | **NON** | De niche, hors scope v1 |
 | **JTBD-S2/S3** : Transmettre à d'autres candidats, appartenir à la communauté | **NON** | Hors scope v1 (produit centré sur l'entraînement individuel) |
 
-Le brief couvre volontairement 4 JTBD critiques sur 6 pour v1 (F1, F2, F6, E1), plus F3 en Should. JTBD-F3 (accidents), bien qu'il pèse 2/3 des coefficients de l'écrit, reste partiel faute de contenu complet dans les documents sources.
+Le brief couvre volontairement 5 JTBD critiques pour v1 (F1, F2, F5, F6, E1), plus F3 en Should. Le carnet de 10 séances (F5) a été relevé par l'utilisateur comme besoin essentiel : le candidat doit présenter un carnet exact de 10 séances encadrées avec une logique de progression. JTBD-F3 (accidents), bien qu'il pèse 2/3 des coefficients de l'écrit, reste partiel faute de contenu complet dans les documents sources.
 
 ## Cible plateforme
 
@@ -75,7 +75,8 @@ Une webapp, simulateur pédagogique, qui aide les futurs IE à :
 2. **Vérifier la sécurité** de chaque exercice et de l'enchaînement selon la doctrine FFESSM : alertes calculées par un moteur de règles (hypoxie en début de saison, profondeur au-delà des prérogatives, absence d'échauffement ou de protocole de sortie, etc.).
 3. **Expliquer le « pourquoi »** de chaque exercice (justification pédagogique, points de sécurité, variantes) pour préparer la présentation au jury.
 4. **Se tester** avec une checklist d'auto-évaluation calquée sur la grille officielle /20, et réviser les fiches accidents.
-5. **Retrouver et partager ses séances** : les séances sont enregistrées sur l'appareil de l'utilisateur (localStorage), sans compte, et l'app fonctionne entièrement hors connexion au bord de la piscine. L'utilisateur peut exporter une séance pour la montrer à son tuteur ou à d'autres candidats, et importer une séance reçue.
+5. **Construire son carnet IE** : un dossier « Carnet IE » lie exactement 10 séances dans un ordre chronologique, montre l'enchaînement d'une séance à l'autre (ce qui est supposé acquis, ce qui est préparé), calcule des indicateurs de progression (dominante, volume d'apnée, volume hypercapnique, niveau de risque) et offre une vue de cohérence globale pour justifier la progression devant le jury.
+6. **Retrouver et partager ses séances** : les séances et le carnet sont enregistrés sur l'appareil de l'utilisateur (localStorage), sans compte, et l'app fonctionne entièrement hors connexion au bord de la piscine. L'utilisateur peut exporter une séance ou le carnet pour le montrer à son tuteur ou à d'autres candidats (lien de moins de 2000 caractères pour une séance, fichier sinon) et importer une séance reçue. Un disclaimer rappelle que l'outil est théorique et que le créateur décline toute responsabilité.
 
 Le produit **explique** plutôt que de remplacer le jugement de l'encadrant. Il **accompagne le développement de compétence** plutôt que de générer une séance clé en main sans compréhension.
 
@@ -101,13 +102,16 @@ Le produit **explique** plutôt que de remplacer le jugement de l'encadrant. Il 
 | La peur de rater l'épreuve de pédagogie est le moteur d'usage principal | Déduction personas.md | **NON** | Persona Camille, hypothèse à confirmer |
 | Les candidats veulent des alertes de sécurité bloquantes | Brief utilisateur | **NON** | Risque de rejet si perçues comme infantilisantes |
 | Les candidats veulent comprendre le « pourquoi » de chaque exercice | Brief utilisateur | **NON** | JTBD-F6 : hypothèse déduite de la grille jury |
-| Les 4 JTBD choisis suffisent pour une v1 viable | Brief utilisateur | **NON** | F3 (accidents) et F5 (saison) peuvent s'avérer critiques |
+| Les JTBD choisis suffisent pour une v1 viable | Brief utilisateur | **NON** | F3 (accidents) peut s'avérer critique ; F5 (carnet) l'est déjà par décision |
+| Une vue de cohérence du carnet aide à justifier la progression devant le jury | Décision utilisateur | **NON** | Décision prise ; seuils et règles de cohérence (hors documents sources) à valider par le porteur |
+| Un lien de partage de moins de 2000 caractères suffit pour partager une séance | Décision utilisateur | **NON** | Décision prise ; le carnet complet se partage par fichier |
+| Un simple disclaimer (outil théorique, créateur sans responsabilité) suffit | Décision utilisateur | **NON** | Décision prise ; relecture juridique à prévoir si l'app sort du cercle des testeurs |
 | Le contenu du corpus est suffisant pour alimenter un catalogue crédible | Base de connaissances | **PARTIEL** | Critères AEL/ACEL, protocoles fosse et accidents hors PCM/syncope absents |
 | Les candidats utilisent aujourd'hui carnet, tableur et supports PDF | Déduction personas.md | **NON** | À vérifier (axes 4 et 10) |
 | Le produit doit être pensé mobile-first | Décision utilisateur | **NON** | Décision prise ; à vérifier sur l'usage réel (bord de bassin ou domicile) |
 | Une sauvegarde locale sans compte suffit aux utilisateurs | Décision utilisateur | **NON** | Décision prise (architecture 100 % front-end) ; risque de perte si l'utilisateur vide les données du site ou change d'appareil |
 | Les utilisateurs ont besoin de l'app hors connexion au bord de la piscine | Décision utilisateur | **NON** | Décision prise ; à confirmer sur l'usage réel |
-| L'export des séances est important pour les partager | Décision utilisateur | **NON** | Décision prise ; sert aussi de sauvegarde de secours ; format préféré (fichier, lien) à déterminer |
+| L'export des séances est important pour les partager | Décision utilisateur | **NON** | Décision prise ; sert aussi de sauvegarde de secours ; lien limité à 2000 caractères, fichier pour le reste |
 | Le contenu hors documents sources est correct après relecture par le porteur | Décision utilisateur | **PARTIEL** | Le porteur relit et valide ; une relecture par un tuteur ou un encadrant reste souhaitable |
 
 ## Différenciation vs apps existantes
@@ -145,4 +149,4 @@ Les seuils ci-dessous sont des cibles de conception à valider, pas des mesures 
 
 1. **Relire et valider le contenu hors documents sources** (porteur du projet) avant toute mise à disposition des testeurs
 2. **Mener 5 à 8 entretiens** auprès de candidats IE pour confirmer ou infirmer les hypothèses (grille-analyse.md)
-3. **Lancer le feature-breakdown** — découper en 10 features max basées sur les JTBD F1, F2, F6, E1 (et F3 en Should)
+3. **Lancer le feature-breakdown** — découper en 10 features max basées sur les JTBD F1, F2, F5, F6, E1 (et F3 en Should)
