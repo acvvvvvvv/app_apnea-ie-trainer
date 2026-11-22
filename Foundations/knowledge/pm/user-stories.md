@@ -1,45 +1,46 @@
-# User Stories — Application de suivi de plantes
+# User Stories — Simulateur de séances d'apnée (préparation IE)
 
 > Statut : A VALIDER
 > Source : knowledge/pm/feature-breakdown.md
-> Date : 2026-07-06
-> Scope : Must + Should uniquement (7 features sur 10)
-> Decoupage : granulaire avec separation Design / Tech — une US par comportement distinct
+> Date : 2026-11-22
+> Scope : Must + Should uniquement (9 features sur 10)
+> Découpage : granulaire avec séparation Design / Tech — une US par comportement distinct
 
 ## Vue d'ensemble
 
 | US | Type | Feature | Status | Persona | JTBD |
 |----|------|---------|--------|---------|------|
-| US-000 | Tech | Scaffolding — Setup technique | Backlog | Lea, Sophie | Transverse |
-| US-001 | Design | F01 — Ajout de plante | Backlog | Lea | JTBD-F1, F6 |
-| US-002 | Tech | F01 — Ajout de plante | Backlog | Lea | JTBD-F1, F6 |
-| US-003 | Design | F02 — Guide d'observation pour arrosage | Backlog | Lea | JTBD-F1, F6 |
-| US-004 | Tech | F02 — Guide d'observation pour arrosage | Backlog | Lea | JTBD-F1, F6 |
-| US-005 | Design | F06 — Fiches plantes educatives | Backlog | Lea | JTBD-F6, F1 |
-| US-006 | Tech | F06 — Base de fiches plantes embarquee | Backlog | Lea | JTBD-F6, F1 |
-| US-007 | Tech | F06 — Identification automatique via API | Backlog | Lea | JTBD-F6, F1 |
-| US-008 | Design | F09 — Onboarding | Backlog | Lea | Transverse |
-| US-009 | Tech | F09 — Onboarding | Backlog | Lea | Transverse |
-| US-010 | Design | F03 — Journal d'arrosage + historique visuel | Backlog | Lea, Sophie | JTBD-F1, F6 |
-| US-011 | Design | F03 — Rappels bienveillants (opt-in) | Backlog | Lea, Sophie | JTBD-F1, F6 |
-| US-012 | Tech | F03 — Journal d'arrosage + rappels | Backlog | Lea, Sophie | JTBD-F1, F6 |
-| US-013 | Design | F04 — Ecran de scan et etats | Backlog | Lea, Sophie | JTBD-F2 |
-| US-014 | Design | F04 — Resultat diagnostic et feedback | Backlog | Lea, Sophie | JTBD-F2 |
-| US-015 | Tech | F04 — Compression et envoi photo | Backlog | Lea, Sophie | JTBD-F2 |
-| US-016 | Tech | F04 — Integration API diagnostic | Backlog | Lea, Sophie | JTBD-F2 |
-| US-017 | Tech | F04 — Gestion erreurs et fallback offline | Backlog | Lea, Sophie | JTBD-F2 |
-| US-019 | Tech | F10 — Stockage local et service workers | Backlog | Lea, Sophie | Transverse |
-| US-020 | Tech | F10 — Detection connexion et sync auto | Backlog | Lea, Sophie | Transverse |
-| US-021 | Tech | F10 — Synchronisation en background | Backlog | Lea, Sophie | Transverse |
-| US-022 | Design | F10 — Etats degrades offline | Backlog | Lea, Sophie | Transverse |
+| US-000 | Tech | Scaffolding — Setup technique | Backlog | Camille, Anaïs | Transverse |
+| US-001 | Design | F01 — Paramétrage de séance | Backlog | Camille | JTBD-F1, F4 |
+| US-002 | Tech | F01 — Paramétrage de séance | Backlog | Camille | JTBD-F1, F4 |
+| US-003 | Design | F02 — Catalogue d'exercices explicatif | Backlog | Camille, Anaïs | JTBD-F1, F6, F2 |
+| US-004 | Tech | F02 — Base d'exercices embarquée | Backlog | Camille, Anaïs | JTBD-F1, F6, F2 |
+| US-021 | Design | F02 — Revue du contenu par le porteur | Backlog | Porteur du projet | JTBD-F2 |
+| US-022 | Tech | F02 — Statut de validation du contenu | Backlog | Porteur du projet, Camille | JTBD-F2 |
+| US-005 | Design | F03 — Constructeur de séance structuré | Backlog | Camille, Anaïs | JTBD-F1, F6 |
+| US-006 | Tech | F03 — Modèle de séance et sauvegarde | Backlog | Camille, Anaïs | JTBD-F1, F6 |
+| US-007 | Design | F04 — Alertes de sécurité | Backlog | Camille, Anaïs | JTBD-F2, F4 |
+| US-008 | Tech | F04 — Moteur de règles de sécurité | Backlog | Camille, Anaïs | JTBD-F2 |
+| US-009 | Tech | F04 — Contrôle des prérogatives et de la profondeur | Backlog | Camille, Anaïs | JTBD-F2, F4 |
+| US-016 | Design | F09 — Compte, connexion et rôles | Backlog | Camille, Anaïs, Porteur du projet | Transverse |
+| US-017 | Tech | F09 — Authentification et rôles | Backlog | Camille, Anaïs, Porteur du projet | Transverse |
+| US-018 | Tech | F09 — Sauvegarde des séances dans le compte | Backlog | Camille, Anaïs | Transverse |
+| US-010 | Design | F06 — Fiches accidents | Backlog | Camille, Anaïs | JTBD-F3, F2 |
+| US-011 | Tech | F06 — Base de fiches accidents | Backlog | Camille, Anaïs | JTBD-F3, F2 |
+| US-012 | Design | F07 — Checklist d'auto-évaluation | Backlog | Camille | JTBD-E1, F6 |
+| US-013 | Tech | F07 — Calcul du score et du diagnostic sécurité | Backlog | Camille | JTBD-E1, F6 |
+| US-019 | Design | F05 — Export et partage d'une séance | Backlog | Camille, Anaïs | JTBD-S1, F6 |
+| US-020 | Tech | F05 — Génération de l'export | Backlog | Camille, Anaïs | JTBD-S1, F6 |
+| US-014 | Tech | F10 — Stockage local, service worker et synchronisation | Backlog | Camille, Anaïs | Transverse |
+| US-015 | Design | F10 — États dégradés hors connexion | Backlog | Camille, Anaïs | Transverse |
 
-**Total** : 22 User Stories (1 Scaffolding + 9 Must + 12 Should)
-- **Design** : 8 US
-- **Tech** : 14 US
+**Total** : 23 User Stories (1 Scaffolding + 14 Must + 8 Should)
+- **Design** : 10 US
+- **Tech** : 13 US
 
 ---
 
-## Stories detaillees
+## Stories détaillées
 
 ---
 
@@ -50,1028 +51,1065 @@
 **Feature source :** Scaffolding — Setup technique
 **Status :** Backlog
 **Type :** Tech
-**Persona :** Lea, Sophie — utilisatrices en mobilite
-**JTBD :** Transverse (prerequis a toutes les US Tech)
+**Persona :** Camille, Anaïs — candidats qui préparent leurs séances à la maison ou au bord du bassin
+**JTBD :** Transverse (prérequis à toutes les US Tech)
 
-En tant que developpeur
+En tant que développeur
 Je veux initialiser le projet technique (repo, stack, CI, structure de dossiers, linting, tests)
-Afin que toutes les US Tech puissent etre implementees sur une base solide et coherente
+Afin que toutes les US Tech puissent être implémentées sur une base solide et cohérente
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Projet initialise et deployable
-  Given je cree le projet technique
-  When le setup est termine
-  Then le repo est initialise avec la structure de dossiers (src/, public/, tests/)
-  And la stack est configuree : framework front (React/Vue/Svelte), bundler, TypeScript
-  And le linting et le formatage sont configures (ESLint, Prettier)
+Scénario : Happy path — Projet initialisé et déployable
+  Given je crée le projet technique
+  When le setup est terminé
+  Then le repo est initialisé avec la structure de dossiers (src/, public/, tests/, data/)
+  And la stack est configurée : framework front, bundler, TypeScript
+  And le linting et le formatage sont configurés
   And un pipeline CI basique est en place (lint + tests + build)
-  And le projet se deploie en environnement de dev (staging)
+  And le projet se déploie en environnement de dev
   And un README.md explique comment lancer le projet en local
 
-Scenario : PWA — Manifest et service worker de base
-  Given le projet cible une PWA
-  When je configure le manifest et le service worker
-  Then un manifest.json est cree avec le nom de l'app, les icones et la couleur du theme
-  And un service worker de base est enregistre (cache du shell applicatif)
-  And l'app est installable sur mobile (prompt "Ajouter a l'ecran d'accueil")
-  And le mode offline affiche au minimum le shell applicatif
+Scénario : Données de référence — Dossier de contenu versionné
+  Given le contenu pédagogique est statique (exercices, règles, fiches accidents)
+  When je configure le dossier data/
+  Then les fichiers de contenu sont au format JSON, versionnés avec le code
+  And chaque fichier porte un numéro de version et une date de dernière mise à jour
+  And un schéma de validation vérifie la structure au build
 
-Scenario : Base de donnees locale — Schema initial
-  Given je configure le stockage local
-  When je cree le schema initial
-  Then IndexedDB (ou SQLite) est configure avec les tables : plants, waterings, settings
-  And les migrations sont gerees (versioning du schema)
-  And un jeu de donnees de test est disponible pour le dev
+Scénario : Backend — Service d'authentification et de données
+  Given le produit impose un compte par utilisateur
+  When je configure le backend
+  Then un service d'authentification, une base de données des utilisateurs et des séances et un déploiement de dev sont en place
+  And les rôles « porteur » et « testeur » sont définis dans le schéma
+  And les secrets sont gérés hors du dépôt
 
-**Edge cases a couvrir**
-- Navigateur sans support service worker : fallback online-only avec detection
-- Navigateur sans support IndexedDB : fallback localStorage avec avertissement (fonctionnalites limitees)
-- Environnement de dev vs. production : variables d'environnement separees
-- Hot reload en dev : service worker ne bloque pas le hot reload
-- Tests : framework de tests configure (Vitest/Jest) avec au moins 1 test passant
+Scénario : Tests — Cadre en place
+  Given je configure le framework de tests
+  When je lance la suite de tests
+  Then au moins 1 test passe (ex : validation du schéma d'un exercice)
 
-**Depend de :** Aucune (US fondatrice)
+**Edge cases à couvrir**
+- Navigateur sans support du stockage local : message explicatif et mode sans sauvegarde
+- Environnement de dev vs. production : variables d'environnement séparées
+- Contenu JSON invalide : le build échoue avec un message explicite
+- Hot reload en dev : le service worker ne bloque pas le rechargement
+
+**Dépend de :** Aucune (US fondatrice)
 
 ---
 
-## F01 — Ajout de plante (Must)
+## F01 — Paramétrage de séance (Must)
 
-### US-001 [Design] — Concevoir l'ecran d'ajout de plante
+### US-001 [Design] — Concevoir l'écran de paramétrage de séance
 
-**Feature source :** F01 — Ajout de plante
+**Feature source :** F01 — Paramétrage de séance
 **Status :** Backlog
 **Type :** Design
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes — arrose de facon irreguliere, utilise TikTok/Instagram comme ressources principales, n'a aucune connaissance prealable en jardinage
-**JTBD :** JTBD-F1 (Savoir quand arroser sans tuer ma plante), JTBD-F6 (Apprendre a observer mes plantes)
+**Persona :** Camille, le candidat novice qui craint l'épreuve de pédagogie — ne sait pas par où commencer pour construire une séance
+**JTBD :** JTBD-F1 (Construire une séance cohérente), JTBD-F4 (Rester dans mes prérogatives)
 
 En tant que designer
-Je veux concevoir un ecran d'ajout de plante epure avec 3 champs maximum (nom, photo, bouton confirmer)
-Afin que Lea puisse ajouter sa premiere plante en moins de 30 secondes sans se sentir perdue ou jugee
+Je veux concevoir un écran de paramétrage avec 5 choix guidés (niveau, saison, milieu, philosophie, profil d'encadrant)
+Afin que Camille démarre sa séance en moins de 60 secondes sans se sentir perdue ni jugée
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Ecran d'ajout optimise pour le premier usage
-  Given je concois l'ecran d'ajout de premiere plante
-  When je structure les elements visuels
-  Then l'ecran contient exactement 3 elements : 1 champ texte "Donne-lui un petit nom", 1 bouton "Ajouter une photo", 1 bouton principal "Ajouter ma plante"
-  And le champ nom est autofocus au chargement de l'ecran
-  And le bouton "Ajouter ma plante" est desactive (grayed out) tant que le nom n'est pas renseigne
-  And le ton de tous les microcopy est bienveillant ("Donne-lui un petit nom", "Ajoute une photo si tu veux")
-  And aucun champ taxonomique (espece, famille) n'est visible
-  And la hierarchie visuelle guide vers le champ nom en premier
+Scénario : Happy path — Écran de paramétrage
+  Given je conçois l'écran de paramétrage
+  When je structure les éléments visuels
+  Then l'écran contient 5 sélecteurs : niveau des élèves (AEL, ACEL), moment de la saison (Reprise, Développement, Pré-compétition/Examen), milieu (Piscine, Fosse), philosophie (Focus technique, Focus volume, Focus ludique/détente), profil d'encadrant (IE1 par défaut, IE2)
+  And chaque option affiche une phrase d'aide de moins de 15 mots (ex : « AEL : jusqu'à 6 m en autonomie relative »)
+  And des valeurs par défaut cohérentes sont présélectionnées
+  And le ton de tous les microcopy est bienveillant et explicatif
+  And l'écran est conçu d'abord pour un téléphone (largeur de 360 px) avec des zones tactiles d'au moins 44 px
 
-Scenario : Etat vide — Collection sans plante
-  Given je concois l'etat vide de la collection
-  When l'utilisateur ouvre l'app pour la premiere fois et n'a aucune plante
-  Then l'ecran affiche une illustration accueillante (silhouette de plante bienveillante, pas triste)
-  And un message rassurant : "Tu n'as pas encore ajoute de plante. Pret·e a accueillir la premiere ?"
-  And un CTA principal bien visible : "Ajouter ma premiere plante"
-  And le CTA occupe au moins 20% de la hauteur de l'ecran (tactile large)
+Scénario : Lien avec la saison — Aide contextuelle
+  Given l'utilisateur sélectionne un moment de la saison
+  When l'option est choisie
+  Then un court texte rappelle la dominante de la période (ex : « Reprise : foncier, technique, hypercapnie légère »)
+  And la date de l'examen (24-25 avril 2027) est visible en rappel
 
-Scenario : Erreur — Tentative d'ajout sans nom
-  Given je concois le feedback d'erreur
-  When l'utilisateur tente de valider sans avoir saisi de nom
-  Then le bouton "Ajouter ma plante" reste desactive (pas de clic possible)
-  And un message bienveillant apparait sous le champ nom : "Donne-lui un petit nom pour la retrouver facilement."
-  And le message d'erreur n'utilise jamais les mots "erreur", "invalide", "obligatoire"
-  And le champ nom est mis en evidence (focus visuel doux, pas de rouge agressif)
+Scénario : Erreur — Combinaison incohérente
+  Given l'utilisateur choisit un milieu Fosse avec un profil IE1
+  When il valide les paramètres
+  Then un message explicatif apparaît : « En tant qu'IE1, tu encadres jusqu'à 6 m. On adaptera les exercices de fosse à cette limite. »
+  And l'utilisateur peut continuer ou changer de profil
+  And le message n'utilise jamais les mots « erreur », « invalide », « interdit »
 
-**Edge cases a couvrir**
-- Etat vide (aucune plante) : illustration accueillante + CTA principal bien visible
-- Ajout sans photo : image par defaut (silhouette de plante bienveillante) + suggestion douce "Tu pourras ajouter une photo plus tard"
-- Nom trop long (> 50 caracteres) : troncature avec "..." dans la liste de collection
-- Capture photo en faible luminosite : l'app accepte, suggere de reprendre une photo en meilleure lumiere plus tard
-- Micro-interaction apres ajout reussi : feedback visuel immediat (animation douce, message "Bienvenue dans ta jungle !")
-- Geste de retour arriere (swipe ou bouton) : si formulaire rempli, confirmation douce "Veux-tu vraiment quitter sans ajouter ta plante ?"
+**Edge cases à couvrir**
+- Première ouverture : valeurs par défaut sélectionnées pour ne jamais bloquer l'utilisateur
+- Retour arrière : les choix sont conservés
+- Profil IE1 mineur : mention des conditions (encadrant majeur présent sur site)
+- Écran petit (< 320 px) : sélecteurs empilés sans chevauchement
+- Accessibilité : ne pas s'appuyer uniquement sur la couleur pour distinguer les options
 
-**Depend de :** Aucune
+**Dépend de :** Aucune
 
 ---
 
-### US-002 [Tech] — Implementer le stockage local et la synchronisation d'ajout de plante
+### US-002 [Tech] — Implémenter les paramètres de séance et leur persistance
 
-**Feature source :** F01 — Ajout de plante
+**Feature source :** F01 — Paramétrage de séance
 **Status :** Backlog
 **Type :** Tech
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes
-**JTBD :** JTBD-F1, JTBD-F6
+**Persona :** Camille, Anaïs
+**JTBD :** JTBD-F1, JTBD-F4
 
-En tant que developpeur
-Je veux implementer le stockage local des plantes avec synchronisation cloud en background
-Afin que l'utilisateur puisse ajouter des plantes meme offline et les retrouver sur tous ses appareils
+En tant que développeur
+Je veux implémenter le modèle de paramètres de séance avec validation et persistance locale
+Afin que le catalogue, les alertes et la checklist s'adaptent aux choix de l'utilisateur
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Ajout de plante avec sauvegarde locale
-  Given l'utilisateur a saisi un nom ("Mon monstera") et pris une photo
-  When il clique sur "Ajouter ma plante"
-  Then la plante est sauvegardee en local avec les champs : id (UUID), nom, photo (blob ou path), date_ajout, date_modification
-  And la photo est compressee avant stockage (max 1 Mo, qualite 80%, resolution max 1920x1080)
-  And la plante apparait immediatement dans la liste de collection (affichage optimiste)
+Scénario : Happy path — Enregistrement des paramètres
+  Given l'utilisateur a choisi ses 5 paramètres
+  When il valide
+  Then un objet de paramètres est créé avec les champs : niveau_eleves, moment_saison, milieu, philosophie_instructeur, profil_encadrant
+  And les valeurs sont validées contre les enums définis (05_modele_donnees_app.md)
+  And les paramètres sont sauvegardés en local et rattachés au compte de l'utilisateur
 
-Scenario : Ajout sans photo
-  Given l'utilisateur ne prend pas de photo
-  When il clique sur "Ajouter ma plante" avec seulement un nom
-  Then la plante est sauvegardee avec une image par defaut
-  And l'utilisateur peut ajouter une photo plus tard depuis la fiche plante
+Scénario : Valeur par défaut — Profil d'encadrant absent
+  Given l'utilisateur ne choisit pas de profil d'encadrant
+  When il valide
+  Then le profil IE1_MAJEUR est appliqué par défaut
 
-Scenario : Erreur — Echec de compression de photo
-  Given l'utilisateur ajoute une photo de tres grande taille (> 10 Mo, 4K)
-  When l'app tente de compresser la photo et echoue (timeout, erreur memoire)
-  Then l'app affiche un message bienveillant : "Oups, cette photo est trop lourde. Essaie avec une photo plus petite."
-  And l'utilisateur peut reprendre une photo ou annuler l'ajout
-  And aucune plante n'est creee en base locale (transaction rollback)
+Scénario : Erreur — Valeur hors enum
+  Given une valeur inconnue est lue depuis le stockage local
+  When l'app charge les paramètres
+  Then la valeur est remplacée par la valeur par défaut
+  And un message discret informe que les paramètres ont été réinitialisés
 
-**Edge cases a couvrir**
-- Photo tres lourde (> 10 Mo, 4K) : compression avant stockage, gestion d'erreur si compression echoue
-- Nom trop long (> 50 caracteres) : accepte en base, tronque a l'affichage
-- Stockage local plein : message d'erreur clair, suggestion de liberer de l'espace
-- Utilisateur quitte le flow d'ajout avant de confirmer : sauvegarde en brouillon
-- Reprise du brouillon au retour : si brouillon existe, proposer de reprendre
+**Edge cases à couvrir**
+- Stockage local plein : message clair, aucune perte des séances existantes
+- Version d'enum différente après mise à jour : migration vers les nouvelles valeurs
+- Changement de paramètres sur une séance en cours : réévaluation des alertes
+- Données corrompues : réinitialisation des paramètres uniquement
 
-**Depend de :** US-000, US-019
+**Dépend de :** US-000, US-014, US-017
 
 ---
 
-## F02 — Guide d'observation pour arrosage (Must)
+## F02 — Catalogue d'exercices explicatif (Must)
 
-### US-003 [Design] — Concevoir la carte visuelle interactive d'observation
+### US-003 [Design] — Concevoir la fiche d'exercice et le catalogue filtré
 
-**Feature source :** F02 — Guide d'observation pour arrosage
+**Feature source :** F02 — Catalogue d'exercices explicatif
 **Status :** Backlog
 **Type :** Design
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes — ne sait pas quoi observer, arrose "au feeling"
-**JTBD :** JTBD-F1 (Savoir quand arroser sans tuer ma plante), JTBD-F6 (Apprendre a observer mes plantes)
+**Persona :** Camille, le candidat novice — difficulté à justifier pourquoi un exercice est choisi ; Anaïs, qui cherche des repères rapides
+**JTBD :** JTBD-F1 (Construire une séance), JTBD-F6 (Justifier mes choix), JTBD-F2 (Garantir la sécurité)
 
 En tant que designer
-Je veux concevoir une carte visuelle interactive avec 3 zones cliquables (terre, feuilles, pot) qui explique les gestes d'observation
-Afin que Lea apprenne a observer sa plante avant d'arroser plutot que de suivre une frequence fixe
+Je veux concevoir une liste d'exercices filtrée par les paramètres et une fiche d'exercice en 4 blocs (pourquoi, sécurité, variantes, paramètres)
+Afin que Camille comprenne ce que l'examinateur veut entendre et sache comment adapter l'exercice
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Exploration des 3 zones d'observation
-  Given je concois la carte visuelle d'une plante en pot
-  When je structure les zones interactives
-  Then la carte montre une illustration de plante avec 3 zones cliquables : terre (main qui touche), feuilles (oeil qui observe), pot (balance qui pese)
-  And chaque zone s'ouvre sur un detail explicatif court (< 60 secondes de lecture)
-  And le contenu utilise un langage simple, sans jargon botanique
-  And des pictogrammes guident visuellement (main, oeil, balance)
-
-Scenario : Premier usage — Decouverte guidee
-  Given l'utilisateur n'a jamais vu le guide d'observation
-  When il accede au guide pour la premiere fois
-  Then un overlay leger pointe vers la premiere zone ("Commence par toucher la terre")
-  And l'overlay disparait apres interaction ou apres 5 secondes
-  And le guide ne bloque jamais l'interaction
-
-Scenario : Contenu d'une zone — Detail "Toucher la terre"
-  Given l'utilisateur clique sur la zone "terre"
-  When le detail s'affiche
-  Then l'explication montre : "Enfonce ton doigt a 3-4 cm. Si c'est sec, ta plante a probablement soif. Si c'est humide, attends encore."
-  And une illustration ou video courte (15-30s) accompagne l'explication
-  And un bouton "Compris !" ferme le detail
-
-**Edge cases a couvrir**
-- Plante sans pot (bouture dans l'eau) : adaptation du guide (zone "eau" remplace "terre")
-- Ecran petit (< 320px) : zones restent cliquables, pas de chevauchement
-- Utilisateur daltonien : ne pas s'appuyer uniquement sur la couleur pour les zones
-- Geste swipe entre les zones pour navigation fluide
-- Retour a la carte depuis un detail : geste swipe ou bouton retour
-
-**Depend de :** US-001
-
----
-
-### US-004 [Tech] — Implementer le contenu statique du guide d'observation
-
-**Feature source :** F02 — Guide d'observation pour arrosage
-**Status :** Backlog
-**Type :** Tech
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes
-**JTBD :** JTBD-F1, JTBD-F6
-
-En tant que developpeur
-Je veux implementer le guide d'observation avec contenu statique embarque (3 zones, textes, illustrations)
-Afin que l'utilisateur puisse consulter le guide meme offline et apprendre les gestes d'observation
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Affichage du guide avec zones interactives
-  Given l'utilisateur ouvre le guide d'observation depuis une fiche plante
-  When le guide se charge
-  Then les 3 zones (terre, feuilles, pot) sont affichees et cliquables
-  And le contenu est charge depuis le stockage local (pas de requete reseau)
-  And le temps de chargement est < 500ms
-
-Scenario : Etat vide — Aucune plante ajoutee
-  Given l'utilisateur n'a pas encore ajoute de plante
-  When il tente d'acceder au guide d'observation
-  Then l'app redirige vers l'ecran d'ajout de plante avec un message : "Ajoute ta premiere plante pour decouvrir le guide d'observation"
-
-Scenario : Erreur — Contenu corrompu
-  Given le contenu statique du guide est corrompu en local
-  When le guide tente de se charger
-  Then l'app affiche un message : "Le guide n'a pas pu se charger. Verifie ta connexion pour le retelecharger."
-  And un bouton "Reessayer" tente de retelecharger le contenu
-
-**Edge cases a couvrir**
-- Contenu statique corrompu : detection d'integrite, retelechargement si connexion disponible
-- Animations desactivees (mode economie d'energie) : fallback sur images statiques
-- Lecteur d'ecran : textes alternatifs pour chaque zone et illustration
-- Navigation clavier : toutes les zones accessibles au tab
-
-**Depend de :** US-000, US-003
-
----
-
-## F06 — Fiches plantes educatives (Must)
-
-### US-005 [Design] — Concevoir les fiches plantes courtes et visuelles
-
-**Feature source :** F06 — Fiches plantes educatives
-**Status :** Backlog
-**Type :** Design
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes — utilise TikTok/Instagram comme ressources principales, format court et visuel
-**JTBD :** JTBD-F6 (Apprendre a observer mes plantes), JTBD-F1 (Savoir quand arroser)
-
-En tant que designer
-Je veux concevoir des fiches plantes au format court (60-90 secondes de lecture), visuelles et sans jargon
-Afin que Lea comprenne les besoins de sa plante sans effort et developpe sa competence d'observation
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Fiche plante complete
-  Given je concois une fiche pour une plante identifiee (ex: Monstera deliciosa)
+Scénario : Happy path — Fiche d'exercice complète
+  Given je conçois la fiche d'un exercice (ex : série hypercapnique DYN)
   When je structure le contenu
-  Then la fiche contient 4 sections : origine, lumiere, arrosage, signes de bonne sante
-  And chaque section est lisible en 15-20 secondes max
-  And le ton est bienveillant et pedagogique ("Ta Monstera vient des forets tropicales. Elle aime la lumiere indirecte.")
-  And des icones visuelles accompagnent chaque section (soleil, goutte, coeur)
-  And aucun terme botanique n'est utilise sans explication simple
+  Then la fiche contient 4 blocs : justification pédagogique (« Pourquoi on fait ça ? »), points de sécurité critiques, variantes (simplifier, complexifier, selon la philosophie), paramètres chiffrés
+  And un badge de niveau de risque (1 à 4) est visible en en-tête
+  And chaque information porte un badge de statut : corpus, suggestion ou hors corpus
+  And la fiche est lisible en 90 secondes
 
-Scenario : Plante non identifiee
-  Given la plante n'a pas ete identifiee automatiquement
-  When l'utilisateur consulte la fiche
-  Then l'app affiche des conseils generiques d'observation ("Observe la terre, les feuilles, la lumiere")
-  And propose d'identifier la plante via photo (lien vers identification)
+Scénario : Catalogue filtré
+  Given l'utilisateur a paramétré sa séance
+  When il ouvre le catalogue
+  Then seuls les exercices compatibles avec le niveau, le milieu et le moment de la saison sont affichés en premier
+  And les exercices non recommandés restent accessibles avec une mention explicative (ex : « Réservé à la fin de saison »)
+  And un bouton « Ajouter à ma séance » est visible sur chaque fiche
 
-Scenario : Contenu trop long
-  Given un redacteur propose un texte de fiche > 200 mots
-  When le texte depasse la limite
-  Then le design impose une troncature a 200 mots avec un "En savoir plus" optionnel
-  And le contenu principal reste lisible en 90 secondes
+Scénario : Information hors corpus
+  Given un exercice dont les paramètres chiffrés ne figurent pas dans les documents sources
+  When la fiche s'affiche
+  Then un message neutre : « À valider avec le MFA ou ton tuteur »
+  And la valeur proposée est présentée comme suggestion, jamais comme règle
 
-**Edge cases a couvrir**
-- Plante non identifiee : conseils generiques + suggestion d'identification
-- Plante rare sans fiche : message "On ne connait pas encore cette plante. Aide-nous a l'ajouter !"
-- Mode sombre : contraste suffisant pour les icones et illustrations
-- Accessibilite : textes alternatifs pour toutes les illustrations
+**Edge cases à couvrir**
+- Aucun exercice compatible avec le filtre : message explicatif et bouton « Voir tous les exercices »
+- Exercice fosse pour un profil IE1 : mention de la limite de 6 m sur la fiche
+- Mode sombre : contraste suffisant pour les badges de risque et de statut
+- Accessibilité : le niveau de risque n'est pas porté uniquement par la couleur
+- Retour au catalogue depuis la fiche : conserve les filtres
 
-**Depend de :** Aucune
+**Dépend de :** US-001
 
 ---
 
-### US-006 [Tech] — Implementer la base de fiches plantes embarquee
+### US-004 [Tech] — Implémenter la base d'exercices embarquée et le filtrage
 
-**Feature source :** F06 — Base de fiches plantes embarquee
+**Feature source :** F02 — Base d'exercices embarquée
 **Status :** Backlog
 **Type :** Tech
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes
-**JTBD :** JTBD-F6, JTBD-F1
+**Persona :** Camille, Anaïs
+**JTBD :** JTBD-F1, JTBD-F6, JTBD-F2
 
-En tant que developpeur
-Je veux implementer une base de fiches plantes embarquee (JSON/SQLite) avec les 50 plantes les plus courantes
-Afin que l'utilisateur puisse consulter les fiches meme offline
+En tant que développeur
+Je veux implémenter une base d'exercices embarquée (JSON) conforme au modèle de données, avec filtrage par paramètres
+Afin que l'utilisateur consulte le catalogue même sans connexion et reçoive des exercices pertinents
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Consultation d'une fiche plante
-  Given l'utilisateur a ajoute une plante identifiee comme "Monstera deliciosa"
-  When il ouvre la fiche de sa plante
-  Then la fiche s'affiche avec les 4 sections (origine, lumiere, arrosage, signes de bonne sante)
-  And le contenu est charge depuis le stockage local
-  And le temps de chargement est < 300ms
+Scénario : Happy path — Consultation du catalogue
+  Given l'utilisateur a paramétré sa séance
+  When il ouvre le catalogue
+  Then la liste est chargée depuis le stockage local
+  And les exercices sont filtrés par niveau_eleves, milieu et moment_saison
+  And le temps de chargement est inférieur à 300 ms
 
-Scenario : Plante absente de la base
-  Given l'utilisateur a ajoute une plante non presente dans la base embarquee
-  When il ouvre la fiche
-  Then l'app affiche un message : "On ne connait pas encore cette plante."
-  And propose des conseils generiques d'observation
-  And si connexion disponible, cherche la fiche sur le serveur
+Scénario : Statut de fiabilité
+  Given un exercice contient des paramètres issus du corpus et des variantes issues de suggestions
+  When la fiche est chargée
+  Then chaque champ expose son statut (corpus, suggestion, hors_corpus)
+  And les sources (ex : « Sport p.41 ») sont disponibles pour affichage
 
-Scenario : Mise a jour de la base
-  Given une nouvelle version de la base de fiches est disponible sur le serveur
-  When l'app detecte la mise a jour (au lancement ou en background)
-  Then la base locale est mise a jour silencieusement
-  And l'utilisateur n'est pas interrompu
+Scénario : Erreur — Contenu invalide
+  Given le fichier d'exercices est corrompu ou ne respecte pas le schéma
+  When l'app charge le catalogue
+  Then l'app charge la version embarquée dans le bundle
+  And un message discret informe que le contenu a été restauré
 
-**Edge cases a couvrir**
-- Base corrompue : reinitialisation depuis le bundle de l'app
-- Espace disque insuffisant : avertissement sans bloquer l'usage
-- Recherche par nom commun ET nom latin : correspondance floue (fuzzy matching)
-- Mise a jour partielle interrompue : rollback a la version precedente
+**Edge cases à couvrir**
+- Exercice sans variantes : la fiche s'affiche sans bloc vide
+- Identifiants d'exercice dupliqués : détection au build
+- Mise à jour du contenu : migration des séances qui référencent un exercice modifié ou supprimé
+- Recherche par nom ou par discipline : correspondance floue (STA, DYN, DNF)
 
-**Depend de :** US-000, US-019
-
----
-
-### US-007 [Tech] — Implementer l'identification automatique via API
-
-**Feature source :** F06 — Identification automatique via API
-**Status :** Backlog
-**Type :** Tech
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes
-**JTBD :** JTBD-F6, JTBD-F1
-
-En tant que developpeur
-Je veux implementer l'identification automatique de plante par photo via une API externe (PlantNet ou similaire)
-Afin que Lea puisse identifier sa plante sans connaitre son nom et acceder a la bonne fiche educative
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Identification reussie
-  Given l'utilisateur prend une photo de sa plante
-  When l'API retourne un resultat avec confiance > 70%
-  Then l'app affiche le nom de la plante identifiee avec le score de confiance
-  And propose de lier cette identification a la fiche plante
-  And l'utilisateur peut confirmer ou corriger
-
-Scenario : Identification incertaine
-  Given l'API retourne un resultat avec confiance < 70%
-  When l'app affiche le resultat
-  Then l'app propose les 3 resultats les plus probables
-  And l'utilisateur choisit le bon ou selectionne "Aucun de ces choix"
-  And si "Aucun", la plante reste non identifiee avec conseils generiques
-
-Scenario : Erreur — Pas de connexion
-  Given l'utilisateur n'a pas de connexion internet
-  When il tente d'identifier une plante par photo
-  Then l'app affiche : "L'identification a besoin d'internet. Ta photo est sauvegardee, on identifiera ta plante des que la connexion reviendra."
-  And la photo est stockee localement avec un flag "pending_identification"
-
-**Edge cases a couvrir**
-- Photo floue ou trop sombre : message "Essaie avec une photo plus nette et bien eclairee"
-- Photo qui n'est pas une plante : message "On n'a pas reussi a trouver de plante sur cette photo"
-- API indisponible (timeout, erreur serveur) : retry automatique (3 tentatives, backoff exponentiel)
-- Rate limiting API : file d'attente locale, traitement differe
-- Identification offline differee : sync automatique au retour de connexion
-
-**Depend de :** US-000, US-006
+**Dépend de :** US-000, US-014
 
 ---
 
-## F09 — Onboarding (Must)
+### US-021 [Design] — Concevoir la revue du contenu par le porteur du projet
 
-### US-008 [Design] — Concevoir l'onboarding ultra-court (< 60s)
-
-**Feature source :** F09 — Onboarding
+**Feature source :** F02 — Revue du contenu par le porteur
 **Status :** Backlog
 **Type :** Design
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes — 10/16 utilisateurs ont abandonne des apps a cause d'onboardings trop longs
-**JTBD :** Transverse
+**Persona :** Porteur du projet — relit et valide lui-même le contenu hors documents sources avant sa mise à disposition des testeurs
+**JTBD :** JTBD-F2 (Garantir la sécurité de chaque exercice)
 
 En tant que designer
-Je veux concevoir un onboarding en 3 ecrans maximum completable en moins de 60 secondes
-Afin que Lea commence a utiliser l'app immediatement sans se sentir submergee par des configurations
+Je veux concevoir un écran de revue qui liste le contenu hors documents sources et permet de le valider ou de l'amender
+Afin que le porteur relise méthodiquement chaque règle, exercice ou paramètre avant que les testeurs ne le voient
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Onboarding en 3 ecrans
-  Given l'utilisateur ouvre l'app pour la premiere fois
-  When l'onboarding se lance
-  Then l'ecran 1 explique en 1 phrase ce que fait l'app ("Apprends a observer tes plantes pour ne plus les tuer")
-  And l'ecran 2 propose d'ajouter sa premiere plante (nom + photo optionnelle)
-  And l'ecran 3 affiche la collection avec la plante ajoutee et un message de bienvenue
-  And l'onboarding est completable en < 60 secondes
-  And aucun compte n'est requis pour commencer
+Scénario : Happy path — Liste de revue
+  Given le porteur ouvre l'écran de revue
+  When la liste se charge
+  Then les entrées sont regroupées par origine (suggestion, hors corpus) et par statut (à valider, validé)
+  And chaque entrée affiche son texte, sa source éventuelle et ses boutons « Valider » et « Modifier »
+  And un compteur indique le nombre d'entrées restant à valider
+  And l'écran est utilisable sur mobile (une entrée par écran, lecture à une main)
 
-Scenario : Skip de l'onboarding
-  Given l'utilisateur ne veut pas suivre l'onboarding
-  When il clique sur "Passer" (visible sur chaque ecran)
-  Then l'app le redirige directement vers l'ecran de collection (etat vide)
-  And l'onboarding ne se relance jamais
+Scénario : Validation d'une entrée
+  Given le porteur lit une entrée
+  When il appuie sur « Valider »
+  Then l'entrée passe au statut « validé » avec la date
+  And le compteur diminue
+  And une annulation est possible pendant 5 secondes
 
-Scenario : Premiere plante ajoutee pendant l'onboarding
-  Given l'utilisateur ajoute une plante a l'ecran 2
-  When il termine l'onboarding
-  Then la plante apparait dans sa collection
-  And un message de bienvenue s'affiche : "Bienvenue dans ta jungle !"
+Scénario : Accès réservé
+  Given un testeur ouvre l'application
+  When il cherche l'écran de revue
+  Then l'écran n'est pas accessible
+  And les entrées non validées lui apparaissent avec la mention « À valider »
 
-**Edge cases a couvrir**
-- Utilisateur qui ferme l'app pendant l'onboarding : reprend a l'ecran ou il s'est arrete
-- Retour arriere : possible entre les ecrans, pas de perte de donnees
-- Accessibilite : navigation au clavier/lecteur d'ecran, contrastes suffisants
-- Langue : textes courts, facilement traduisibles
+**Edge cases à couvrir**
+- Entrée modifiée après validation : retour au statut « à valider »
+- Liste longue : filtres par discipline et par origine
+- Commentaire libre pour noter une source consultée ou un doute
+- Reprise de la revue là où le porteur s'était arrêté
+- Accessibilité : le statut n'est pas porté uniquement par la couleur
 
-**Depend de :** Aucune
+**Dépend de :** US-003, US-016
 
 ---
 
-### US-009 [Tech] — Implementer l'onboarding avec tracking et persistance
+### US-022 [Tech] — Implémenter le statut de validation du contenu
 
-**Feature source :** F09 — Onboarding
+**Feature source :** F02 — Statut de validation du contenu
 **Status :** Backlog
 **Type :** Tech
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes
-**JTBD :** Transverse
+**Persona :** Porteur du projet, Camille
+**JTBD :** JTBD-F2
 
-En tant que developpeur
-Je veux implementer le flow d'onboarding avec persistance d'etat et tracking de completion
-Afin que l'onboarding ne se relance jamais apres completion et qu'on mesure le taux de completion
+En tant que développeur
+Je veux implémenter un statut de validation (à valider, validé) et un historique pour chaque entrée de contenu, modifiable uniquement par le rôle porteur
+Afin que les testeurs voient l'état de validation de chaque règle et que seul le porteur puisse le modifier
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Completion de l'onboarding
-  Given l'utilisateur complete les 3 ecrans de l'onboarding
-  When il arrive sur l'ecran de collection
-  Then un flag "onboarding_completed: true" est sauvegarde en local
-  And l'onboarding ne se relance plus jamais
-  And un evenement analytics "onboarding_completed" est envoye avec le temps de completion
+Scénario : Happy path — Validation par le porteur
+  Given le porteur est connecté avec le rôle « porteur »
+  When il valide une entrée hors documents sources
+  Then le statut passe à « validé » avec l'identifiant du porteur et la date
+  And l'historique conserve les changements de statut
 
-Scenario : Skip de l'onboarding
-  Given l'utilisateur clique "Passer" a l'ecran 1 ou 2
-  When il arrive sur la collection
-  Then le flag "onboarding_skipped: true" est sauvegarde avec le numero de l'ecran de skip
-  And un evenement analytics "onboarding_skipped" est envoye avec l'ecran de sortie
-  And l'onboarding ne se relance plus
+Scénario : Accès refusé à un testeur
+  Given un testeur est connecté
+  When il tente de modifier un statut de validation
+  Then la requête est refusée côté serveur
+  And l'app affiche un message neutre sans exposer de détail technique
 
-Scenario : Erreur — App fermee pendant l'onboarding
-  Given l'utilisateur ferme l'app a l'ecran 2
-  When il reouvre l'app
-  Then l'onboarding reprend a l'ecran 2 (etat persiste)
-  And les donnees saisies a l'ecran 2 (nom de plante) sont conservees
+Scénario : Affichage dans le catalogue
+  Given une entrée a le statut « à valider »
+  When un testeur ouvre la fiche
+  Then la mention « À valider » est affichée à côté de l'entrée
+  And l'entrée reste utilisable dans les séances avec un rappel `[A DECIDER]`
 
-**Edge cases a couvrir**
-- Reinstallation de l'app : l'onboarding se relance (donnees locales perdues)
-- Migration de version : si le format d'onboarding change, ne pas relancer pour les utilisateurs existants
-- Tracking offline : evenements analytics mis en file d'attente et envoyes au retour de connexion
+**Edge cases à couvrir**
+- Entrée du corpus (documents sources) : statut « corpus » sans validation requise
+- Modification du texte d'une entrée validée : statut remis à « à valider »
+- Mise à jour du contenu embarqué : conservation des statuts existants par identifiant
+- Cohérence entre statut local et serveur après synchronisation
+- Journalisation des changements pour traçabilité
 
-**Depend de :** US-000
+**Dépend de :** US-000, US-004, US-017
 
 ---
 
-## F03 — Journal d'arrosage simplifie + rappels bienveillants (Should)
+## F03 — Constructeur de séance structuré (Must)
 
-### US-010 [Design] — Concevoir l'historique visuel d'arrosage
+### US-005 [Design] — Concevoir le constructeur de séance par phases
 
-**Feature source :** F03 — Journal d'arrosage simplifie
+**Feature source :** F03 — Constructeur de séance structuré
 **Status :** Backlog
 **Type :** Design
-**Persona :** Lea, la debutante qui ne veut pas tuer ses plantes — arrose de facon irreguliere, a peur d'oublier
-**JTBD :** JTBD-F1 (Savoir quand arroser sans tuer ma plante), JTBD-F6 (Apprendre a observer)
+**Persona :** Camille, le candidat novice — ne sait pas par où commencer ; Anaïs, qui manque de temps
+**JTBD :** JTBD-F1 (Construire une séance cohérente), JTBD-F6 (Justifier mes choix)
 
 En tant que designer
-Je veux concevoir un historique visuel d'arrosage avec un bouton "J'ai arrose" en un tap
-Afin que Lea puisse voir en un coup d'oeil quand elle a arrose pour la derniere fois et se rassurer
+Je veux concevoir un écran de construction en phases (accueil, exercices à sec, échauffement, prérequis, cœur de séance, application, retour au calme, débriefing)
+Afin que Camille assemble une séance structurée comme l'attend le jury, sans oublier de phase
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Enregistrement d'un arrosage
-  Given je concois l'interaction d'enregistrement d'arrosage
-  When l'utilisateur ouvre la fiche d'une plante
-  Then un bouton "J'ai arrose" est visible et accessible en un tap
-  And apres le tap, une animation douce confirme l'enregistrement (goutte d'eau, checkmark)
-  And l'historique affiche "Dernier arrosage : aujourd'hui"
+Scénario : Happy path — Séance structurée
+  Given je conçois l'écran de construction
+  When je structure les éléments
+  Then l'objectif SMART (spécifique, mesurable, atteignable, réaliste, temporel) et le critère d'évaluation sont saisis en tête
+  And les 8 phases sont affichées dans l'ordre avec un emplacement par phase
+  And chaque phase propose : durée, contenu ou exercice du catalogue, consignes, position de l'encadrant, critères de réussite
+  And la durée totale et la répartition sont visibles en permanence
 
-Scenario : Historique visuel — Timeline
-  Given l'utilisateur a enregistre plusieurs arrosages
-  When il consulte l'historique
-  Then une timeline visuelle montre les arrosages passes (points sur une frise)
-  And l'intervalle entre chaque arrosage est visible ("il y a 3 jours", "il y a 10 jours")
-  And pas de jugement : aucun code couleur rouge/vert, juste de l'information
+Scénario : Phase manquante
+  Given l'utilisateur laisse une phase obligatoire vide (ex : échauffement)
+  When il consulte sa séance
+  Then la phase est signalée par une invitation douce : « Il manque un échauffement. Veux-tu en ajouter un ? »
+  And le message n'utilise jamais les mots « erreur » ou « obligatoire »
 
-Scenario : Etat vide — Aucun arrosage enregistre
-  Given l'utilisateur n'a jamais enregistre d'arrosage pour cette plante
-  When il consulte la fiche plante
-  Then un message bienveillant s'affiche : "Tu n'as pas encore enregistre d'arrosage. Appuie quand tu arroses !"
-  And le bouton "J'ai arrose" est bien visible
+Scénario : Aide à l'objectif
+  Given l'utilisateur remplit l'objectif
+  When il touche le champ
+  Then une aide affiche les 5 critères SMART avec un exemple adapté au niveau choisi
+  And l'aide se ferme sans bloquer la saisie
 
-**Edge cases a couvrir**
-- Double tap accidentel : debounce de 2 secondes, possibilite d'annuler dans les 5 secondes
-- Arrosage enregistre par erreur : bouton "Annuler" disponible pendant 5 secondes apres le tap
-- Historique tres long (> 100 arrosages) : pagination ou scroll infini
-- Plusieurs plantes arrosees en meme temps : bouton "Arroser toutes" depuis la collection
+**Edge cases à couvrir**
+- Séance de plus de 120 minutes : message d'information sur la durée usuelle (1 h à 2 h, examen 1 h 30)
+- Phase avec plusieurs exercices : réorganisation par glisser-déposer
+- Suppression d'une phase : confirmation douce
+- Écran petit : phases repliables
+- Séance de démonstration pré-remplie pour comprendre le format
 
-**Depend de :** US-001
+**Dépend de :** US-001, US-003
 
 ---
 
-### US-011 [Design] — Concevoir le systeme de rappels bienveillants (opt-in)
+### US-006 [Tech] — Implémenter le modèle de séance et la sauvegarde locale
 
-**Feature source :** F03 — Rappels bienveillants (opt-in)
-**Status :** Backlog
-**Type :** Design
-**Persona :** Lea, la debutante qui a peur d'oublier — Sophie, la passionnee qui a une routine structuree
-**JTBD :** JTBD-F1 (Savoir quand arroser), JTBD-F6 (Apprendre a observer)
-
-En tant que designer
-Je veux concevoir un systeme de rappels bienveillants opt-in (max 1/semaine par plante, ton educatif)
-Afin que Lea soit guidee vers l'observation sans etre spammee ni dependante des notifications
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Activation des rappels
-  Given l'utilisateur consulte la fiche d'une plante
-  When il active le toggle "Rappels bienveillants"
-  Then un message explique : "Tu recevras max 1 rappel par semaine pour cette plante. On t'invitera a observer, pas a arroser."
-  And le toggle est clairement opt-in (desactive par defaut)
-  And la frequence max est affichee (1/semaine)
-
-Scenario : Notification recue — Ton educatif
-  Given les rappels sont actives pour "Mon Monstera"
-  When 7 jours se sont ecoules depuis le dernier arrosage
-  Then la notification dit : "Il y a 7 jours que tu n'as pas arrose ton Monstera. Va toucher la terre pour verifier si elle en a besoin."
-  And la notification ne dit jamais "Arrose maintenant !" ni "Tu as oublie !"
-  And le ton est bienveillant et educatif
-
-Scenario : Desactivation des rappels
-  Given l'utilisateur veut desactiver les rappels
-  When il desactive le toggle
-  Then les rappels s'arretent immediatement
-  And un message confirme : "C'est note, plus de rappels pour cette plante."
-
-**Edge cases a couvrir**
-- Permissions de notification refusees par l'OS : message explicatif + lien vers les reglages
-- Trop de plantes avec rappels actifs (> 10) : regrouper les notifications en une seule ("3 de tes plantes attendent une petite visite")
-- Arrosage enregistre juste avant un rappel : annuler le rappel prevu
-- Mode "Ne pas deranger" : respecter les plages horaires de l'OS
-
-**Depend de :** US-010
-
----
-
-### US-012 [Tech] — Implementer l'enregistrement d'arrosage et les notifications push opt-in
-
-**Feature source :** F03 — Journal d'arrosage + rappels
+**Feature source :** F03 — Modèle de séance et sauvegarde
 **Status :** Backlog
 **Type :** Tech
-**Persona :** Lea, Sophie
+**Persona :** Camille, Anaïs
 **JTBD :** JTBD-F1, JTBD-F6
 
-En tant que developpeur
-Je veux implementer l'enregistrement d'arrosage en un tap avec stockage local et notifications push opt-in
-Afin que l'utilisateur puisse suivre ses arrosages et recevoir des rappels bienveillants s'il le souhaite
+En tant que développeur
+Je veux implémenter le modèle Séance (paramètres, objectif, phases, sécurité, évaluation) avec sauvegarde et liste locale
+Afin que l'utilisateur retrouve ses séances et les affine avant l'examen
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Enregistrement d'arrosage
-  Given l'utilisateur appuie sur "J'ai arrose" sur la fiche d'une plante
-  When l'evenement est enregistre
-  Then un enregistrement est cree en local : plant_id, timestamp, type="watering"
-  And l'historique est mis a jour immediatement (affichage optimiste)
-  And si rappels actifs, le prochain rappel est recalcule (dernier arrosage + 7 jours)
+Scénario : Happy path — Création et sauvegarde
+  Given l'utilisateur a saisi un objectif et placé des exercices dans des phases
+  When il enregistre sa séance
+  Then la séance est sauvegardée en local puis dans le compte avec : id (UUID), titre, paramètres, objectif, phases, sécurité, date de création, date de modification
+  And la séance apparaît immédiatement dans la liste « Mes séances »
 
-Scenario : Notifications push opt-in
-  Given l'utilisateur active les rappels pour une plante
-  When 7 jours se sont ecoules depuis le dernier arrosage
-  Then une notification push est envoyee avec le message bienveillant
-  And la notification est limitee a max 1 par plante par semaine
-  And si plus de 3 plantes doivent etre rappelees le meme jour, regrouper en une seule notification
+Scénario : Modification d'une séance
+  Given une séance existe
+  When l'utilisateur modifie une phase
+  Then la date de modification est mise à jour
+  And les alertes sont recalculées (US-008)
+  And les modifications sont enregistrées sans action supplémentaire (sauvegarde automatique)
 
-Scenario : Erreur — Permission de notification refusee
-  Given l'utilisateur active les rappels mais l'OS refuse les permissions
-  When l'app detecte le refus
-  Then un message explique comment activer les notifications dans les reglages
-  And le toggle reste desactive visuellement
-  And aucune notification n'est planifiee
+Scénario : Erreur — Séance corrompue
+  Given une séance enregistrée est illisible
+  When l'app la charge
+  Then un message explique que la séance n'a pas pu être ouverte
+  And les autres séances restent disponibles
 
-**Edge cases a couvrir**
-- Annulation d'arrosage (undo) : suppression de l'enregistrement dans les 5 secondes
-- Arrosage multiple le meme jour : accepte, affiche tous les enregistrements
-- Changement de fuseau horaire : recalcul des rappels
-- Synchronisation des arrosages entre appareils : resolution par timestamp (last write wins)
+**Edge cases à couvrir**
+- Brouillon : sauvegarde automatique à chaque modification
+- Exercice du catalogue supprimé après mise à jour du contenu : la phase conserve son contenu et signale le changement
+- Duplication d'une séance : copie avec nouveau titre
+- Grand nombre de séances (> 100) : pagination
+- Export pour partage : traité dans US-019 et US-020
 
-**Depend de :** US-000, US-010, US-019
+**Dépend de :** US-000, US-002, US-004, US-014, US-018
 
 ---
 
-## F04 — Scan visuel + diagnostic (Should)
+## F04 — Alertes de sécurité en temps réel (Must)
 
-### US-013 [Design] — Concevoir l'ecran de scan et etats
+### US-007 [Design] — Concevoir l'affichage des alertes de sécurité
 
-**Feature source :** F04 — Scan visuel + diagnostic
+**Feature source :** F04 — Alertes de sécurité
 **Status :** Backlog
 **Type :** Design
-**Persona :** Lea, la debutante inquiete — Sophie, la passionnee qui veut identifier les problemes tot
-**JTBD :** JTBD-F2 (Identifier ce qui ne va pas avant qu'il soit trop tard)
+**Persona :** Camille, qui craint de proposer un exercice dangereux sans s'en rendre compte ; Anaïs, qui craint d'oublier un élément réglementaire
+**JTBD :** JTBD-F2 (Garantir la sécurité de chaque exercice), JTBD-F4 (Rester dans mes prérogatives)
 
 En tant que designer
-Je veux concevoir l'ecran de prise de photo pour diagnostic avec les differents etats (chargement, resultat, erreur)
-Afin que l'utilisateur sache exactement quoi photographier et comprenne le resultat
+Je veux concevoir un système d'alertes à trois niveaux (information, avertissement, bloquant) avec explication pédagogique
+Afin que Camille comprenne pourquoi une série est à risque et sache comment la corriger
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Prise de photo guidee
-  Given l'utilisateur ouvre le scan diagnostic
-  When l'ecran de capture s'affiche
-  Then un guide visuel montre quoi cadrer ("Cadre la feuille qui t'inquiete, bien eclairee")
-  And un bouton de capture est bien visible et large (tactile)
-  And apres la capture, un ecran de chargement anime s'affiche ("Analyse en cours...")
+Scénario : Happy path — Alerte avertissement
+  Given l'utilisateur place deux exercices hypoxiques dans la même séance
+  When l'alerte se déclenche
+  Then un bandeau affiche : titre court, explication en 2 phrases, source et action suggérée
+  And l'alerte est repérable sans reposer uniquement sur la couleur (icône et texte)
+  And un bouton « Pourquoi ? » ouvre le détail pédagogique
 
-Scenario : Etat de chargement — Analyse en cours
-  Given l'utilisateur a pris une photo
-  When l'analyse est en cours
-  Then une animation apaisante s'affiche (pas de spinner stressant)
-  And un message rassurant : "On regarde ca de pres..."
-  And un temps estime est affiche si disponible
+Scénario : Alerte bloquante
+  Given l'utilisateur place un exercice dont la profondeur dépasse les prérogatives de son profil
+  When l'alerte se déclenche
+  Then un message clair empêche l'enregistrement tant qu'il n'est pas corrigé
+  And une action suggérée est proposée (ex : « Limiter à 6 m »)
+  And le ton reste explicatif, sans culpabilisation
 
-Scenario : Erreur — Photo inutilisable
-  Given l'utilisateur a pris une photo floue ou trop sombre
-  When l'API ne peut pas analyser
-  Then un message bienveillant : "On n'arrive pas a bien voir. Essaie avec plus de lumiere et en te rapprochant de la feuille."
-  And l'utilisateur peut reprendre une photo immediatement
-  And la photo ratee n'est pas sauvegardee
+Scénario : Aucune alerte
+  Given la séance ne déclenche aucune alerte
+  When l'utilisateur consulte le panneau de sécurité
+  Then un message positif et prudent : « Aucun point de vigilance détecté par l'app. Pense à vérifier avec ton tuteur. »
+  And la mention que l'app ne remplace pas le directeur de bassin est visible
 
-**Edge cases a couvrir**
-- Camera non disponible (permissions refusees) : explication + lien vers les reglages
-- Photo depuis la galerie (au lieu de la camera) : supporter les deux modes
-- Ecran de chargement trop long (> 10s) : message "Ca prend un peu plus de temps que prevu..."
-- Plusieurs photos pour un meme diagnostic : galerie de selection
+**Edge cases à couvrir**
+- Plusieurs alertes simultanées : tri par niveau, 3 maximum affichées avant « Voir tout »
+- Alerte corrigée : disparition avec une confirmation douce
+- Alerte fondée sur une suggestion : badge « suggestion » pour la distinguer des règles du corpus
+- Alerte que l'utilisateur souhaite ignorer (niveau avertissement) : possibilité de la masquer avec justification
+- Accessibilité : lecteur d'écran annonce le niveau et le titre
 
-**Depend de :** Aucune
+**Dépend de :** US-003, US-005
 
 ---
 
-### US-014 [Design] — Concevoir le resultat diagnostic et feedback utilisateur
+### US-008 [Tech] — Implémenter le moteur de règles de sécurité
 
-**Feature source :** F04 — Resultat diagnostic et feedback
+**Feature source :** F04 — Moteur de règles de sécurité
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs
+**JTBD :** JTBD-F2
+
+En tant que développeur
+Je veux implémenter un moteur de règles qui évalue une séance à partir des tags de sécurité des exercices et des paramètres
+Afin que les alertes se déclenchent immédiatement à chaque modification
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Hypoxie en début de saison
+  Given une séance de moment REPRISE contient un exercice taggé HYPOXIE_SYNCOPE
+  When le moteur évalue la séance
+  Then l'alerte ALR-001 (niveau bloquant) est retournée avec son message, sa source et son statut
+
+Scénario : Règles sur la structure
+  Given une séance sans phase d'échauffement et sans protocole de sortie
+  When le moteur évalue la séance
+  Then les alertes ALR-005 et ALR-006 (avertissement) sont retournées
+
+Scénario : Erreur — Règle mal formée
+  Given une règle du fichier de règles est invalide
+  When le moteur charge les règles
+  Then la règle invalide est ignorée et journalisée
+  And les autres règles continuent de s'appliquer
+  And l'app ne plante pas
+
+**Edge cases à couvrir**
+- Séance vide : aucune alerte déclenchée
+- Performance : évaluation en moins de 100 ms pour une séance de 20 phases
+- Règle fondée sur un statut « suggestion » : le niveau maximal est « avertissement »
+- Mise à jour du fichier de règles : réévaluation des séances ouvertes
+- Règle en conflit avec une autre : priorité au niveau le plus élevé, une seule alerte par cause
+- Tests unitaires : un test par règle du catalogue (ALR-001 à ALR-020)
+
+**Dépend de :** US-000, US-004, US-006
+
+---
+
+### US-009 [Tech] — Implémenter le contrôle des prérogatives et de la profondeur
+
+**Feature source :** F04 — Contrôle des prérogatives et de la profondeur
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs
+**JTBD :** JTBD-F2, JTBD-F4
+
+En tant que développeur
+Je veux implémenter la table des prérogatives d'encadrement (IE1, IE2) et le contrôle de la profondeur d'une séance
+Afin que l'app signale toute séance qui dépasse les limites du brevet de l'utilisateur
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Profondeur dans les limites
+  Given un profil IE1_MAJEUR et une séance dont la profondeur maximale est de 5 m
+  When le contrôle est exécuté
+  Then aucune alerte de profondeur n'est retournée
+
+Scénario : Dépassement de prérogative
+  Given un profil IE1_MAJEUR et un exercice de fosse à 15 m
+  When le contrôle est exécuté
+  Then l'alerte ALR-002 (bloquant) est retournée avec la limite de 6 m
+  And la source (prérogatives d'encadrement) est incluse
+
+Scénario : Profil IE2 avec conditions
+  Given un profil IE2 et une séance à 20 m
+  When le contrôle est exécuté
+  Then l'app affiche les conditions (DP MEF1 présent en milieu naturel, DB IE2 et AEEL minimum en milieu artificiel)
+  And le statut de ces conditions indique « à vérifier sur site »
+
+**Edge cases à couvrir**
+- Profil IE1 mineur : mention du prérequis d'un encadrant majeur présent sur site
+- Profondeur inconnue pour un exercice : alerte d'information plutôt que blocage
+- Prérogatives modifiées par une mise à jour du MFA : table de référence versionnée
+- Public enfant : limites par âge signalées en information `[A DECIDER]`
+- Matériel de secours au-delà de 6 m : alerte ALR-013 associée
+
+**Dépend de :** US-000, US-002, US-008
+
+---
+
+## F09 — Comptes et sauvegarde des séances (Must)
+
+### US-016 [Design] — Concevoir la création de compte, la connexion et les rôles
+
+**Feature source :** F09 — Compte, connexion et rôles
 **Status :** Backlog
 **Type :** Design
-**Persona :** Lea, la debutante inquiete — Sophie, la passionnee qui veut des protocoles precis
-**JTBD :** JTBD-F2 (Identifier ce qui ne va pas avant qu'il soit trop tard)
-
-En tant que designer
-Je veux concevoir l'ecran de resultat diagnostic avec le probleme identifie, le niveau de confiance et le protocole de traitement
-Afin que l'utilisateur comprenne ce qui ne va pas et sache quoi faire concretement
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Diagnostic avec haute confiance
-  Given l'API retourne un diagnostic avec confiance > 80%
-  When l'ecran de resultat s'affiche
-  Then le probleme identifie est affiche clairement (ex: "Sur-arrosage probable")
-  And une explication courte en langage simple (pas de jargon)
-  And un protocole de traitement en etapes numerotees ("1. Laisse secher la terre. 2. Espace les arrosages. 3. Observe dans 5 jours.")
-  And un bouton "Ce diagnostic est-il utile ?" (feedback)
-
-Scenario : Diagnostic incertain — Confiance < 60%
-  Given l'API retourne un diagnostic avec confiance < 60%
-  When l'ecran de resultat s'affiche
-  Then l'app affiche : "On n'est pas surs a 100%. Voici les possibilites les plus probables :"
-  And les 2-3 diagnostics possibles sont listes avec leur probabilite
-  And l'utilisateur peut choisir celui qui lui semble le plus juste
-
-Scenario : Plante en bonne sante
-  Given l'API ne detecte aucun probleme
-  When l'ecran de resultat s'affiche
-  Then un message positif : "Ta plante a l'air en pleine forme ! Continue comme ca."
-  And des conseils preventifs sont proposes
-
-**Edge cases a couvrir**
-- Diagnostic contradictoire : afficher les deux avec explication
-- Probleme grave (parasite, maladie avancee) : ton rassurant mais action urgente suggeree
-- Historique des diagnostics : pouvoir revoir les anciens diagnostics d'une plante
-- Feedback utilisateur negatif : proposer de reprendre une photo ou de signaler une erreur
-
-**Depend de :** US-013
-
----
-
-### US-015 [Tech] — Implementer la compression et l'envoi photo
-
-**Feature source :** F04 — Compression et envoi photo
-**Status :** Backlog
-**Type :** Tech
-**Persona :** Lea, Sophie
-**JTBD :** JTBD-F2
-
-En tant que developpeur
-Je veux implementer la capture photo, compression et envoi vers l'API de diagnostic
-Afin que l'analyse soit rapide meme avec une connexion lente
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Capture et envoi
-  Given l'utilisateur prend une photo pour diagnostic
-  When la photo est capturee
-  Then la photo est compressee (max 500 Ko, qualite 85%, resolution max 1280x960)
-  And la photo est envoyee a l'API de diagnostic via HTTPS
-  And un indicateur de progression s'affiche pendant l'envoi
-
-Scenario : Connexion lente — Upload long
-  Given l'utilisateur est en 3G ou connexion faible
-  When l'envoi prend plus de 5 secondes
-  Then un message s'affiche : "La connexion est un peu lente, on continue l'envoi..."
-  And l'envoi continue en background si l'utilisateur quitte l'ecran
-  And une notification locale informe quand le resultat est pret
-
-Scenario : Erreur — Pas de connexion
-  Given l'utilisateur n'a pas de connexion internet
-  When il tente d'envoyer la photo
-  Then l'app sauvegarde la photo localement avec un flag "pending_diagnosis"
-  And affiche : "Pas de connexion. Ta photo est sauvegardee, on lancera l'analyse des que la connexion reviendra."
-
-**Edge cases a couvrir**
-- Photo depuis la galerie : supporter les formats JPEG, PNG, HEIC
-- Compression echouee : fallback sur la photo originale si < 2 Mo
-- Envoi interrompu : retry automatique (3 tentatives, backoff exponentiel)
-- Quota API depasse : message "On a atteint la limite d'analyses pour aujourd'hui. Reessaie demain."
-
-**Depend de :** US-000, US-013
-
----
-
-### US-016 [Tech] — Implementer l'integration API diagnostic
-
-**Feature source :** F04 — Integration API diagnostic
-**Status :** Backlog
-**Type :** Tech
-**Persona :** Lea, Sophie
-**JTBD :** JTBD-F2
-
-En tant que developpeur
-Je veux implementer l'integration avec l'API de diagnostic visuel (analyse de photo, retour de resultats structures)
-Afin que l'utilisateur recoive un diagnostic fiable avec un protocole de traitement
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Diagnostic reussi
-  Given l'API recoit une photo valide
-  When l'API retourne un resultat
-  Then l'app parse la reponse : probleme identifie, score de confiance, protocole de traitement
-  And le resultat est sauvegarde en local (historique des diagnostics par plante)
-  And le resultat est affiche a l'utilisateur selon le design (US-014)
-
-Scenario : API indisponible — Timeout
-  Given l'API ne repond pas dans les 15 secondes
-  When le timeout est atteint
-  Then l'app affiche : "Le diagnostic prend trop de temps. Verifie ta connexion et reessaie."
-  And la photo est conservee localement pour retry
-  And un bouton "Reessayer" est propose
-
-Scenario : Erreur API — Reponse invalide
-  Given l'API retourne une reponse malformee ou un code d'erreur
-  When l'app parse la reponse
-  Then l'app affiche : "Oups, quelque chose n'a pas fonctionne. Reessaie dans quelques minutes."
-  And l'erreur est loguee pour monitoring
-  And la photo est conservee pour retry
-
-**Edge cases a couvrir**
-- Reponse API avec plusieurs diagnostics possibles : afficher les top 3 tries par confiance
-- Mise a jour de l'API (changement de format) : versioning de l'integration, fallback gracieux
-- Cache des resultats : ne pas re-analyser la meme photo si resultat recent (< 1h)
-- Rate limiting : file d'attente locale, traitement differe
-
-**Depend de :** US-000, US-015
-
----
-
-### US-017 [Tech] — Implementer la gestion des erreurs et fallback offline
-
-**Feature source :** F04 — Gestion erreurs et fallback offline
-**Status :** Backlog
-**Type :** Tech
-**Persona :** Lea, Sophie
-**JTBD :** JTBD-F2
-
-En tant que developpeur
-Je veux implementer une gestion d'erreurs robuste et un mode degrade offline pour le diagnostic
-Afin que l'utilisateur ne soit jamais bloque et comprenne toujours ce qui se passe
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Mode degrade offline
-  Given l'utilisateur n'a pas de connexion
-  When il tente un diagnostic
-  Then l'app sauvegarde la photo et affiche : "Diagnostic en attente de connexion. En attendant, voici des conseils d'observation generaux."
-  And des conseils generiques sont affiches (issus de la base locale)
-  And des que la connexion revient, le diagnostic est lance automatiquement
-
-Scenario : Erreurs reseau intermittentes
-  Given la connexion est instable
-  When un envoi echoue
-  Then l'app retente automatiquement (3 tentatives, backoff exponentiel : 1s, 2s, 4s)
-  And apres 3 echecs, l'app passe en mode degrade (sauvegarde locale + retry ulterieur)
-  And l'utilisateur est informe : "On reessaiera automatiquement plus tard."
-
-Scenario : Erreur critique — Crash de l'analyse
-  Given une erreur inattendue survient pendant l'analyse
-  When l'app detecte le crash
-  Then l'app ne crash pas (catch global)
-  And un message s'affiche : "Quelque chose s'est mal passe. Ta photo est sauvegardee, reessaie plus tard."
-  And l'erreur est loguee pour monitoring
-
-**Edge cases a couvrir**
-- File d'attente de diagnostics offline : traitement FIFO au retour de connexion
-- Notification quand un diagnostic offline est pret : notification locale
-- Nettoyage des photos en attente (> 30 jours) : suppression avec avertissement
-- Espace disque critique : prioriser les diagnostics en attente
-
-**Depend de :** US-000, US-015, US-016
-
----
-
-## F10 — Fonctionnement offline (Should)
-
-### US-019 [Tech] — Implementer le stockage local et les service workers
-
-**Feature source :** F10 — Stockage local et service workers
-**Status :** Backlog
-**Type :** Tech
-**Persona :** Lea, Sophie — utilisatrices en mobilite (magasin de plantes, jardin, transports)
+**Persona :** Camille et Anaïs (testeuses et utilisatrices), Porteur du projet — veulent retrouver leurs séances sur leur téléphone
 **JTBD :** Transverse
 
-En tant que developpeur
-Je veux implementer le stockage local (IndexedDB/SQLite) et les service workers pour le cache offline
-Afin que l'app fonctionne sans connexion internet pour les operations de base
+En tant que designer
+Je veux concevoir un parcours de création de compte et de connexion très court, adapté au mobile, avec deux rôles (porteur, testeur)
+Afin que chaque utilisateur sauvegarde ses séances sans que le compte ne soit un frein
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — App utilisable offline
-  Given l'utilisateur a deja utilise l'app en ligne au moins une fois
-  When il perd la connexion internet
-  Then l'app reste fonctionnelle : consultation de la collection, ajout de plante, consultation des fiches, enregistrement d'arrosage
-  And les donnees sont sauvegardees en local
-  And un indicateur discret montre "Mode hors ligne"
+Scénario : Happy path — Création de compte
+  Given l'utilisateur ouvre l'app pour la première fois
+  When il choisit de créer un compte
+  Then l'écran demande le minimum (adresse e-mail et mot de passe, ou lien de connexion `[A DECIDER]`)
+  And une phrase explique pourquoi un compte est utile (« Pour retrouver tes séances sur tous tes appareils »)
+  And l'écran est conçu pour le téléphone (champ unique visible avec le clavier ouvert)
+  And aucune information inutile n'est demandée
 
-Scenario : Premier lancement sans connexion
-  Given l'utilisateur installe l'app (PWA) et n'a pas de connexion
-  When il ouvre l'app pour la premiere fois
-  Then l'app charge le shell applicatif et les ressources embarquees
-  And les fiches plantes de base (top 50) sont disponibles
-  And les fonctions necessitant une API (identification, diagnostic) affichent un etat degrade
+Scénario : Connexion et retour
+  Given l'utilisateur a déjà un compte
+  When il ouvre l'app
+  Then il est reconnecté automatiquement s'il l'était déjà
+  And un lien « Mot de passe oublié » est visible
 
-Scenario : Erreur — Stockage local plein
+Scénario : Erreur — Identifiants incorrects
+  Given l'utilisateur saisit de mauvais identifiants
+  When il valide
+  Then un message bienveillant s'affiche : « On ne retrouve pas ton compte. Vérifie ton adresse et réessaie. »
+  And le message n'utilise jamais les mots « erreur », « invalide »
+
+**Edge cases à couvrir**
+- Invitation de testeur : arrivée par lien ou code, inscription préremplie `[A DECIDER]`
+- Rôle porteur : accès à l'écran de revue du contenu (US-021) uniquement pour ce rôle
+- Accessibilité : champs étiquetés, contrastes, navigation au lecteur d'écran
+- Déconnexion : confirmation douce, séances non synchronisées signalées
+- Suppression du compte : parcours expliqué, avec rappel de l'export des séances (US-019)
+
+**Dépend de :** Aucune
+
+---
+
+### US-017 [Tech] — Implémenter l'authentification et les rôles
+
+**Feature source :** F09 — Authentification et rôles
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs, Porteur du projet
+**JTBD :** Transverse
+
+En tant que développeur
+Je veux implémenter l'authentification et la gestion de deux rôles (porteur, testeur) avec contrôle d'accès côté serveur
+Afin que chaque utilisateur accède uniquement à ses séances et que seul le porteur accède à la revue du contenu
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Inscription et connexion
+  Given un utilisateur crée un compte avec une adresse e-mail valide
+  When il valide
+  Then le compte est créé avec le rôle « testeur » par défaut
+  And une session sécurisée est ouverte
+  And aucun mot de passe n'est stocké en clair
+
+Scénario : Rôle porteur
+  Given le compte du porteur du projet est désigné
+  When il se connecte
+  Then il dispose du rôle « porteur »
+  And il accède à l'écran de revue du contenu (US-021) en plus des fonctions de testeur
+
+Scénario : Erreur — Accès à la séance d'un autre utilisateur
+  Given un utilisateur tente d'accéder à la séance d'un autre utilisateur
+  When la requête est reçue
+  Then elle est refusée côté serveur
+  And aucune donnée de la séance n'est révélée
+
+**Edge cases à couvrir**
+- Nombre limité de tentatives de connexion : blocage temporaire
+- Réinitialisation du mot de passe par e-mail
+- Adresse e-mail déjà utilisée : message neutre
+- Expiration de session hors connexion : l'utilisateur garde accès à ses données locales
+- Attribution du rôle porteur : opération manuelle réservée, jamais auto-attribuée
+- Mode d'inscription des testeurs (invitation, code, ouverture libre) `[A DECIDER]`
+
+**Dépend de :** US-000
+
+---
+
+### US-018 [Tech] — Implémenter la sauvegarde des séances dans le compte
+
+**Feature source :** F09 — Sauvegarde des séances dans le compte
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs
+**JTBD :** Transverse
+
+En tant que développeur
+Je veux implémenter l'enregistrement des séances sur le serveur, rattachées au compte, avec récupération sur tout appareil
+Afin que l'utilisateur retrouve ses séances après changement de téléphone ou réinstallation
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Sauvegarde et récupération
+  Given l'utilisateur enregistre une séance
+  When la connexion est disponible
+  Then la séance est envoyée au serveur et rattachée à son compte
+  And elle est retrouvée à la connexion sur un autre appareil
+
+Scénario : Séance créée hors connexion
+  Given l'utilisateur crée une séance sans réseau
+  When la connexion revient
+  Then la séance est synchronisée automatiquement en arrière-plan
+  And un indicateur discret confirme « Séances à jour »
+
+Scénario : Erreur — Échec d'enregistrement serveur
+  Given le serveur ne répond pas
+  When l'app tente d'enregistrer
+  Then la séance reste en local avec le statut « en attente de synchronisation »
+  And l'app réessaie avec un délai croissant
+  And un message rassurant informe que la séance est en sécurité sur l'appareil
+
+**Edge cases à couvrir**
+- Même séance modifiée sur deux appareils : la version la plus récente est conservée, l'ancienne est archivée
+- Suppression d'une séance : confirmation, mise en corbeille de 30 jours `[A DECIDER]`
+- Séance volumineuse : compression avant envoi
+- Quotas de stockage par compte
+- Suppression du compte : suppression des séances avec confirmation
+
+**Dépend de :** US-000, US-006, US-014, US-017
+
+---
+
+## F06 — Fiches accidents (Should)
+
+### US-010 [Design] — Concevoir les fiches accidents
+
+**Feature source :** F06 — Fiches accidents
+**Status :** Backlog
+**Type :** Design
+**Persona :** Camille, qui craint de se noyer dans le détail à l'écrit ; Anaïs, qui cherche des repères rapides
+**JTBD :** JTBD-F3 (Maîtriser les accidents), JTBD-F2
+
+En tant que designer
+Je veux concevoir des fiches accidents au format imposé par l'examen (nom, mécanisme, causes, facteurs favorisants, symptômes, conduite à tenir, prévention)
+Afin que Camille révise chaque accident dans un format qu'elle pourra reproduire au tableau
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Fiche complète (PCM)
+  Given je conçois la fiche perte de contrôle moteur (samba)
+  When je structure le contenu
+  Then la fiche contient les 7 champs dans l'ordre imposé
+  And conduite à tenir et prévention distinguent le rôle de l'apnéiste et celui de l'IE
+  And les signes visibles par l'encadrant sont mis en évidence (lâcher de bulles, accélération en fin d'apnée, changement de trajectoire)
+  And un lien affiche les exercices qui portent le risque
+
+Scénario : Fiche incomplète
+  Given un accident dont le contenu n'est pas fourni par les documents sources
+  When la fiche s'affiche
+  Then les champs manquants affichent « À compléter avec le MFA ou la CRA »
+  And la fiche ne présente jamais de contenu inventé
+
+Scénario : Navigation de révision
+  Given l'utilisateur consulte une fiche
+  When il fait défiler les champs
+  Then une barre de progression montre les 7 champs
+  And un bouton « Revoir plus tard » enregistre la fiche dans une liste de révision
+
+**Edge cases à couvrir**
+- Mode mémorisation : masquer un champ pour se tester
+- Impression ou capture : mise en page lisible d'une fiche sur une page
+- Accessibilité : hiérarchie de titres claire pour lecteur d'écran
+- Contenu long : sections repliables sur petit écran
+
+**Dépend de :** Aucune
+
+---
+
+### US-011 [Tech] — Implémenter la base de fiches accidents
+
+**Feature source :** F06 — Base de fiches accidents
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs
+**JTBD :** JTBD-F3, JTBD-F2
+
+En tant que développeur
+Je veux implémenter une base de fiches accidents embarquée avec un indicateur de complétude et les liens vers les tags d'exercices
+Afin que l'utilisateur consulte les fiches hors connexion et voie le lien accident-exercice
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Consultation d'une fiche complète
+  Given l'utilisateur ouvre la fiche PCM
+  When la fiche se charge
+  Then les 7 champs sont affichés depuis le stockage local
+  And le temps de chargement est inférieur à 300 ms
+  And le statut de complétude est « complet »
+
+Scénario : Fiches partielles
+  Given une fiche dont le statut de complétude est « partiel » ou « non fourni »
+  When elle se charge
+  Then l'indicateur de complétude est affiché
+  And les champs manquants sont vides avec un message d'invitation à compléter
+
+Scénario : Lien accident-exercice
+  Given un exercice porte le tag PCM_SAMBA
+  When l'utilisateur ouvre sa fiche
+  Then un lien mène à la fiche accident correspondante
+
+**Edge cases à couvrir**
+- Contenu corrompu : restauration de la version embarquée
+- Mise à jour du contenu : conserver la liste « Revoir plus tard »
+- Fiche absente pour un tag : lien masqué
+- Recherche par nom d'accident et par synonyme (PCM, samba)
+
+**Dépend de :** US-000, US-014
+
+---
+
+## F07 — Checklist d'auto-évaluation (Should)
+
+### US-012 [Design] — Concevoir la checklist d'auto-évaluation
+
+**Feature source :** F07 — Checklist d'auto-évaluation
+**Status :** Backlog
+**Type :** Design
+**Persona :** Camille, qui veut savoir si sa séance passerait l'examen
+**JTBD :** JTBD-E1 (Me sentir prêt et confiant), JTBD-F6 (Justifier mes choix)
+
+En tant que designer
+Je veux concevoir une checklist calquée sur la grille officielle /20 et un auto-diagnostic sécurité en 12 questions
+Afin que Camille sache où elle en est avant le jour J sans se sentir jugée
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Checklist par bloc
+  Given je conçois l'écran de checklist
+  When je structure les éléments
+  Then 5 blocs sont affichés avec leur pondération : présentation au jury (3), présentation aux élèves (2), déroulement forme (5), déroulement fond (8), fin de séance (2)
+  And chaque critère est une case à cocher avec une aide courte
+  And les cases pouvant être déduites de la séance sont pré-cochées avec une mention « détecté dans ta séance »
+
+Scénario : Résultat — Score et pistes
+  Given l'utilisateur a terminé la checklist
+  When il consulte le résultat
+  Then un score /20 est affiché avec une interprétation bienveillante (ex : « Solide », « À renforcer »)
+  And les 3 points prioritaires à corriger sont listés avec un lien vers la séance
+  And le diagnostic sécurité en 12 questions est présenté séparément
+
+Scénario : Mise en garde
+  Given le score est affiché
+  When l'utilisateur le lit
+  Then une mention précise : « Auto-évaluation indicative. Elle ne remplace pas l'avis de ton tuteur. »
+
+**Edge cases à couvrir**
+- Séance incomplète : checklist consultable avec les cases non cochées expliquées
+- Score faible : message encourageant sans ton alarmiste
+- Nouvelle évaluation après correction : comparer avec le score précédent
+- Accessibilité : cases à cocher accessibles au clavier et au lecteur d'écran
+
+**Dépend de :** US-005
+
+---
+
+### US-013 [Tech] — Implémenter le calcul du score et du diagnostic sécurité
+
+**Feature source :** F07 — Calcul du score et du diagnostic sécurité
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille
+**JTBD :** JTBD-E1, JTBD-F6
+
+En tant que développeur
+Je veux implémenter le calcul du score /20 par bloc, la détection automatique de critères satisfaits et le diagnostic sécurité
+Afin que la checklist reflète fidèlement la séance construite
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Calcul du score
+  Given l'utilisateur a coché 12 critères répartis sur les 5 blocs
+  When le score est calculé
+  Then chaque bloc est noté au prorata des critères cochés et de sa pondération
+  And le total est arrondi à 0,5 près
+  And le score est sauvegardé avec la séance et la date
+
+Scénario : Détection automatique
+  Given une séance qui contient un échauffement, un protocole de sortie et un critère d'évaluation
+  When la checklist s'ouvre
+  Then les critères correspondants sont pré-cochés
+  And l'utilisateur peut les décocher
+
+Scénario : Erreur — Barème absent
+  Given le fichier de barème est indisponible
+  When l'app calcule le score
+  Then l'app charge le barème embarqué par défaut
+  And aucun score erroné n'est affiché
+
+**Edge cases à couvrir**
+- Séance modifiée après l'évaluation : le score précédent est marqué comme obsolète
+- Barème versionné pour suivre les évolutions de la grille officielle
+- Diagnostic sécurité : 12 réponses oui/non, résultat en trois niveaux
+- Tests unitaires : score minimum, maximum et cas intermédiaires
+
+**Dépend de :** US-000, US-006, US-008
+
+---
+
+## F05 — Export et partage des séances (Should)
+
+### US-019 [Design] — Concevoir l'export et le partage d'une séance
+
+**Feature source :** F05 — Export et partage d'une séance
+**Status :** Backlog
+**Type :** Design
+**Persona :** Camille, qui veut montrer sa séance à son tuteur ; Anaïs, qui veut la partager avec d'autres candidats
+**JTBD :** JTBD-S1 (Être jugé crédible par mon tuteur), JTBD-F6 (Justifier mes choix)
+
+En tant que designer
+Je veux concevoir un parcours d'export et de partage d'une séance depuis son écran, adapté au mobile
+Afin que l'utilisateur envoie une séance lisible à son tuteur ou à un autre candidat en quelques gestes
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Export depuis une séance
+  Given l'utilisateur consulte une séance
+  When il appuie sur « Partager »
+  Then un choix simple propose les formats disponibles (fichier lisible, lien, fichier de données `[A DECIDER]`)
+  And le partage utilise le menu de partage du téléphone
+  And un aperçu montre ce qui sera envoyé
+
+Scénario : Contenu de l'export
+  Given l'utilisateur prévisualise l'export
+  When il lit l'aperçu
+  Then l'export contient : titre, paramètres, objectif et critère d'évaluation, phases (durée, contenu, consignes, position de l'encadrant, critères de réussite), éléments de sécurité et alertes en cours
+  And chaque règle conserve son origine (corpus, suggestion, hors corpus) et son statut de validation
+  And la mention « Outil d'entraînement, ne remplace pas le tuteur ni le MFA » figure en pied
+
+Scénario : Séance non sauvegardée
+  Given la séance n'est pas encore enregistrée
+  When l'utilisateur appuie sur « Partager »
+  Then un message invite à l'enregistrer d'abord : « Enregistre ta séance pour pouvoir la partager. »
+
+**Edge cases à couvrir**
+- Séance très longue : mise en page lisible sur plusieurs pages
+- Séance avec une alerte bloquante : mention visible dans l'export
+- Destinataire sans compte : le fichier se lit sans compte
+- Lien de partage : possibilité de le désactiver
+- Accessibilité : fichier exporté avec une structure de titres lisible
+
+**Dépend de :** US-005, US-016
+
+---
+
+### US-020 [Tech] — Implémenter la génération de l'export
+
+**Feature source :** F05 — Génération de l'export
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs
+**JTBD :** JTBD-S1, JTBD-F6
+
+En tant que développeur
+Je veux implémenter la génération de l'export d'une séance et son envoi via le partage du système
+Afin que la séance soit transmise sous une forme fidèle et lisible
+
+**Critères d'acceptation**
+
+Scénario : Happy path — Génération du fichier
+  Given l'utilisateur demande l'export d'une séance enregistrée
+  When le fichier est généré
+  Then il contient tous les champs du modèle de séance et ses alertes en cours
+  And la génération prend moins de 3 secondes pour une séance de 20 phases
+  And le menu de partage du système s'ouvre avec le fichier
+
+Scénario : Statuts et mentions conservés
+  Given la séance contient des entrées hors documents sources
+  When l'export est généré
+  Then chaque entrée garde son origine et son statut de validation
+  And la mention de non-remplacement du tuteur figure dans l'export
+
+Scénario : Erreur — Génération impossible
+  Given la génération échoue
+  When l'utilisateur réessaie
+  Then un message explique : « On n'a pas pu préparer ton export. Réessaie dans un instant. »
+  And la séance n'est pas altérée
+
+**Edge cases à couvrir**
+- Hors connexion : l'export fichier fonctionne sans réseau ; le lien de partage nécessite une connexion
+- Navigateur sans partage système : téléchargement du fichier
+- Caractères spéciaux et accents correctement rendus
+- Lien de partage : expiration et révocation `[A DECIDER]`
+- Taille du fichier : limite et compression
+
+**Dépend de :** US-000, US-006, US-018
+
+---
+
+## F10 — Fonctionnement hors connexion et synchronisation (Should)
+
+### US-014 [Tech] — Implémenter le stockage local, le service worker et la synchronisation
+
+**Feature source :** F10 — Stockage local, service worker et synchronisation
+**Status :** Backlog
+**Type :** Tech
+**Persona :** Camille, Anaïs — candidats dont le bassin ou le vestiaire n'a pas toujours de réseau
+**JTBD :** Transverse
+
+En tant que développeur
+Je veux implémenter le stockage local (IndexedDB) et un service worker qui met en cache l'app et le contenu
+Afin que l'app fonctionne sans connexion pour toutes les opérations de la v1
+
+**Critères d'acceptation**
+
+Scénario : Happy path — App utilisable hors connexion
+  Given l'utilisateur a déjà ouvert l'app en ligne au moins une fois
+  When il perd la connexion
+  Then l'app reste fonctionnelle : paramétrage, catalogue, constructeur, alertes, fiches accidents, checklist
+  And les séances sont sauvegardées en local
+  And un indicateur discret montre « Mode hors ligne »
+
+Scénario : Première ouverture sans connexion
+  Given l'utilisateur ouvre l'app pour la première fois sans réseau
+  When le service worker n'a pas encore mis en cache le contenu
+  Then un message explique qu'une première connexion est nécessaire
+  And l'app ne plante pas
+
+Scénario : Erreur — Stockage plein
   Given le stockage local est plein
-  When l'utilisateur tente de sauvegarder des donnees
-  Then l'app affiche : "L'espace de stockage est plein. Libere de l'espace pour continuer."
-  And les donnees existantes ne sont pas corrompues
-  And les operations de lecture restent fonctionnelles
+  When l'utilisateur enregistre une séance
+  Then l'app affiche : « L'espace de stockage est plein. Libère de l'espace pour continuer. »
+  And les séances existantes ne sont pas corrompues
 
-**Edge cases a couvrir**
-- Quota IndexedDB depasse : nettoyage des caches non essentiels en priorite
-- Service worker non supporte (navigateur ancien) : fallback online-only avec avertissement
-- Mise a jour du service worker : activation silencieuse au prochain lancement
-- Corruption de la base IndexedDB : detection et reinitialisation depuis le serveur
+**Edge cases à couvrir**
+- Navigateur sans service worker : fonctionnement en ligne avec avertissement
+- Mise à jour du contenu : activation silencieuse au prochain lancement
+- Données locales effacées par le navigateur : restauration des séances depuis le compte à la prochaine connexion
+- Synchronisation avec le compte : traitée dans US-018 ; ce stockage local sert de file d'attente des modifications
+- Schéma de stockage versionné avec migrations
 
-**Depend de :** US-000
-
----
-
-### US-020 [Tech] — Implementer la detection de connexion et la synchronisation automatique
-
-**Feature source :** F10 — Detection connexion et sync auto
-**Status :** Backlog
-**Type :** Tech
-**Persona :** Lea, Sophie
-**JTBD :** Transverse
-
-En tant que developpeur
-Je veux implementer la detection de connexion et la synchronisation automatique des donnees en attente
-Afin que les donnees creees offline soient synchronisees des que la connexion revient
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Retour de connexion
-  Given l'utilisateur a cree des donnees offline (plantes, arrosages)
-  When la connexion internet revient
-  Then l'app detecte le retour de connexion automatiquement
-  And les donnees en attente sont synchronisees en background (pas de blocage UI)
-  And un indicateur discret montre "Synchronisation en cours..."
-  And une fois termine : "Tout est a jour"
-
-Scenario : Connexion intermittente
-  Given la connexion est instable (Wi-Fi faible, metro)
-  When l'app detecte des coupures frequentes
-  Then l'app ne tente pas de synchroniser a chaque micro-reconnexion
-  And un debounce de 5 secondes est applique avant de lancer la sync
-  And les operations de sync echouees sont remises en file d'attente
-
-Scenario : Erreur — Sync echouee
-  Given la synchronisation echoue (erreur serveur, timeout)
-  When l'app detecte l'echec
-  Then les donnees restent en local et marquees "pending_sync"
-  And l'app retente automatiquement (backoff exponentiel : 30s, 1m, 5m)
-  And apres 5 echecs consecutifs, un message discret : "La synchronisation ne fonctionne pas. Tes donnees sont en securite en local."
-
-**Edge cases a couvrir**
-- Passage Wi-Fi vers 4G : ne pas relancer la sync si deja en cours
-- Mode avion active : ne pas tenter de synchroniser
-- Donnees conflictuelles (meme plante modifiee sur 2 appareils) : last write wins par timestamp
-- Volume important a synchroniser : pagination et priorisation (plantes > arrosages > diagnostics)
-
-**Depend de :** US-000, US-019
+**Dépend de :** US-000
 
 ---
 
-### US-021 [Tech] — Implementer la synchronisation en background avec gestion des conflits
+### US-015 [Design] — Concevoir les états dégradés hors connexion
 
-**Feature source :** F10 — Synchronisation en background
-**Status :** Backlog
-**Type :** Tech
-**Persona :** Lea, Sophie
-**JTBD :** Transverse
-
-En tant que developpeur
-Je veux implementer la synchronisation en background via Background Sync API avec resolution de conflits
-Afin que les donnees soient synchronisees meme si l'app est fermee
-
-**Criteres d'acceptation**
-
-Scenario : Happy path — Sync en background
-  Given l'utilisateur a des donnees en attente de sync
-  When l'app est fermee et la connexion revient
-  Then le service worker detecte le retour de connexion
-  And les donnees en attente sont synchronisees en background
-  And une notification locale informe : "Tes donnees ont ete synchronisees"
-
-Scenario : Conflit de donnees — Meme plante modifiee sur 2 appareils
-  Given la meme plante a ete modifiee offline sur 2 appareils
-  When les deux appareils se synchronisent
-  Then la strategie "last write wins" est appliquee (comparaison des timestamps)
-  And la version avec le timestamp le plus recent est conservee
-  And la version perdante est archivee (pas supprimee) pour recuperation manuelle
-
-Scenario : Erreur — Background Sync non supporte
-  Given le navigateur ne supporte pas Background Sync API
-  When l'utilisateur ferme l'app avec des donnees en attente
-  Then les donnees sont synchronisees au prochain lancement de l'app
-  And un message informe : "Certaines donnees n'ont pas encore ete synchronisees."
-
-**Edge cases a couvrir**
-- Suppression d'une plante offline sur un appareil et modification sur un autre : garder la modification
-- Sync partielle interrompue : reprise la ou elle s'est arretee
-- Batterie faible : ne pas lancer de sync en background si batterie < 15%
-- Taille des donnees > 10 Mo : compression avant envoi
-
-**Depend de :** US-000, US-019, US-020
-
----
-
-### US-022 [Design] — Concevoir les etats degrades offline
-
-**Feature source :** F10 — Etats degrades offline
+**Feature source :** F10 — États dégradés hors connexion
 **Status :** Backlog
 **Type :** Design
-**Persona :** Lea, la debutante qui ne comprend pas les erreurs techniques — Sophie, la passionnee en mobilite
+**Persona :** Camille, Anaïs
 **JTBD :** Transverse
 
 En tant que designer
-Je veux concevoir les etats degrades de l'app quand certaines fonctionnalites ne sont pas disponibles offline
-Afin que l'utilisateur comprenne ce qui marche et ce qui ne marche pas sans etre frustre
+Je veux concevoir les états de l'app quand la connexion est absente ou que le stockage local est limité
+Afin que l'utilisateur comprenne ce qui fonctionne sans être inquiété pour ses séances
 
-**Criteres d'acceptation**
+**Critères d'acceptation**
 
-Scenario : Happy path — Indicateur offline discret
+Scénario : Happy path — Indicateur hors connexion discret
   Given l'utilisateur perd la connexion
-  When l'app passe en mode offline
-  Then un indicateur discret apparait (barre fine en haut, pas de popup bloquant)
-  And le message est rassurant : "Mode hors ligne — tes donnees sont en securite"
-  And les fonctionnalites disponibles restent pleinement accessibles
+  When l'app passe en mode hors ligne
+  Then une barre fine apparaît en haut (pas de popup bloquant)
+  And le message est rassurant : « Mode hors ligne — tes séances sont enregistrées sur cet appareil et seront synchronisées au retour de la connexion »
+  And toutes les fonctionnalités de la v1 restent accessibles
 
-Scenario : Fonctionnalite indisponible — Diagnostic offline
-  Given l'utilisateur tente un diagnostic sans connexion
-  When l'ecran de diagnostic s'affiche
-  Then un message clair : "Le diagnostic a besoin d'internet. Ta photo sera analysee des que la connexion reviendra."
-  And un bouton "Prendre la photo quand meme" est propose (sauvegarde locale)
-  And des conseils d'observation generaux sont proposes en attendant
+Scénario : Modifications en attente de synchronisation
+  Given l'utilisateur a modifié des séances hors connexion
+  When il consulte la liste de ses séances
+  Then un indicateur discret précise « Modifications en attente de synchronisation »
+  And les séances restent entièrement consultables et modifiables
+  And une aide explique qu'elles seront enregistrées dans le compte au retour de la connexion
 
-Scenario : Retour de connexion — Transition fluide
+Scénario : Retour de connexion
   Given l'utilisateur retrouve la connexion
-  When l'app detecte le retour
-  Then l'indicateur offline disparait avec une animation douce
-  And un message ephemere : "Connexion retrouvee ! Synchronisation en cours..."
-  And les fonctionnalites redeviennent disponibles progressivement
+  When l'app détecte le retour
+  Then l'indicateur disparaît avec une animation douce
+  And un message éphémère confirme « Connexion retrouvée »
 
-**Edge cases a couvrir**
-- Connexion tres lente (< 100 kbps) : traiter comme offline pour les operations lourdes
-- Offline prolonge (> 24h) : pas de message alarmiste, juste "Tes donnees sont en securite en local"
-- Premiere utilisation offline : experience minimale mais fonctionnelle
-- Transition rapide online/offline (metro) : pas de clignotement de l'indicateur (debounce 3s)
+**Edge cases à couvrir**
+- Hors ligne prolongé (> 24 h) : aucun message alarmiste
+- Transition rapide entre en ligne et hors ligne : pas de clignotement (debounce de 3 s)
+- Mise à jour du contenu disponible : proposition discrète de recharger
+- Accessibilité : l'indicateur est annoncé au lecteur d'écran
 
-**Depend de :** US-019
+**Dépend de :** US-014
 
 ---
 
 ## Matrice de couverture
 
-| Persona | US associees |
+| Persona | US associées |
 |---------|-------------|
-| Lea | US-000 a US-022 (toutes) |
-| Sophie | US-010 a US-022 |
+| Camille | US-000 à US-020 (toutes sauf US-021 et US-022) |
+| Anaïs | US-000, US-003 à US-009, US-010, US-011, US-014 à US-020 |
+| Porteur du projet | US-016, US-017, US-021, US-022 |
 
 ## Points d'attention pour le design
-- Ton bienveillant et non-jugeant sur TOUS les ecrans (principe transversal JTBD-E1)
-- Mobile-first : bottom nav, gestes swipe, format court et visuel
-- Etats vides accueillants (jamais de "Aucun resultat" sec)
-- Messages d'erreur sans les mots "erreur", "invalide", "obligatoire"
-- Accessibilite : contrastes, lecteur d'ecran, navigation clavier
+- Ton bienveillant et non-jugeant sur TOUS les écrans (principe transversal JTBD-E4)
+- Sécurité d'abord : une alerte explique toujours le « pourquoi » et cite sa source
+- Statut de fiabilité (corpus, suggestion, hors corpus) visible sur chaque règle et chaque exercice
+- Mobile-first (décision validée) : bottom nav, gestes swipe, zones tactiles d'au moins 44 px, lecture à une main
+- Statut d'origine et de validation du contenu visible partout, y compris dans les exports
+- États vides accueillants (jamais de « Aucun résultat » sec)
+- Messages sans les mots « erreur », « invalide », « obligatoire »
+- Accessibilité : contrastes, lecteur d'écran, navigation clavier, information jamais portée par la couleur seule
 
 ## Points d'attention pour le dev
-- Architecture offline-first : stockage local prioritaire, sync en background
-- Setup technique (US-000) est prerequis a toutes les US Tech
-- Dependances : US-019 (stockage local) est prerequis pour US-002, US-006, US-012, US-020, US-021
-- API externes : identification (PlantNet), diagnostic (a definir) — gestion des etats degrades critique
-- Compression photo : max 1 Mo pour stockage, max 500 Ko pour envoi API
-- Notifications push : opt-in explicite, max 1/semaine/plante, regroupement si > 3 plantes
+- Architecture avec backend : comptes, séances sauvegardées dans le compte, rôles porteur et testeur, contrôle d'accès côté serveur
+- Stockage local prioritaire pour la consultation et file d'attente de synchronisation
+- Setup technique (US-000) est prérequis à toutes les US Tech
+- Dépendances : US-017 (authentification) est prérequis pour US-002, US-018, US-021, US-022 ; US-014 (stockage local) pour US-002, US-004, US-006, US-011 ; US-018 (sauvegarde) pour US-020
+- Contenu pédagogique en JSON versionné et validé par schéma ; modèle de données défini dans 05_modele_donnees_app.md
+- Moteur de règles testé règle par règle (ALR-001 à ALR-020)
+- Contenu hors corpus : jamais présenté comme règle FFESSM ; relu et validé par le porteur du projet avant mise à disposition des testeurs (US-021, US-022)
+- Export : conserve origine, statut de validation et mention de non-remplacement du tuteur
+- Mode d'inscription des testeurs et format d'export préféré `[A DECIDER]`
