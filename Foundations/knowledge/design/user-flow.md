@@ -1,38 +1,46 @@
-# User flow — App Plante
+# User flow — App Apnée
 
 > Statut : DRAFT
-> Date : 2026-07-24
+> Date : 2026-11-22
 > Source : brief.md, feature-breakdown.md, user-stories.md, arborescence.md
-> Scope : features Must (F01, F02, F06, F09) + Should prioritaires (F03, F04)
+> Scope : features Must (F02, F03, F09, F10) + Should prioritaires (F04, F05, F07) + Should secondaire (F06)
 
 ## Vue d'ensemble
 
-Le parcours part de l'ouverture de l'application, passe par un onboarding minimal, l'ajout d'une première plante, puis la collection. Depuis la fiche d'une plante, l'utilisateur accède à trois actions clés : le guide d'observation pour l'arrosage, le journal d'arrosage (avec rappels bienveillants opt-in), et le scan diagnostic. Le mode hors ligne est une contrainte transversale qui s'applique à l'ensemble du parcours.
+Le parcours part de l'ouverture de l'application, sans création de compte, passe par un disclaimer et une mention sur les données enregistrées sur l'appareil, puis arrive sur « Mes séances ». De là, l'utilisateur emprunte deux chemins qui se rejoignent : créer une séance unitaire (paramétrage, choix des exercices, construction par phases) ou ouvrir son Carnet IE de 10 séances, dont chaque emplacement mène au même constructeur. Depuis une séance, il accède aux alertes de sécurité, à la checklist d'auto-évaluation et aux fiches accidents. Depuis le carnet, il accède à la vue de cohérence. L'export (lien, PDF ou fichier) et l'import permettent de partager sans base de données. Le mode hors ligne est une contrainte transversale qui s'applique à l'ensemble du parcours.
 
 ## Étapes du parcours
 
-1. **Première ouverture** — nouvel utilisateur, aucune donnée existante.
-2. **Onboarding (< 60s)** — 3 écrans, aucune création de compte requise. L'utilisateur peut à tout moment cliquer sur "Passer", ce qui l'envoie directement à la collection (état vide), en sautant l'ajout de plante.
-3. **Ajouter une plante** — formulaire minimal : nom + photo optionnelle. Complétable en moins de 30 secondes.
-4. **Collection de plantes** — vue liste de toutes les plantes ajoutées, avec état vide accueillant si aucune plante.
-5. **Fiche d'une plante** — écran central qui donne accès aux trois actions suivantes.
-6. **Guide arrosage** (F02) — carte interactive à 3 zones (terre, feuilles, pot) pour apprendre à observer avant d'arroser, sans fréquence fixe imposée.
-7. **J'ai arrosé** (F03) — enregistrement d'un arrosage en un tap, historique visuel, rappels bienveillants opt-in (max 1/semaine/plante).
-8. **Scan diagnostic** (F04) — prise de photo d'une feuille suspecte, envoi pour analyse.
-9. **Résultat + protocole** — diagnostic (problème identifié, niveau de confiance) et protocole de traitement en étapes numérotées.
+1. **Première ouverture** — nouvel utilisateur, aucune donnée existante, aucune création de compte.
+2. **Disclaimer** — message court avant l'usage : l'outil est théorique et le créateur décline toute responsabilité. Bouton « J'ai compris » ; le texte reste accessible depuis le menu « À propos ». Un bandeau discret explique ensuite que les séances sont enregistrées sur cet appareil et qu'un export sert de sauvegarde.
+3. **Mes séances (état vide)** — écran d'accueil avec deux entrées : « Créer une séance » et « Ouvrir mon Carnet IE ». L'état vide est accueillant. Après la première séance, la liste affiche titre, niveau, saison, milieu et date de modification.
+4. **Paramétrage de la séance** (F03, étape 1) — 5 choix guidés : niveau des élèves (AEL, ACEL), moment de la saison, milieu (piscine, fosse), philosophie de l'instructeur, profil d'encadrant (IE1 par défaut). Valeurs par défaut présélectionnées. Pour une séance du carnet, le moment de la saison est pré-rempli d'après la phase de l'emplacement.
+5. **Catalogue d'exercices** (F02) — liste filtrée par les paramètres, puis fiche d'exercice en 4 blocs : pourquoi on le fait, points de sécurité, variantes, paramètres. Chaque information porte un badge d'origine (corpus, suggestion, hors corpus) et de validation (à valider, validé). Bouton « Ajouter à ma séance ».
+6. **Constructeur de séance** (F03, étape 2) — objectif mesurable et critère d'évaluation en tête, puis 8 phases (accueil, exercices à sec, échauffement, prérequis, cœur de séance, application, retour au calme, débriefing). Une phase manquante est signalée par une invitation douce. L'enregistrement est automatique, sur l'appareil.
+7. **Alertes de sécurité** (F04) — panneau qui se met à jour à chaque modification, avec trois niveaux (information, avertissement, bloquant). Chaque alerte explique le « pourquoi », cite sa source et propose une action. Un lien mène à la fiche accident concernée.
+8. **Fiche accident** (F06) — fiche au format de l'examen (7 champs), accessible depuis une alerte, une fiche d'exercice ou le menu. Les accidents absents des documents sources affichent « À compléter ».
+9. **Checklist d'auto-évaluation** (F07) — grille en 5 blocs calquée sur la notation /20, cases pré-cochées d'après la séance, score et trois points prioritaires à corriger, puis auto-diagnostic sécurité en 12 questions.
+10. **Carnet IE** (F10) — création du carnet (titre, date d'examen, 10 emplacements numérotés dans l'ordre chronologique), compteur « n séances sur 10 ». Chaque emplacement mène au constructeur (« Construire cette séance ») ou lie une séance existante. Réorganisation par glisser-déposer.
+11. **Séance dans le carnet** — bloc « Dans ton carnet » : rang n sur 10, séance précédente et suivante, ce que la séance suppose acquis, ce qu'elle prépare, évolution en mots simples (plus de travail hypercapnique, même dominante).
+12. **Vue de cohérence** — frise des 10 séances (dominante, niveau de risque), courbe de volume, bande des phases de saison avec la date de l'examen, points de vigilance non bloquants, synthèse « pourquoi cet ordre » modifiable.
+13. **Partager** (F05) — choix du format depuis une séance : lien de partage, fichier lisible (PDF), fichier de séance importable. Le lien est limité à 2000 caractères ; si la séance est trop longue, l'option est désactivée et le fichier est proposé. Le carnet complet se partage par fichier (PDF et fichier importable). Le disclaimer figure dans chaque export.
+14. **Importer** — l'utilisateur ouvre un fichier ou un lien reçu, voit un aperçu de la séance ou du carnet, puis choisit « Ajouter à mes séances ». Un fichier illisible affiche un message bienveillant.
 
-## Contrainte transversale : mode hors ligne (F10)
+## Contrainte transversale : mode hors ligne (F09)
 
-L'app reste utilisable sans connexion : consultation de la collection, ajout de plante, guide d'observation, journal d'arrosage. Seul le diagnostic (F04) nécessite une connexion — en son absence, la photo est sauvegardée et l'analyse est différée jusqu'au retour de la connexion.
+L'app reste utilisable sans connexion une fois chargée : paramétrage, catalogue, constructeur, alertes, fiches accidents, checklist, carnet, vue de cohérence, génération et lecture des fichiers d'export. Aucune étape ne dépend d'un serveur ni d'une authentification. Une barre fine indique « Mode hors ligne » sans bloquer l'usage. À la toute première ouverture sans réseau, un message explique qu'une première connexion est nécessaire pour mettre l'app en cache. Les données sont liées à l'appareil et au navigateur : si le stockage est plein ou effacé, l'utilisateur est invité à exporter ou à importer une sauvegarde.
 
 ## Légende
 
-- **Cœur du parcours (Must)** : ouverture, onboarding, ajout de plante, collection, fiche plante, guide arrosage, journal d'arrosage.
-- **Diagnostic (Should)** : scan diagnostic, résultat + protocole — différenciateur premium, dépend de la fiabilité technique de l'API.
+- **Cœur du parcours (Must)** : ouverture, disclaimer, Mes séances, paramétrage, catalogue, constructeur, carnet IE, séance dans le carnet, vue de cohérence, usage hors ligne.
+- **Garde-fous et partage (Should)** : alertes de sécurité, checklist d'auto-évaluation, export et import, fiches accidents — la sécurité reste portée en Must par les fiches d'exercices du catalogue.
+- **Hors scope du parcours** : mode examen blanc (Could), onboarding dédié, compte et synchronisation.
 
 ## Points d'attention
 
-- Ton bienveillant et non-jugeant sur tous les écrans, y compris les messages d'erreur et les états vides.
-- Aucun champ taxonomique ni configuration complexe à l'ajout d'une plante.
-- Les rappels d'arrosage sont opt-in, jamais activés par défaut, et plafonnés à 1 par semaine et par plante.
-- Le scan diagnostic doit toujours proposer un état dégradé clair en cas d'absence de connexion ou de faible confiance du résultat.
+- Aucun compte, aucune connexion demandée à aucune étape ; le disclaimer et la mention sur les données locales s'affichent dès le premier lancement.
+- Ton bienveillant et non-jugeant sur tous les écrans, y compris les alertes, les messages d'erreur et les états vides.
+- Le carnet compte exactement 10 emplacements ; les points de vigilance de cohérence ne sont jamais bloquants.
+- Le lien de partage ne dépasse jamais 2000 caractères : un indicateur prévient avant génération et le fichier prend le relais.
+- Chaque règle ou exercice affiche son origine et son statut de validation, y compris dans les exports.
+- Les actions critiques (supprimer une séance, réorganiser le carnet) restent annulables pendant quelques secondes.

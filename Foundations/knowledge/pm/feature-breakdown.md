@@ -1,72 +1,60 @@
-# Decoupage fonctionnel — Application de suivi de plantes
+# Découpage fonctionnel — Simulateur de séances d'apnée (préparation IE)
 
 > Statut : PRIORISATION MOSCOW — A VALIDER
 > Source : knowledge/pm/brief.md
-> Date : 2026-07-03
-> Personas cibles : Lea (prioritaire), Sophie (secondaire)
-> JTBD couverts : F1, F2, F6
+> Date : 2026-11-22
+> Personas cibles : Camille (prioritaire), Anaïs (secondaire)
+> JTBD couverts : F1, F2, F5, F6, E1 (+ F3 en Should, S1 en partie via l'export)
 
 ## Couverture JTBD
 
-| JTBD | Features associees | Fréquence |
-|------|-------------------|-----------|
-| **JTBD-F1** : Savoir quand arroser sans tuer ma plante | F01, F02, F03 | 16/16 |
-| **JTBD-F2** : Identifier ce qui ne va pas avant qu'il soit trop tard | F04, F05 | 11/16 |
-| **JTBD-F6** : Apprendre à observer mes plantes | F06, F07 | 13/16 |
-| **JTBD-E1** : Me sentir responsable sans être jugé | F08 | 9/16 |
-| *Transverse* | F09, F10 | — |
+| JTBD | Features associées | Priorité hypothétique |
+|------|-------------------|-----------------------|
+| **JTBD-F1** : Construire une séance cohérente avec un objectif mesurable | F02, F03 | Critique |
+| **JTBD-F2** : Garantir la sécurité de chaque exercice | F02, F04 | Critique |
+| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | F10 | Critique (relevée par l'utilisateur : carnet de 10 séances à présenter) |
+| **JTBD-F6** : Justifier mes choix devant le jury | F02, F10, F08 | Critique |
+| **JTBD-E1** : Me sentir prêt et confiant avant le jour J | F07, F08 | Critique |
+| **JTBD-F3** : Maîtriser les accidents pour l'écrit et le terrain | F06 | Critique |
+| **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury | F05 | Importante |
+| *Transverse* | F09 | — |
 
-## Features proposees
+## Features proposées
 
-### Bloc 1 : Hydratation (JTBD-F1)
+### Bloc 1 : Construction de séance (JTBD-F1)
 
 | # | Feature | Description | JTBD | Persona | Testable |
 |---|---------|-------------|------|---------|----------|
-| **F01** | Ajout de plante minimal | Ajouter une plante avec : nom, photo, date d'ajout. Sans onboarding complexe, sans taxonomie obligatoire. | JTBD-F1, F6 | Léa, Sophie | Oui : l'utilisateur peut ajouter une plante en moins de 30 secondes |
-| **F02** | Guide d'observation pour arrosage | Carte visuelle interactive qui explique comment toucher la terre (3-4cm de profondeur), observer les feuilles (affaissement, tombement), évaluer le poids du pot. Pas de fréquence fixe imposée. | JTBD-F1, F6 | Léa | Oui : l'utilisateur comprend quel signal observer avant d'arroser (test par quiz ou suivi comportemental) |
-| **F03** | Journal d'arrosage simplifié + rappels bienveillants (opt-in) | L'utilisateur enregistre chaque arrosage d'un tap. L'app affiche l'historique visuel (dernier arrosage il y a X jours). **Enrichissement** : toggle "Rappels bienveillants" par plante (opt-in). Si activé : max 1 notification/semaine, ton bienveillant ("Il y a 7 jours que tu n'as pas arrosé ton Monstera. Va toucher la terre pour vérifier si elle en a besoin."). Éduque à l'observation, ne dicte pas l'action. | JTBD-F1, F6 | Léa, Sophie | Oui : l'utilisateur peut voir l'historique d'arrosage + activer/désactiver les rappels |
+| **F02** | Catalogue d'exercices explicatif | Liste d'exercices (STA, DYN, DNF, fosse, sauvetage, mental) filtrée par les paramètres. Chaque fiche affiche : justification pédagogique (« pourquoi on fait ça »), points de sécurité critiques, variantes pour simplifier ou complexifier, niveau de risque. Chaque règle porte un statut d'origine (corpus, suggestion, hors corpus) et un statut de validation par le porteur du projet (à valider, validé), enregistré dans les fichiers de contenu. | JTBD-F1, F6, F2 | Camille, Anaïs | Oui : le candidat ouvre une fiche et lit la justification, la sécurité et le statut en un tap |
+| **F03** | Paramétrage et constructeur de séance (ex-F01 fusionnée) | **Étape 1 : paramétrage.** Saisir 5 paramètres : niveau des élèves (AEL, ACEL), moment de la saison (Reprise, Développement, Pré-compétition/Examen), milieu (piscine, fosse), philosophie de l'instructeur (technique, volume, ludique/détente), profil d'encadrant (IE1 par défaut). Valeurs par défaut proposées, aucun champ superflu ; pour une séance du carnet, le moment de la saison est proposé d'après la phase de la séance (F10). **Étape 2 : construction.** Assembler une séance par phases (accueil et briefing, exercices à sec, échauffement, prérequis, cœur de séance, application, retour au calme, débriefing). Pour chaque phase : durée, contenu, consignes, position de l'encadrant, critères de réussite. Objectif SMART et critère d'évaluation saisis en tête. Enregistrement local sur l'appareil (voir F09). | JTBD-F1, F4, F6 | Camille, Anaïs | Oui : le candidat paramètre sa séance en moins de 60 secondes sur mobile, puis obtient une séance complète avec objectif, phases et critères |
 
-**Challenge F01-F03** : Ces 3 features répondent au pain point majeur (13/16 — sur-arrosage par excès d'amour). Elles éduquent à l'observation (JTBD-F6) plutôt que de créer une dépendance à la notification (pain point : 10/16 ont abandonné des apps pour cause de spam de notifications).
+**Challenge F02-F03** : Ces 2 features répondent au pain point supposé majeur (savoir par où commencer et enchaîner des exercices logiques, hypothèse personas.md). Elles reprennent la structure obligatoire d'une séance FFESSM et le gabarit de préparation écrite du support de stage. Aucune donnée terrain ne confirme encore leur poids relatif.
 
-**Tension à valider** : Pas de notifications push d'arrosage. L'app éduque, elle ne rappelle pas. Cela coupe avec toutes les apps existantes (Planta, Greg) mais c'est aligné avec la donnée UXR (thème 3, 4, 10).
+**Tension à valider** : Pas de séance générée automatiquement. L'app guide la construction et explique ; elle ne propose pas une séance clé en main que le candidat réciterait sans la comprendre. Cela est cohérent avec JTBD-F6 (justifier devant le jury) mais à confirmer auprès des candidats.
 
 ---
 
-### Bloc 2 : Diagnostic visuel (JTBD-F2)
+### Bloc 2 : Sécurité et accidents (JTBD-F2, F3)
 
 | # | Feature | Description | JTBD | Persona | Testable |
 |---|---------|-------------|------|---------|----------|
-| **F04** | Scan visuel + diagnostic | L'utilisateur prend une photo d'une feuille jaune, d'une tache, d'un affaissement. L'app identifie le problème probable (sur-arrosage, carence, parasite, brûlure) et propose un protocole de traitement. | JTBD-F2 | Léa, Sophie | Oui : l'utilisateur obtient un diagnostic en moins de 2 minutes |
-| **F05** | Bibliothèque de symptômes | Catalogue visuel des symptômes courants (feuilles jaunes, taches brunes, affaissement, étiolement) avec photos d'illustration et causes associées. Permet de naviguer par symptôme. | JTBD-F2, F6 | Léa, Sophie | Oui : l'utilisateur peut identifier un symptôme dans la bibliothèque et accéder à une explication |
+| **F04** | Alertes de sécurité en temps réel | Moteur de règles qui évalue la séance à chaque modification : hypoxie en début de saison, deux exercices hypoxiques dans la même séance, surveillance rapprochée absente, profondeur au-delà des prérogatives (IE1 = 6 m), échauffement ou protocole de sortie manquant, matériel de secours au-delà de 6 m. Trois niveaux : information, avertissement, bloquant. Chaque alerte cite sa source et explique le « pourquoi ». | JTBD-F2, F4 | Camille, Anaïs | Oui : placer un exercice hypoxique en Reprise déclenche l'alerte attendue |
+| **F06** | Fiches accidents | Fiches au format imposé par l'examen : nom, mécanisme, causes, facteurs favorisants, symptômes, conduite à tenir, prévention. Contenu complet pour la perte de contrôle moteur (PCM, samba) et la syncope ; autres accidents marqués « à compléter ». Lien avec les tags de sécurité des exercices. | JTBD-F3, F2 | Camille, Anaïs | Oui : le candidat consulte la fiche PCM et retrouve les 7 champs |
 
-**Challenge F04-F05** : Le diagnostic visuel est le 2e pain point majeur (11/16 — synthese.md, thème 2). C'est un différenciateur premium : "Je paierais facilement 20€/an pour du vrai diagnostic" (Sophie, Charlotte). Les apps existantes échouent sur ce point — trop génériques, pas assez précises.
+**Challenge F04, F06** : La sécurité est évaluée dans 4 blocs sur 5 de la grille pratique et les accidents pèsent 2/3 des coefficients de l'écrit (01_referentiel_exam_ie.md). Les accidents autres que PCM et syncope sont absents des documents sources.
 
-**Risque identifié** : La fiabilité du diagnostic est critique. Si l'app se trompe (confond mildiou et manque d'humidité), la confiance s'effondre. Il faut une base d'entraînement solide + validation experte + possibilité de signaler une erreur.
+**Risque identifié** : La fiabilité de la doctrine est critique. Une alerte erronée ou un contenu inventé détruirait la confiance, voire exposerait des élèves. Mitigation décidée : chaque règle affiche son origine (corpus, suggestion, hors corpus) et un statut de validation ; le porteur du projet relit et valide le contenu hors documents sources avant sa mise à disposition des testeurs ; un disclaimer rappelle que l'outil est théorique. Seule la dernière version du MFA fait foi.
 
 ---
 
-### Bloc 3 : Éducation progressive (JTBD-F6)
+### Bloc 3 : Préparation au jury (JTBD-F6, E1)
 
 | # | Feature | Description | JTBD | Persona | Testable |
 |---|---------|-------------|------|---------|----------|
-| **F06** | Fiches plantes éducatives | Pour chaque plante ajoutée, une fiche courte (format TikTok : 60-90 secondes de lecture) qui explique : origine géographique, lumière, arrosage, signes de bonne santé. Visuel, sans jargon. | JTBD-F6, F1 | Léa | Oui : l'utilisateur peut lire une fiche en moins de 90 secondes |
-| **F07** | Inspection quotidienne guidée | Suggestion d'une routine visuelle rapide (2-3 minutes) : "Regarde tes plantes, observe les nouvelles feuilles, touche la terre, repère les changements." Pas de notification quotidienne — juste un écran dédié si l'utilisateur ouvre l'app. | JTBD-F6 | Léa, Sophie | Oui : l'utilisateur peut suivre une checklist d'observation en moins de 3 minutes |
+| **F07** | Checklist d'auto-évaluation | Grille calquée sur la notation officielle /20 (présentation au jury 3 pts, présentation aux élèves 2 pts, déroulement forme 5 pts, fond 8 pts, fin de séance 2 pts) et auto-diagnostic sécurité en 12 questions. Affiche un score et des points à corriger, calculés à partir de la séance construite. | JTBD-E1, F6 | Camille | Oui : le candidat obtient un score /20 et une liste de manques sur sa séance |
+| **F08** | Mode examen blanc | Tirage d'un sujet réaliste parmi les 16 sujets de pédagogie pratique, chronomètre de 30 minutes, trame de présentation au jury (qui, quoi, où, quand, comment, pourquoi) à remplir, puis checklist F07. Entraînement sans enjeu. | JTBD-E1, E4, F6 | Camille | Oui : le candidat déroule un examen blanc de bout en bout |
 
-**Challenge F06-F07** : JTBD-F6 (13/16 — thème 10 : "Observer chaque jour. C'est comme ça qu'on apprend à lire une plante"). Les débutants ne savent pas quoi observer. Ces features éduquent progressivement sans créer de dépendance.
-
-**Alignement mobile-first** : Format court, visuel, TikTok-like (thème 8, 15). Léa (persona prioritaire) utilise TikTok et Instagram comme ressources principales. Hugo : "J'ai pas besoin d'une appli complexe. Juste un guide simple pour pas tuer mes plantes. En mode TikTok — court, visuel, pas de jargon."
-
----
-
-### Bloc 4 : Suivi et historique (JTBD-F6)
-
-| # | Feature | Description | JTBD | Persona | Testable |
-|---|---------|-------------|------|---------|----------|
-| **F12** | Historique de l'état des plantes | Historique visuel de chaque plante : photos dans le temps, états enregistrés (bonne santé, malade, morte), journal d'évolution. Permet de voir l'impact des actions (arrosage, rempotage) et d'apprendre par l'observation dans le temps. | JTBD-F6 | Léa, Sophie | Oui : l'utilisateur peut consulter l'historique d'une plante et voir l'évolution visuelle |
-
-**Challenge F12** : JTBD-F6 (13/16 — "Observer chaque jour. C'est comme ça qu'on apprend à lire une plante"). L'historique permet de développer la compétence d'observation en visualisant l'impact de ses actions. Sophie : "J'aimerais pouvoir garder des photos et voir comment la plante évolue." Léa : "Des fois je me rappelle plus si elle allait bien avant ou si c'est juste une impression."
-
-**Implication technique** : Stockage de photos (local + cloud), timeline visuelle, étiquetage d'états, synchronisation offline.
+**Challenge F07, F08** : L'angoisse de l'épreuve de pédagogie est l'hypothèse centrale du persona prioritaire. F08 est une hypothèse de valeur forte mais non validée : à tester avant d'investir.
 
 ---
 
@@ -74,161 +62,191 @@
 
 **Décision validée** : Certains éléments ne sont pas des features isolées mais des principes de conception qui s'appliquent à toute l'app.
 
-#### 1. Ton bienveillant et non-jugeant
+#### 1. Sécurité d'abord et transparence sur l'origine des règles
 
-**Ancrage UXR** : JTBD-E1 (9/16 — thème 7 : "J'étais plus choqué d'avoir tué quelque chose que triste pour la plante elle-même"). Dimension émotionnelle forte chez les débutants : peur de faire des erreurs, culpabilité. Le ton de l'app doit être bienveillant, pas moralisateur.
-
-**Application** :
-- Copie : "Pas de souci, tes plantes attendent. Prends le temps d'observer la terre avant d'arroser." (pas de "Vous avez oublié d'arroser !")
-- Messages d'erreur : "Oups, on n'a pas pu analyser cette photo. Essaie avec une feuille bien éclairée." (pas de "Erreur : image invalide")
-- États vides : "Tu n'as pas encore ajouté de plante. Prêt à accueillir la première ?" (pas de "Aucune plante")
-- Notifications : "Il y a 7 jours que tu n'as pas arrosé ton Monstera. Va toucher la terre pour vérifier si elle en a besoin." (pas de "Arrose maintenant !")
-
-**Différenciation** : Axe 5 validé ("Ton bienveillant et non-jugeant"). Les apps existantes ont un ton directif ou moralisateur (synthese.md, thème 3).
-
-#### 2. Design mobile-first
-
-**Ancrage UXR** : Léa (persona prioritaire) utilise principalement son smartphone. Thème 8, 15 : format court, visuel, TikTok-like.
+**Ancrage UXR** : JTBD-F2 et JTBD-E2 (hypothèses). La sécurité traverse la séance entière ; chaque règle affiche son origine (corpus, suggestion, hors corpus), sa source et son statut de validation.
 
 **Application** :
-- Bottom nav, gestes swipe, écrans plein format photo
-- Pas de sidebar desktop
-- Format court (60-90 secondes de lecture), visuel
-- Optimisé pour une utilisation en mobilité (dans un magasin de plantes, au jardin)
+- Copie : « Cette série est la plus exposée au risque de syncope. Prévois une surveillance rapprochée jusqu'à 1 minute après la sortie. » (pas de « Danger ! »)
+- Une suggestion n'est jamais présentée comme règle FFESSM
+- Les informations hors documents sources affichent « À valider » tant que le porteur du projet ne les a pas validées
+- Disclaimer simple, décidé par l'utilisateur : l'outil est théorique et le créateur décline toute responsabilité ; affiché au premier lancement, accessible depuis l'app et repris dans chaque export
+- Rappel permanent : l'app ne remplace ni le tuteur ni le MFA
 
-**Différenciation** : Alignement mobile-first validé par l'utilisateur. Les apps existantes sont souvent pensées desktop-first puis adaptées mobile.
+#### 2. Ton bienveillant et non-jugeant
+
+**Ancrage UXR** : JTBD-E4 (s'entraîner sans jugement) et peur d'être jugé sur le moindre écart (personas.md, hypothèse).
+
+**Application** :
+- Alertes : explicatives, jamais culpabilisantes (« Les exercices hypoxiques sont réservés à la fin de saison : voici une alternative »)
+- Messages d'erreur sans mots comme « erreur », « invalide »
+- États vides : « Tu n'as pas encore construit de séance. Prêt·e à commencer ? »
+
+#### 3. Design mobile-first
+
+**Ancrage** : décision de l'utilisateur (webapp mobile-first). Usage au bord du bassin et entre deux séances (hypothèse personas.md).
+
+**Application** :
+- Bottom nav, gestes swipe, zones tactiles larges
+- Phases de séance repliables, lecture à une main
+- Phrases courtes, hiérarchie claire, pas de jargon non expliqué
+- Optimisé pour une consultation rapide au bord du bassin
+
+#### 4. Architecture 100 % front-end
+
+**Ancrage** : décision de l'utilisateur, validée pour la v1 (designer, déploiement simple sur Vercel ou GitHub Pages). Aucun backend, aucune base de données externe, aucune authentification.
+
+**Application** :
+- Tout le contenu (exercices, règles, fiches accidents, sujets) est embarqué dans l'app sous forme de fichiers versionnés
+- Toutes les données de l'utilisateur restent sur son appareil
+- L'app fonctionne entièrement hors connexion une fois chargée
+- Le partage passe uniquement par l'export (fichier, lien contenant la séance)
 
 ---
 
-### Bloc 5 : Infra et transverse (contraintes techniques)
+### Bloc 4 : Carnet IE et macro-cycle (JTBD-F5, F6)
 
 | # | Feature | Description | JTBD | Persona | Testable |
 |---|---------|-------------|------|---------|----------|
-| **F09** | Onboarding minimal (< 60s) | Écran d'accueil qui explique en 3 phrases ce que fait l'app, propose d'ajouter une première plante immédiatement. Pas de configuration, pas de compte obligatoire au démarrage. | Transverse | Léa | Oui : l'utilisateur complète l'onboarding en moins de 60 secondes |
-| **F10** | Fonctionnement offline | L'app fonctionne offline : ajout de plantes, journal d'arrosage, consultation de fiches, bibliothèque de symptômes. Synchronisation en background quand la connexion revient. | Transverse | Léa, Sophie | Oui : l'utilisateur peut utiliser l'app sans connexion internet |
+| **F10** | Carnet IE de 10 séances (macro-cycle) | Créer un dossier « Carnet IE » qui lie exactement 10 séances encadrées dans un ordre chronologique. **Enchaînement** : chaque séance affiche la précédente et la suivante, ce qu'elle suppose acquis et ce qu'elle prépare. **Suivi de progression** : indicateurs calculés d'une séance à l'autre (dominante foncier, technique, hypercapnie, hypoxie ; volume d'apnée et de travail hypercapnique ; niveau de risque ; moment de la saison). **Vue de cohérence** : frise des 10 séances avec courbes de charge et repères de saison, contrôles de cohérence (ex : hypoxie avant d'avoir travaillé l'hypercapnie, saut de charge brusque) et synthèse « pourquoi cet ordre » pour justifier la progression devant le jury. Le carnet reprend les phases de saison (préparation générale, spécifique, ciblée et affûtage) calées sur l'examen des 24-25 avril 2027. | JTBD-F5, F6, F1 | Camille, Anaïs | Oui : le candidat crée un carnet de 10 séances ordonnées et voit en une vue si sa progression est cohérente |
 
-**Challenge F09** : Pain point majeur (thème 3 — 10/16 ont abandonné pour cause d'onboarding trop long). Thomas : "Ils me demandaient des infos que j'avais pas : l'espèce exacte, l'orientation de la fenêtre au degré près... J'ai lâché avant d'avoir rentré mes 7 plantes."
+**Challenge F10** : Le carnet est l'objet que le candidat doit présenter à son examen (10 séances pratiques encadrées, avec une logique de progression). La feature est promue de Could à Must à la demande de l'utilisateur. Elle réutilise les séances de F03 et leur sauvegarde de F09 ; sa valeur propre est la logique d'enchaînement et sa visualisation. Le suivi de progression repose sur des paramètres chiffrés d'exercices : les exercices hors documents sources donnent des indicateurs partiels, signalés comme tels.
 
-**Challenge F10** : Contrainte technique validée par l'utilisateur (offline-first). Impact sur architecture : PWA ou app native, service workers, stockage local, synchro en background. Implique que F04 (diagnostic visuel) doit soit embarquer un modèle ML on-device, soit afficher un état dégradé offline.
+**Risque identifié** : Les règles de cohérence d'un carnet (seuil de saut de charge, nombre de séances de même dominante, délai entre séances) ne figurent pas dans les documents sources, hormis la logique de saison (hypercapnie avant hypoxie, préparation générale avant spécifique). Elles sont marquées « suggestion » et à valider par le porteur ; elles n'ont jamais valeur de blocage.
+
+**Point à clarifier** : Le parcours de l'examen compte aussi 2 séances théoriques au carnet (01_referentiel_exam_ie.md). Hors scope de la v1 `[A DECIDER]`.
+
+---
+
+### Bloc 5 : Infra et transverse (sauvegarde locale et partage)
+
+| # | Feature | Description | JTBD | Persona | Testable |
+|---|---------|-------------|------|---------|----------|
+| **F09** | Sauvegarde locale, hors connexion et disclaimer | Les séances et le carnet sont enregistrés sur l'appareil via le localStorage du navigateur, sans compte ni authentification. L'app (catalogue, alertes, fiches accidents, constructeur, carnet, checklist) fonctionne totalement hors connexion, au bord de la piscine, une fois chargée. Liste « Mes séances ». Un disclaimer indique que l'outil est théorique et que le créateur décline toute responsabilité. | Transverse | Camille, Anaïs | Oui : l'utilisateur crée une séance en mode avion, recharge la page et la retrouve ; le disclaimer s'affiche au premier lancement |
+| **F05** | Export et partage des séances | Exporter une séance ou le carnet pour le montrer à son tuteur ou le partager : fichier lisible (type PDF) et fichier de données importable ; lien contenant la séance encodée dans l'adresse, d'une longueur de 2000 caractères maximum, sans serveur. Importer une séance reçue. L'export reprend objectif, phases, sécurité, alertes en cours et le disclaimer. | JTBD-S1, F6 | Camille, Anaïs | Oui : l'utilisateur exporte une séance puis l'importe sur un autre appareil ; un lien généré ne dépasse jamais 2000 caractères |
+
+**Challenge F09** : Décision de l'utilisateur, validée : architecture 100 % front-end, sans compte. Compromis assumés : les données restent sur l'appareil et le navigateur ; elles sont perdues si l'utilisateur vide les données du site ou change d'appareil ; le localStorage est limité (de l'ordre de 5 Mo). Le fonctionnement hors connexion découle de l'architecture (contenu embarqué, mise en cache de l'app) et est fusionné ici avec la sauvegarde locale. Le disclaimer est ajouté ici car il est transversal et sans dépendance.
+
+**Challenge F05** : Sans compte, l'export est le seul moyen de partager une séance, de la sauvegarder hors de l'appareil et de la transférer d'un téléphone à un autre. Contrainte décidée : un lien ne dépasse pas 2000 caractères pour éviter les liens cassés. Conséquence : le lien convient à une séance seule, encodée de façon compacte (identifiants d'exercices plutôt que textes complets, compression) ; une séance trop longue ou le carnet complet de 10 séances se partagent par fichier. Point de vigilance : une séance exportée circule hors de l'app ; elle doit conserver le statut d'origine et de validation de son contenu et le disclaimer.
 
 ---
 
 ## JTBD non couverts en v1
 
-| JTBD | Fréquence | Raison hors scope |
-|------|-----------|-------------------|
-| **JTBD-F3** : Partir en vacances sans tuer mes plantes | 14/16 | Confirmé hors scope v1 par l'utilisateur. Complexité élevée (systèmes capillaires, instructions pour tiers, arrosage automatique). Priorité sur diagnostic et observation d'abord. |
-| **JTBD-F4** : Choisir une plante compatible avec mon logement | 8/16 | Nécessite diagnostic de lumière + base de données d'espèces. Complexité technique élevée. Peut être adressé en v2. |
-| **JTBD-F5** : Éradiquer un parasite durablement | 6/16 | Couvert partiellement par F04 (diagnostic) mais pas de protocole progressif d'éradication. Priorité en v2 pour Sophie. |
-| **JTBD-S1** : Appartenir à une communauté | 9/16 | Dimension communautaire (partage, entraide, diagnostic collaboratif) hors scope v1. Nécessite modération, gestion de contenu UGC. Complexité organisationnelle élevée. |
-| **JTBD-F7** : Accéder à des données botaniques fiables pour espèces rares | 6/16 | Persona Jean (collectionneur) hors scope v1. Nécessite bases taxonomiques, API GBIF/The Plant List, granularité par sous-espèce. |
+| JTBD | Priorité hypothétique | Raison hors scope |
+|------|-----------------------|-------------------|
+| **JTBD-F8** : Intégrer les épreuves physiques à mon entraînement | De niche | Hors périmètre du simulateur de séances. Peut être adressé en v2. |
+| **JTBD-F7** : Adapter un exercice au niveau réel du groupe | Importante | Couvert partiellement par les variantes des fiches F02, sans module dédié. |
+| **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury | Importante | Couvert partiellement par l'export (F05) ; pas de validation par un tiers dans l'app. |
+| **JTBD-S2** : Transmettre mon expérience à d'autres candidats | De niche | Partage possible par export uniquement ; pas de dimension communautaire ni de compte en v1. |
+| **JTBD-S3** : Appartenir à la communauté des encadrants | De niche | Hors scope v1. |
 
 ---
 
 ## Récapitulatif
 
-**10 features proposées**, réparties en 5 blocs :
-- **3 features hydratation** (JTBD-F1) — coeur de l'app, incluant rappels bienveillants opt-in validés
-- **2 features diagnostic** (JTBD-F2) — différenciateur premium
-- **2 features éducation** (JTBD-F6) — développement de compétence
-- **1 feature historique** (JTBD-F6) — suivi visuel dans le temps, validée par l'utilisateur
-- **2 features transverses** — onboarding + offline validé
+**9 features proposées** (10 maximum, une place est libre), réparties en 5 blocs :
+- **2 features construction** (JTBD-F1) — cœur de l'app ; le paramétrage est fusionné dans le constructeur
+- **2 features sécurité et accidents** (JTBD-F2, F3) — garde-fous différenciants
+- **2 features préparation au jury** (JTBD-F6, E1) — réduction de l'angoisse
+- **1 feature carnet et macro-cycle** (JTBD-F5, F6) — enchaînement et cohérence des 10 séances, promue en Must
+- **2 features sauvegarde locale et partage** (transverse, JTBD-S1) — architecture 100 % front-end
 
 **Principes de conception transversaux** :
-- **Ton bienveillant et non-jugeant** (JTBD-E1) — s'applique à toute l'app (copie, messages d'erreur, états vides, illustrations)
-- **Design mobile-first** — bottom nav, gestes swipe, format court et visuel
+- **Sécurité d'abord et transparence sur l'origine des règles** — dont le disclaimer
+- **Ton bienveillant et non-jugeant** (JTBD-E4) — copie, alertes, états vides
+- **Design mobile-first** — bottom nav, zones tactiles larges, lecture à une main
+- **Architecture 100 % front-end** — sans backend, compte ni base de données externe
 
-**Couverture JTBD** : 3/7 JTBD critiques couverts (F1, F2, F6), alignés avec le brief validé. 4 JTBD hors scope v1 (F3, F4, F5, S1, F7) avec justifications explicites.
+**Couverture JTBD** : 5 JTBD critiques couverts (F1, F2, F5, F6, E1) plus F3 en Should et S1 en partie. 4 JTBD hors scope v1 (F8, F7 en partie, S2, S3) avec justifications explicites.
 
-**Alignement personas** : 10/10 features répondent aux besoins de Léa (prioritaire). 8/10 répondent aussi à Sophie (secondaire). Jean (collectionneur) non couvert, conformément au brief.
+**Alignement personas** : 9/9 features répondent aux besoins de Camille (prioritaire) à des degrés divers. 7/9 répondent aussi à Anaïs (secondaire). Thomas (apnéiste performant) non couvert, conformément au brief.
 
 **Alignement différenciation** :
-- Axe 1 (pas de notifications spam) : F02, F03 (rappels bienveillants opt-in, max 1/semaine), F07 — éducation, pas de spam
-- Axe 2 (onboarding minimal) : F09 — < 60s
-- Axe 3 (focus observation) : F02, F06, F07 — développement de compétence
-- Axe 4 (diagnostic fiable) : F04, F05 — différenciateur premium
+- Axe 1 (explication du « pourquoi ») : F02, F08, F10
+- Axe 2 (garde-fous de sécurité) : F02, F04, F06
+- Axe 3 (transparence sur l'origine des règles) : F02, F04, principe transversal
+- Axe 4 (checklist calquée sur la grille officielle) : F07, F08
 - Axe 5 (ton bienveillant) : principe de conception transversal
-- Axe 6 (mobile-first) : principe de conception transversal
-- **Nouveau** : Axe 7 (offline-first) : F10 — contrainte technique validée
+- Axe 6 (séances sauvegardées sur l'appareil, utilisables hors connexion et partageables) : F09, F05
+- **Nouveau** : Axe 7 (carnet de 10 séances avec progression visible et justifiable) : F10
 
 ---
 
 ## Points de vigilance avant validation
 
-### 1. Notifications d'arrosage — DECISION VALIDEE, CHALLENGE MAINTENU
+### 1. Fiabilité de la doctrine et contenu hors corpus — DECISION VALIDEE, REVUE A FAIRE
 
-**Décision utilisateur** : OUI, il veut des notifications d'arrosage dans l'app.
+**Constat** : Les documents sources ne contiennent ni les critères détaillés des niveaux AEL et ACEL, ni les protocoles de fosse chiffrés, ni les règles « avant ou après fosse », ni les ratios de surveillance en piscine, ni les accidents autres que PCM et syncope, ni de règles de cohérence entre séances d'un carnet.
 
-**Challenge PM ancré dans la donnée UXR** :
-10/16 utilisateurs ont abandonné les apps existantes (Planta, Greg, Happy Plant) à cause des notifications inadaptées (thème 3, synthese.md). Verbatims :
-- "Au bout d'une semaine j'étais spammée, j'ai désactivé les notifs et du coup l'appli ne servait plus à rien." — Sophie
-- "Des fois ça me dit d'arroser mon cactus alors que j'ai arrosé il y a 3 jours." — Lucie
+**Décision utilisateur** : le porteur du projet relit et valide lui-même le contenu hors documents sources avant sa mise à disposition.
 
-**Compromis proposé** : Notifications intelligentes, non-spam, ancrees dans l'observation
-- **Opt-in explicite** : l'utilisateur active les notifications par plante (pas par défaut)
-- **Basées sur l'observation, pas sur des fréquences fixes** : "Il y a 7 jours que tu n'as pas arrosé ton Monstera. Va toucher la terre pour vérifier si elle en a besoin." (éduque à l'observation, ne dicte pas l'action)
-- **Fréquence limitée** : maximum 1 notification par plante par semaine
-- **Ton bienveillant** : "Pas de souci, tes plantes attendent. Prends le temps d'observer la terre avant d'arroser."
-- **Désactivation facile** : toggle accessible dans les réglages de chaque plante
+**Compromis retenu** : Afficher sur chaque règle et chaque exercice son origine (corpus, suggestion, hors corpus) et son statut de validation (à valider, validé). Sans compte ni backend, le statut de validation est écrit dans les fichiers de contenu du dépôt ; le porteur le modifie par un changement de fichier. Le contenu non validé reste visible avec la mention « À valider ».
 
-**Ce compromis** :
-- Répond à ta demande (notifications présentes)
-- Évite le piège des apps existantes (spam, fréquences fixes inadaptées)
-- Reste aligné avec JTBD-F6 (éduquer à l'observation) et le principe "pas de dépendance à la notification"
+**A valider** : Une seconde relecture par un tuteur ou un MEF est-elle souhaitable avant les tests ? Quelles sources officielles complètent le catalogue ?
 
-**Proposition** : Intégrer ce compromis comme enrichissement de F03 (Journal d'arrosage simplifié) en ajoutant un toggle "Rappels bienveillants" (opt-in).
+### 2. Responsabilité et usage en situation réelle — DECISION VALIDEE
 
-**A valider** : Es-tu d'accord avec ce compromis ? Ou veux-tu des notifications plus fréquentes / plus directives (style "Arrose maintenant") ?
+**Tension** : Le produit prépare à un examen mais ses séances peuvent être appliquées à de vrais élèves, et l'export les fait circuler hors de l'app. Une séance jugée « conforme » par l'app ne garantit pas la sécurité sur le terrain.
 
-### 2. Fiabilité du diagnostic visuel (F04) — `[A DECIDER]`
+**Décision utilisateur** : un simple « Disclaimer » dans l'app indique que l'outil est théorique et que le créateur décline toute responsabilité.
 
-**Tension** : Le diagnostic visuel est le différenciateur clé. Mais si l'app se trompe (confond mildiou et manque d'humidité), la confiance s'effondre. La fiabilité est critique.
+**Application** : affichage au premier lancement, accès permanent depuis l'app, reprise dans chaque export. Les alertes n'ont jamais valeur de validation. Formulation en langage simple ; elle n'a pas fait l'objet d'une relecture juridique `[A DECIDER]` si le produit sort du cercle des testeurs.
 
-**Stratégie de fiabilité** : `[A DECIDER]` — ML maison ? API externe ? Validation experte ? Possibilité de signaler une erreur ?
-
-**Impact sur priorisation** : Si la fiabilité ne peut pas être garantie en v1, F04 pourrait glisser de Must à Should.
+**Impact sur priorisation** : Le disclaimer est livré avec F09 (Must) pour être présent dès les premiers tests.
 
 ### 3. Features manquantes ? — `[A DECIDER]`
 
-**10 features max = principe de PM.** Mais peut-être qu'une feature critique manque ?
+**10 features max = principe de PM (9 aujourd'hui).** Mais peut-être qu'une feature critique manque ?
 
 **Questions à challenger** :
-- Faut-il une feature "Historique visuel de santé" (photos dans le temps) pour observer l'évolution ? (pourrait enrichir F03 ou F06)
-- Faut-il une feature "États de la plante" (morte, malade, en bonne santé) pour aider Léa à trier ? (pourrait compléter F01)
-- Faut-il une feature "Recherche par symptôme" en complément de F05 (bibliothèque) ?
+- Faut-il une feature « Quiz accidents » pour réviser l'écrit, au-delà des fiches F06 ?
+- Faut-il gérer les 2 séances théoriques du carnet, au-delà des 10 séances pratiques ?
+- Faut-il un onboarding minimal ? (retiré pour l'instant ; à rouvrir si les testeurs se perdent au premier lancement)
 
-**Décision** : `[A DECIDER]` — Pas de réponse reçue. On garde le scope actuel (10 features) sauf si l'utilisateur signale une feature critique manquante.
+**Décision** : `[A DECIDER]` — On garde le scope actuel (9 features). Une place reste libre dans la limite de 10 ; au-delà, il faudra choisir laquelle sortir.
 
-### 4. Scope technique et contrainte offline — DECISION VALIDEE
+### 4. Scope technique : 100 % front-end, sans compte — DECISION VALIDEE
 
-**Décision utilisateur** : OUI, l'app doit fonctionner offline.
+**Décision utilisateur** : architecture 100 % front-end (déploiement sur Vercel ou GitHub Pages), sans backend ni base de données externe ; sauvegarde des séances dans le localStorage ; fonctionnement totalement hors connexion, sans authentification. Validée pour la v1.
 
-**Contrainte technique identifiée** : PWA ou app native avec service workers, stockage local, synchronisation en background.
+**Contraintes identifiées** :
+- Données liées à un navigateur et à un appareil : pas de synchronisation entre appareils, perte possible si l'utilisateur vide les données du site
+- Limite de stockage du localStorage (de l'ordre de 5 Mo) : suffisant pour des séances et un carnet en texte
+- Mise en cache de l'app par un service worker pour l'usage hors connexion (HTTPS fourni par Vercel et GitHub Pages)
+- Pas de contrôle d'accès : le contenu est public ; le statut de validation vit dans les fichiers de contenu
+- Lien de partage limité à 2000 caractères : encodage compact obligatoire, repli vers le fichier
 
 **Impact sur le scope fonctionnel** :
-- **F03 (Journal d'arrosage)** : stockage local obligatoire, synchro cloud optionnelle
-- **F04 (Diagnostic visuel)** : le modèle ML doit être embarqué (on-device) ou l'app doit gérer l'état dégradé (offline = diagnostic indisponible). `[A DECIDER]` : quelle approche choisir ?
-- **F05 (Bibliothèque de symptômes)** : contenu pré-téléchargé, disponible offline
-- **F06 (Fiches plantes)** : contenu pré-rédigé et embarqué, disponible offline
-- **F09 (Onboarding)** : doit fonctionner offline dès l'installation
+- **F02, F04, F06** : contenu et moteur de règles embarqués côté client
+- **F03, F09, F10** : séances et carnet enregistrés dans le localStorage
+- **F05** : export et import par fichier et lien, seul moyen de sauvegarder hors de l'appareil et de partager
 
-**Implications pour le dev** : Architecture offline-first, gestion des conflits de synchronisation, UX des états dégradés (perte de connexion pendant un diagnostic).
-
-**Proposition** : Ajouter une note transversale "Contrainte offline" dans le bloc 5 (Infra et transverse).
+**Proposition** : Afficher dès le premier lancement une mention claire que les séances restent sur l'appareil et qu'un export sert de sauvegarde.
 
 ---
 
 ## Validation post-intégration des réponses
 
 **Décisions validées par l'utilisateur** :
-- Notifications d'arrosage : OUI, avec compromis intelligent (rappels bienveillants opt-in, max 1/semaine, ton éducatif) — intégré dans F03
-- Offline : OUI, contrainte technique ajoutée (F11)
-- Historique de l'état des plantes : OUI, ajouté comme F12
-- Diagnostic visuel (F04) : GARDE en v1, stratégie technique reste [A DECIDER] pour le dev
-- Ton bienveillant : TRAITE comme principe de design transversal, pas comme feature à prioriser
+- Plateforme : webapp mobile-first
+- Architecture : 100 % front-end, sans backend, sans base de données externe, sans authentification, validée pour la v1 (déploiement Vercel ou GitHub Pages)
+- Sauvegarde : localStorage du navigateur, sur l'appareil de l'utilisateur ; fonctionnement totalement hors connexion fusionné dans F09
+- Export des séances : OUI, y compris par lien, limité à 2000 caractères
+- Disclaimer : OUI, outil théorique et créateur déchargé de toute responsabilité
+- Carnet IE : le planning de saison devient « Carnet IE de 10 séances / macro-cycle » (F10), feature clé en Must
+- Onboarding : retiré pour l'instant
+- Paramétrage (F01) fusionné dans le constructeur (F03) : il en devient la première étape ; la numérotation des features n'est pas décalée
+- Contenu hors documents sources : relu et validé par le porteur du projet avant mise à disposition
+- Produit : simulateur pédagogique de séances d'apnée pour futurs IE FFESSM (piscine et fosse), 5 paramètres d'entrée, alertes de sécurité par tags d'exercices
 
-**Point `[A DECIDER]` restant (pour le dev)** :
-- Stratégie de fiabilité pour F04 (diagnostic visuel) : ML maison embarqué on-device ? API externe avec état dégradé offline ? Validation experte ?
+**Arbitrage du PM à confirmer** : pour absorber F10 en Must sans dégrader l'équilibre du scope, **F04 (Alertes de sécurité) passe de Must à Should**, en tête des Should. La sécurité reste portée en Must par les fiches d'exercices de F02 (points de sécurité critiques, niveau de risque, statuts) et par le disclaimer. Voir « Points de tension » pour les alternatives.
+
+**Points `[A DECIDER]` restants** :
+- Règles de cohérence du carnet : seuils (saut de charge, répétition de dominante) à valider par le porteur
+- Prise en compte des 2 séances théoriques du carnet
+- Relecture juridique du disclaimer si l'app sort du cercle des testeurs
+- Seconde relecture du contenu par un tuteur ou un MEF
 
 **Statut** : Décisions structurantes validées. Prêt pour priorisation MoSCoW.
 
@@ -237,20 +255,19 @@
 ## Priorisation MoSCoW
 
 > Filtre appliqué : "Si on enlève ça, le produit résout-il quand même le problème central du brief ?"
-> Problème central : **Permettre à un débutant (Léa) de ne plus tuer ses plantes par sur-arrosage, et d'apprendre à observer pour diagnostiquer un problème.**
+> Problème central : **Permettre à un candidat IE (Camille) de construire une séance cohérente, de la justifier devant le jury, de l'inscrire dans un carnet de 10 séances à la progression logique et de la retrouver sur son appareil, y compris hors connexion, avec les points de sécurité du métier sous les yeux.**
 
 | # | Feature | Priorité | Justification |
 |---|---------|----------|---------------|
-| **F01** | Ajout de plante minimal | **Must** | Sans ça, l'utilisateur ne peut pas commencer à utiliser l'app. Bloquant absolu. C'est le point d'entrée. |
-| **F02** | Guide d'observation pour arrosage | **Must** | Sans ça, le problème central (sur-arrosage 13/16) n'est pas résolu. L'utilisateur ne sait toujours pas comment savoir s'il doit arroser. C'est le coeur du JTBD-F1. |
-| **F03** | Journal d'arrosage simplifié + rappels bienveillants (opt-in) | **Should** | Le core fonctionne sans (F02 suffit pour apprendre à arroser). Mais important pour ancrer l'habitude et rassurer les débutants. Valeur forte pour Léa (peur d'oublier). |
-| **F04** | Scan visuel + diagnostic | **Should** | JTBD-F2 (11/16) est important mais pas le coeur du problème central (sur-arrosage 13/16). Différenciateur premium, mais le produit fonctionne sans. Si la fiabilité technique n'est pas garantie, passe en Could. |
-| **F05** | Bibliothèque de symptômes | **Could** | Valeur additionnelle. Complète F04 mais pas bloquant. L'utilisateur peut diagnostiquer via F04 ou chercher sur internet. Nice-to-have. |
-| **F06** | Fiches plantes éducatives | **Must** | Sans ça, Léa ne comprend pas les besoins de sa plante (lumière, arrosage, signes de bonne santé). JTBD-F6 (13/16 — apprendre à observer). Bloquant pour le développement de compétence. |
-| **F07** | Inspection quotidienne guidée | **Could** | Valeur additionnelle. Complète F06 mais pas bloquant. L'utilisateur peut observer sans checklist guidée. Nice-to-have. |
-| **F12** | Historique de l'état des plantes | **Could** | Valeur forte pour l'apprentissage (voir l'évolution), mais le core fonctionne sans. Utile pour Sophie (progression), moins critique pour Léa en v1. Nice-to-have. |
-| **F09** | Onboarding minimal (< 60s) | **Must** | Sans ça, 10/16 abandonnent avant d'avoir ajouté leurs plantes (thème 3). Bloquant pour l'adoption. Pain point majeur des apps existantes. |
-| **F10** | Fonctionnement offline | **Should** | Contrainte technique validée par l'utilisateur. Important mais pas bloquant en v1 : on peut lancer en online-only et ajouter offline en v1.1. Impacte F04 (diagnostic on-device complexe). |
+| **F02** | Catalogue d'exercices explicatif | **Must** | Sans ça, le « pourquoi » n'est pas expliqué ; porte aussi les points de sécurité de chaque exercice et les statuts de validation. Cœur du JTBD-F6, F1 et socle du JTBD-F2. |
+| **F03** | Paramétrage et constructeur de séance | **Must** | Sans les paramètres, ni le catalogue ni le carnet ne peuvent s'adapter au niveau, à la saison ni au milieu ; sans constructeur, il n'y a pas de séance à vérifier, à présenter ni à insérer dans un carnet. Cœur du JTBD-F1. |
+| **F09** | Sauvegarde locale, hors connexion et disclaimer | **Must** | Décision de l'utilisateur : séances et carnet enregistrés sur l'appareil, app utilisable hors connexion au bord de la piscine, disclaimer présent dès le premier lancement. |
+| **F10** | Carnet IE de 10 séances (macro-cycle) | **Must** | Décision de l'utilisateur : le carnet exact de 10 séances à progression logique est l'objet à présenter à l'examen. Sans lui, le produit ne répond pas à ce besoin essentiel. Promue depuis Could. |
+| **F04** | Alertes de sécurité en temps réel | **Should** | Rétrogradée depuis Must pour équilibrer le scope. Le produit résout le problème central sans le moteur d'alertes, car les points de sécurité figurent sur chaque fiche (F02). Reste en tête des Should : c'est la couche qui rend la sécurité active. |
+| **F05** | Export et partage des séances | **Should** | Seul moyen de partager et de sauvegarder hors de l'appareil, mais le produit résout le problème central sans export. Dépend de F03, F09 et F10. |
+| **F06** | Fiches accidents | **Should** | Pèse 2/3 de l'écrit (JTBD-F3) mais contenu complet seulement pour PCM et syncope ; le simulateur fonctionne sans. |
+| **F07** | Checklist d'auto-évaluation | **Should** | Forte valeur pour JTBD-E1, mais le produit résout le problème central sans score. |
+| **F08** | Mode examen blanc | **Could** | Hypothèse de valeur forte non validée ; à tester avant d'investir. |
 
 ---
 
@@ -258,29 +275,31 @@
 
 | Priorité | Nombre | % du total | Features |
 |----------|--------|-----------|----------|
-| **Must** | 4 | 40% | F01, F02, F06, F09 |
-| **Should** | 3 | 30% | F03, F04, F10 |
-| **Could** | 3 | 30% | F05, F07, F12 |
+| **Must** | 4 | 44% | F02, F03, F09, F10 |
+| **Should** | 4 | 44% | F04, F05, F06, F07 |
+| **Could** | 1 | 11% | F08 |
 | **Won't v1** | 0 | 0% | — |
 
-**Total** : 10 features
+**Total** : 9 features (F01 fusionnée dans F03, numérotation non décalée)
 
 ---
 
 ## Challenge de la priorisation
 
-### Must : 4 features (40%) — DANS LES CLOUS
+### Must : 4 features (44%) — LÉGÈREMENT AU-DESSUS DE LA RÈGLE, ASSUMÉ
 
-**Règle** : Must < 40%. On est pile à 40%, c'est dans les clous.
+**Règle** : Must < 40%. On est à 44%, légèrement au-dessus de la règle.
+
+**Cause** : F09 (sauvegarde locale) et F10 (carnet) sont des exigences posées par l'utilisateur. La fusion de F01 dans F03 réduit le nombre de features de 10 à 9 et ramène les Must de 5 à 4. Sans la rétrogradation de F04, on serait à 5 sur 9 (56%).
 
 **Test de cohérence** : Si on enlève un seul Must, le produit résout-il encore le problème central ?
 
-- **Sans F01 (Ajout de plante)** : Non. Bloquant absolu.
-- **Sans F02 (Guide d'observation)** : Non. Le problème central (sur-arrosage) n'est pas résolu. Léa ne sait toujours pas quand arroser.
-- **Sans F06 (Fiches plantes)** : Non. Léa ne comprend pas les besoins de sa plante (lumière, arrosage, signes de bonne santé). Elle ne peut pas développer sa compétence d'observation.
-- **Sans F09 (Onboarding minimal)** : Non. 10/16 abandonnent avant d'avoir ajouté leurs plantes. Bloquant pour l'adoption.
+- **Sans F02 (Catalogue explicatif)** : Non. Le candidat n'a plus d'exercices ni de « pourquoi » pour justifier ses choix devant le jury, ni de points de sécurité.
+- **Sans F03 (Paramétrage et constructeur)** : Non. Pas de séance à construire ni à présenter, et le catalogue et le carnet ne peuvent plus s'adapter au niveau, à la saison ni au milieu.
+- **Sans F09 (Sauvegarde locale)** : Non. Aucune séance ni aucun carnet n'est conservé entre deux ouvertures et l'usage hors connexion n'est pas garanti.
+- **Sans F10 (Carnet)** : Non au regard de la décision de l'utilisateur : il n'y a plus d'enchaînement ni de progression visible sur les 10 séances de l'examen.
 
-**Verdict** : Les 4 Must sont justifiés. Pas de dégradation possible sans casser le core.
+**Verdict** : Les 4 Must sont justifiés. Le seuil de 40% reste légèrement dépassé ; l'écart est assumé car F09 et F10 sont des décisions de l'utilisateur.
 
 ---
 
@@ -288,64 +307,108 @@
 
 ---
 
-### 1. F04 (Diagnostic visuel) en Should — acceptable ?
+### 1. F04 (Alertes de sécurité) rétrogradée en Should — acceptable ?
 
-**Tension** : F04 est le différenciateur clé (JTBD-F2, 11/16). Pourquoi pas Must ?
+**Tension** : La sécurité est la promesse centrale du produit (4 blocs sur 5 de la grille pratique) et le moteur d'alertes en est la partie la plus visible. Le rétrograder est un vrai choix, pas un détail.
 
-**Justification** :
-1. Le problème central (brief validé) est le sur-arrosage (13/16), pas le diagnostic. JTBD-F1 (arrosage) > JTBD-F2 (diagnostic).
-2. F04 a un risque technique fort : si la fiabilité n'est pas garantie, la confiance s'effondre. Stratégie technique [A DECIDER].
-3. Le produit fonctionne sans F04 : l'utilisateur peut apprendre à arroser (F02) et à observer (F06) sans diagnostic IA.
+**Pourquoi F04 plutôt qu'une autre Must** :
+1. Les 4 autres Must (F02, F03, F09, F10) échouent au test de cohérence : sans eux, le produit ne fonctionne plus (pas d'exercices, pas de séances ni de paramètres, pas de sauvegarde, pas de carnet).
+2. Sans F04, la sécurité reste présente en Must : points de sécurité et niveau de risque sur chaque fiche (F02), statuts d'origine et de validation, disclaimer (F09).
+3. F04 dépend de F02 (tags de sécurité) et peut être livrée juste après le noyau sans le remettre en cause ; c'est la plus indépendante.
 
-**Décision** : Should est cohérent. Si la fiabilité technique est garantie en cours de dev, F04 reste prioritaire. Sinon, passe en Could ou Won't v1.
+**Ce qu'on perd en v1 si F04 est livrée en retard** : les avertissements automatiques (hypoxie en début de saison, profondeur au-delà des prérogatives, échauffement absent) ; le candidat doit lire les fiches pour les repérer.
 
----
+**Alternatives** :
+- Garder F04 en Must : les Must deviendraient F02, F03, F04, F09, F10, soit 5 sur 9 (56%) ; la fusion de F01 dans F03 est déjà faite et n'a pas suffi à absorber F04
+- Garder F04 en Must et rétrograder F02 en Should : déconseillé, car F02 porte le « pourquoi » et la source des exercices
 
-### 2. F10 (Offline) en Should — pourquoi pas Must ?
-
-**Tension** : Contrainte technique validée par l'utilisateur. Pourquoi pas Must ?
-
-**Justification** :
-1. On peut lancer en online-only et ajouter offline en v1.1. Ce n'est pas bloquant pour l'adoption.
-2. Impact technique fort : PWA avec service workers, stockage local, synchro en background. F04 (diagnostic) doit embarquer un modèle ML on-device si offline, ce qui complexifie beaucoup.
-3. Le pain point principal (sur-arrosage) est résolu sans offline. Léa peut utiliser l'app chez elle avec Wi-Fi.
-
-**Proposition** : Garder F10 en Should, mais marquer comme prioritaire dans Should (livrer en v1 si la vélocité le permet).
+**Décision** : Should en tête des Should. À remonter en Must si les testeurs jugent que les fiches seules ne suffisent pas.
 
 ---
 
-### 3. F03 (Journal d'arrosage + rappels) en Should — acceptable ?
+### 2. F10 (Carnet) en Must — périmètre maîtrisé ?
 
-**Tension** : JTBD-F1 (16/16 — arrosage). Pourquoi pas Must ?
+**Tension** : Le carnet ajoute trois couches (enchaînement, indicateurs, vue de cohérence), ce qui alourdit la v1.
 
 **Justification** :
-1. F02 (Guide d'observation) suffit pour résoudre le problème central (apprendre quand arroser). F03 ancre l'habitude mais n'est pas bloquant.
-2. Les rappels sont opt-in. Si l'utilisateur ne les active pas, F03 se réduit à un journal d'arrosage simple. Utile mais pas critique.
-3. Léa (persona prioritaire) a peur d'oublier, donc F03 a de la valeur. Mais elle peut apprendre à arroser sans journal (F02 suffit).
+1. Décision explicite de l'utilisateur : le carnet exact de 10 séances à progression logique est essentiel à l'examen.
+2. Les trois couches sont ordonnées : le dossier et l'enchaînement d'abord (valeur minimale), puis les indicateurs, puis la vue de cohérence et ses contrôles.
+3. Aucune dépendance à un backend : tout est calculé côté client à partir des séances enregistrées.
 
-**Décision** : Should est cohérent. Si la vélocité le permet, livrer F03 en v1. Sinon, reporter en v1.1.
+**Décision** : Must maintenu. Si la vélocité manque, livrer d'abord le dossier de 10 séances ordonnées et l'enchaînement, et reporter la vue de cohérence et les contrôles.
+
+---
+
+### 3. F09 (Sauvegarde locale) en Must — limites assumées ?
+
+**Tension** : Sans compte, les séances et le carnet restent sur un seul appareil et un seul navigateur ; ils disparaissent si l'utilisateur vide les données du site.
+
+**Justification** :
+1. Décision explicite de l'utilisateur : architecture 100 % front-end, validée pour la v1.
+2. Le coût technique est faible et l'usage hors connexion est garanti.
+3. L'export (F05) sert de sauvegarde de secours et de moyen de transfert entre appareils.
+
+**Décision** : Must maintenu. Afficher clairement la limite à l'utilisateur et l'inciter à exporter son carnet.
+
+---
+
+### 4. F05 (Export) en Should — acceptable ?
+
+**Tension** : Sans compte, l'export est le seul moyen de partager et de sauvegarder hors de l'appareil. Pourquoi pas Must ?
+
+**Justification** :
+1. Le problème central du brief est la construction, la justification et l'enchaînement des séances ; l'export les prolonge sans les conditionner.
+2. L'export dépend de F03, F09 et F10 : il peut être livré dès qu'ils sont stables.
+3. Un export simple (fichier de données du carnet) peut être livré avant le fichier lisible et le lien de partage.
+
+**Proposition** : Garder F05 en Should, juste après F04. À monter en Must si le risque de perte du carnet inquiète les testeurs : le carnet de 10 séances est précieux et l'export en est la seule sauvegarde.
+
+---
+
+### 5. F06 (Fiches accidents) en Should — acceptable ?
+
+**Tension** : Les accidents pèsent 2/3 des coefficients de l'écrit. Pourquoi pas Must ?
+
+**Justification** :
+1. Le problème central du brief est la construction et la justification d'une séance, pas la révision de l'écrit.
+2. Le contenu disponible est incomplet : seules PCM et syncope sont détaillées dans les documents.
+3. Le produit fonctionne sans F06 : les points de sécurité de F02 couvrent le lien accident-exercice.
+
+**Décision** : Should est cohérent. Si le contenu manquant est fourni et validé, F06 peut monter en Must.
+
+---
+
+### 6. F07 (Checklist) en Should — pourquoi pas Must ?
+
+**Tension** : JTBD-E1 (confiance avant le jour J) est un job critique. Pourquoi pas Must ?
+
+**Justification** :
+1. Le problème central est de construire et vérifier la séance ; la checklist est une couche d'évaluation sur la séance construite.
+2. La vue de cohérence du carnet (F10) apporte déjà une première réassurance globale.
+3. La checklist peut être livrée dès que F03 est stable.
+
+**Proposition** : Garder F07 en Should prioritaire.
 
 ---
 
 ## Scope v1 recommandé (Must + Should prioritaires)
 
 **Must (4 features)** :
-- F01 : Ajout de plante minimal
-- F02 : Guide d'observation pour arrosage
-- F06 : Fiches plantes éducatives
-- F09 : Onboarding minimal (< 60s)
+- F02 : Catalogue d'exercices explicatif
+- F03 : Paramétrage et constructeur de séance (ex-F01 fusionnée)
+- F09 : Sauvegarde locale, hors connexion et disclaimer
+- F10 : Carnet IE de 10 séances (macro-cycle)
 
-**Should prioritaires (à livrer si vélocité permet)** :
-- F03 : Journal d'arrosage simplifié + rappels bienveillants (opt-in)
-- F04 : Scan visuel + diagnostic (si fiabilité technique garantie)
+**Should prioritaires (à livrer si vélocité permet, dans cet ordre)** :
+- F04 : Alertes de sécurité en temps réel
+- F05 : Export et partage des séances
+- F07 : Checklist d'auto-évaluation
 
 **Should secondaires** :
-- F10 : Fonctionnement offline (reporter en v1.1 si complexité technique trop forte)
+- F06 : Fiches accidents (PCM et syncope complètes)
 
 **Could (nice-to-have v1, ou v2)** :
-- F05 : Bibliothèque de symptômes
-- F07 : Inspection quotidienne guidée
-- F12 : Historique de l'état des plantes
+- F08 : Mode examen blanc
 
 ---
 
@@ -353,12 +416,15 @@
 
 | JTBD | Must | Should | Could | Couverture |
 |------|------|--------|-------|------------|
-| **JTBD-F1** : Savoir quand arroser sans tuer ma plante (16/16) | F02 | F03 | — | ✅ Core couvert (F02), habitude renforcée (F03) |
-| **JTBD-F2** : Identifier ce qui ne va pas avant qu'il soit trop tard (11/16) | — | F04 | F05 | ⚠️ Couverture partielle (F04 en Should, risque technique) |
-| **JTBD-F6** : Apprendre à observer mes plantes (13/16) | F06 | — | F07, F12 | ✅ Core couvert (F06), compléments nice-to-have (F07, F12) |
-| **JTBD-E1** : Me sentir responsable sans être jugé (9/16) | — | — | — | ✅ Principe de design transversal (ton bienveillant) |
+| **JTBD-F1** : Construire une séance cohérente | F02, F03 | — | — | ✅ Core couvert |
+| **JTBD-F2** : Garantir la sécurité de chaque exercice | F02 (fiches) | F04, F06, F07 | — | ⚠️ Socle en Must (fiches), couche active en Should |
+| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | F03 (paramètre saison), F10 | — | — | ✅ Core couvert par le carnet |
+| **JTBD-F6** : Justifier mes choix devant le jury | F02, F10 | F05, F07 | F08 | ✅ Core couvert, entraînement en Could |
+| **JTBD-E1** : Me sentir prêt et confiant avant le jour J | F10 (vue de cohérence) | F07 | F08 | ⚠️ Réassurance partielle en Must, score en Should |
+| **JTBD-F3** : Maîtriser les accidents | — | F06 | — | ⚠️ Couverture partielle (contenu limité à PCM et syncope) |
+| **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury | — | F05 | — | ⚠️ Couverture partielle (export, pas de validation par un tiers) |
 
-**Verdict** : Les 3 JTBD prioritaires (F1, F2, F6) sont couverts. JTBD-F1 et F6 sont solidement couverts par des Must. JTBD-F2 est couvert par un Should (F04), ce qui est cohérent avec la hiérarchie de priorité (F1 > F6 > F2).
+**Verdict** : Les JTBD fondateurs (F1, F5, F6) sont couverts par des Must. JTBD-F2 est la plus exposée : sa couche active repose sur F04 en Should ; à surveiller, car la sécurité est la promesse du produit.
 
 ---
 
@@ -366,10 +432,11 @@
 
 **Points à valider avec l'utilisateur** :
 
-1. **Must = 4 features (40%)** : Es-tu d'accord avec ce niveau de Must ? Trop ? Pas assez ?
-2. **F04 (Diagnostic) en Should** : Es-tu d'accord de ne pas garantir le diagnostic visuel en v1 ? Ou veux-tu le forcer en Must quitte à prendre le risque technique ?
-3. **F03 (Journal d'arrosage) en Should** : Es-tu d'accord de potentiellement reporter le journal d'arrosage si la vélocité ne suit pas ? Ou veux-tu le forcer en Must ?
-4. **F10 (Offline) en Should** : Es-tu d'accord de lancer en online-only et d'ajouter offline en v1.1 si nécessaire ? Ou veux-tu forcer offline en Must ?
-5. **Scope v1 recommandé** : Must (4) + Should prioritaires (F03, F04) = 6 features. C'est ambitieux mais faisable. Es-tu d'accord avec ce scope ?
+1. **F04 rétrogradée en Should** : Es-tu d'accord de la laisser en Should maintenant que F01 est fusionnée dans F03, ou veux-tu la remonter en Must (5 Must sur 9, soit 56%) ?
+2. **Must = 4 features (44%)** : Es-tu d'accord de rester légèrement au-dessus du seuil de 40% à cause de F09 et F10 ?
+3. **F10 (Carnet) en Must** : Es-tu d'accord de livrer en priorité le dossier de 10 séances ordonnées et l'enchaînement, puis la vue de cohérence et ses contrôles ?
+4. **F05 (Export) en Should** : Es-tu d'accord de livrer l'export après F04, ou veux-tu le forcer en Must pour garantir une sauvegarde de secours du carnet ?
+5. **Séances théoriques du carnet** : les 2 séances théoriques sont-elles hors scope v1 ?
+6. **Scope v1 recommandé** : Must (4) + Should prioritaires (F04, F05, F07) = 8 features, F06 en Should secondaire. C'est ambitieux. Es-tu d'accord avec ce scope ?
 
-**Une fois ces 5 points validés, on passe aux User Stories (Must + Should uniquement).**
+**Une fois ces points validés, on passe aux User Stories (Must + Should uniquement).**

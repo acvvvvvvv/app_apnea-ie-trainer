@@ -1,122 +1,152 @@
-# Brief produit — Application de suivi de plantes d'intérieur
+# Brief produit — Simulateur de séances d'apnée pour futurs Initiateurs-Entraîneurs (IE) FFESSM
 
-> Statut : VALIDE
-> Date : 2026-07-03
-> Source UXR : knowledge/uxr/outputs/
+> Statut : A VALIDER (hypothèses UXR non confirmées par entretiens)
+> Date : 2026-11-22
+> Source UXR : knowledge/uxr/outputs/ + knowledge/uxr/base-connaissances-IE/
 
 ## Le probleme
 
-Le brief utilisateur identifie trois problèmes centraux : suivre l'hydratation des plantes, identifier les maladies, vérifier l'état de santé. Ces trois problèmes sont validés par la donnée UXR :
+Le brief de départ identifie trois problèmes centraux : construire une séance d'apnée (piscine et fosse) cohérente avec le niveau du public et le moment de la saison, vérifier qu'elle respecte la doctrine de sécurité FFESSM, et savoir la justifier devant le jury de l'examen IE. Aucun entretien n'a encore été mené : ces trois problèmes sont déduits de la base de connaissances IE/FFESSM (grilles de notation, erreurs fréquentes, accidents) et restent à confirmer sur le terrain.
 
-- **Sur-arrosage comme erreur récurrente** : 13/16 interviewés (synthese.md, thème 1) — "Mes clients tuent leurs plantes par excès d'amour — trop d'arrosage, toujours."
-- **Difficulté d'identification des maladies** : 11/16 interviewés (synthese.md, thème 2) — "Je vois des taches sur les feuilles et je ne sais jamais si c'est un champignon, un manque de nutriments ou une brûlure."
-- **Besoin d'apprendre à observer** : 13/16 interviewés (synthese.md, thème 10) — "Observer chaque jour. C'est comme ça qu'on apprend à lire une plante."
+- **Cohérence de la séance** : le bloc « fond » de la pédagogie pratique pèse 8 points sur 20 (réalisme des objectifs, chronologie logique, récupérations adaptées). Erreur fréquente listée par le référentiel : mal cibler ses objectifs, trop dur ou pas assez (01_referentiel_exam_ie.md).
+- **Sécurité d'une série** : la sécurité est évaluée dans 4 blocs sur 5 de la grille pratique ; les exercices hypoxiques sont les plus accidentogènes ; la syncope peut survenir jusqu'à 1 minute après la sortie (01_referentiel_exam_ie.md, 03_catalogue_exercices_adaptables.md).
+- **Justification devant le jury** : le candidat doit présenter objectif, critère d'évaluation, prérequis, place dans la saison et dispositif de sécurité, puis dire « pourquoi » chaque exercice (01_referentiel_exam_ie.md).
 
-Ces trois problèmes mappent directement sur les JTBD critiques F1, F2 et F6.
+Ces trois problèmes mappent directement sur les JTBD critiques F1, F2 et F6 (jobs-to-be-done.md), complétés par le job émotionnel E1 (arriver confiant au jour J) et, en Should, par F3 (maîtriser les accidents).
 
 ## Pour qui
 
 ### Personas prioritaires pour v1
 
-**Persona prioritaire : Léa (débutante)**
+**Persona prioritaire : Camille (candidat novice)**
 
 Justification :
-- 5/16 interviewés correspondent à ce profil (Lucie, Hugo, Romain, Thomas, Charlotte)
-- Les trois JTBD choisis (hydratation, diagnostic, observation) sont critiques pour ce segment
-- C'est le segment qui abandonne massivement les apps existantes (10/16 — synthese.md, thème 3) car trop complexes
-- Fort potentiel de différenciation sur la simplicité radicale (synthese.md, thème 8)
+- C'est le profil le plus exposé à l'angoisse de l'épreuve de pédagogie : ne sait pas par où commencer, craint d'oublier un point de sécurité (personas.md, hypothèse)
+- Les JTBD critiques (F1, F2, F6, E1, E2) sont tous critiques pour ce segment
+- Besoin d'un entraînement sans enjeu (JTBD-E4) avant de s'exposer au jury
+- Fort potentiel de différenciation sur le « pourquoi » expliqué et les garde-fous de sécurité
 
-**Persona secondaire : Sophie (passionnée)**
+**Persona secondaire : Anaïs (encadrant bénévole)**
 
 Justification :
-- 4/16 interviewés (Sophie, Claire, Amandine, Isabelle)
-- Recherche d'expertise fiable (synthese.md, thème 2) — "Je paierais facilement 20€/an pour du vrai diagnostic"
-- Dimension communautaire forte (9/16 — JTBD-S1)
-- Disposition à payer pour de la valeur (synthese.md, thème 12)
+- Manque de temps, information dispersée entre MFA, supports de stage et conseils du tuteur (personas.md, hypothèse)
+- Besoin de repères rapides sur prérogatives, réglementation et saison (JTBD-F4, F5)
+- Valorise la rigueur : checklist et sauvegarde des séances pour le carnet
 
-**NON COUVERT EN V1 : Jean (collectionneur)**
+**NON COUVERT EN V1 : Thomas (apnéiste performant)**
 
-Raison : besoins trop spécifiques (données taxonomiques, API vers bases botaniques, granularité par sous-espèce) incompatibles avec un MVP mobile-first pour débutants/intermédiaires.
+Raison : besoins centrés sur sa propre performance et les épreuves physiques (JTBD-F8, de niche), hors périmètre d'un simulateur de séances. Son besoin d'adapter un exercice à un groupe plus faible est couvert indirectement par les variantes « simplifier / complexifier » des fiches d'exercices.
+
+**NON COUVERT EN V1 : Tuteurs et formateurs (IE2, MEF1, MEF2)** — besoins d'évaluation et de suivi de plusieurs candidats (personas.md).
 
 ## JTBD couverts
 
 | JTBD | Couvert par le brief | Commentaire |
 |------|---------------------|-------------|
-| **JTBD-F1** : Savoir quand arroser sans tuer ma plante | Oui | Brief mentionne "suivre l'hydratation" |
-| **JTBD-F2** : Identifier ce qui ne va pas avant qu'il soit trop tard | Oui | Brief mentionne "identifier les maladies" |
-| **JTBD-F6** : Apprendre à observer mes plantes | Oui | Brief mentionne "vérifier l'état de santé" |
-| **JTBD-F3** : Partir en vacances sans tuer mes plantes | **NON** | 14/16 interviewés — hors scope v1 (confirmé) |
-| **JTBD-F4** : Choisir une plante compatible avec mon logement | **NON** | 8/16 interviewés — hors scope v1 |
-| **JTBD-E1** : Me sentir responsable sans être jugé | **NON** | 9/16 interviewés — dimension émotionnelle absente |
-| **JTBD-S1** : Appartenir à une communauté | **NON** | 9/16 interviewés — hors scope v1 |
+| **JTBD-F1** : Construire une séance cohérente avec un objectif mesurable | Oui | Brief mentionne « construire une séance » |
+| **JTBD-F2** : Garantir la sécurité de chaque exercice | Oui | Brief mentionne « vérifier la sécurité d'une série » |
+| **JTBD-F6** : Justifier mes choix devant le jury | Oui | Brief mentionne « m'expliquer pourquoi » |
+| **JTBD-E1** : Me sentir prêt et confiant avant le jour J | Oui | Via checklist calquée sur la grille officielle |
+| **JTBD-F3** : Maîtriser les accidents pour l'écrit et le terrain | Partiel | Fiches PCM et syncope uniquement — autres accidents hors corpus |
+| **JTBD-F4** : Rester dans mes prérogatives et la réglementation | Partiel | Couvert par les alertes (profondeur IE1 = 6 m), pas de module réglementaire complet |
+| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | Oui | Carnet IE de 10 séances (macro-cycle) : enchaînement, progression et vue de cohérence ; promu en Must par l'utilisateur |
+| **JTBD-S1** : Être jugé crédible par mon tuteur et par le jury | Partiel | Export des séances pour les partager avec le tuteur ; pas de validation par un tiers dans l'app |
+| **JTBD-F7** : Adapter un exercice au niveau réel du groupe | Partiel | Variantes dans les fiches d'exercices |
+| **JTBD-F8** : Intégrer les épreuves physiques à mon entraînement | **NON** | De niche, hors scope v1 |
+| **JTBD-S2/S3** : Transmettre à d'autres candidats, appartenir à la communauté | **NON** | Hors scope v1 (produit centré sur l'entraînement individuel) |
 
-Le brief couvre volontairement 3 JTBD sur 6 pour v1. JTBD-F3 (vacances), bien que mentionné par 14/16 utilisateurs, est explicitement hors scope v1.
+Le brief couvre volontairement 5 JTBD critiques pour v1 (F1, F2, F5, F6, E1), plus F3 en Should. Le carnet de 10 séances (F5) a été relevé par l'utilisateur comme besoin essentiel : le candidat doit présenter un carnet exact de 10 séances encadrées avec une logique de progression. JTBD-F3 (accidents), bien qu'il pèse 2/3 des coefficients de l'écrit, reste partiel faute de contenu complet dans les documents sources.
 
 ## Cible plateforme
 
 **Webapp mobile-first** (confirmé par l'utilisateur)
 
 Justification :
-- Alignement avec le comportement du persona prioritaire Léa (TikTok, Instagram, formats courts)
-- 6/16 utilisateurs < 30 ans privilégient les formats courts et visuels sur mobile (synthese.md, thème 15)
-- "J'ai pas besoin d'une appli complexe. Juste un guide simple pour pas tuer mes plantes. En mode TikTok — court, visuel, pas de jargon." (Hugo, entretien_Hugo_L.docx)
-- Cohérence avec le principe de simplicité radicale (synthese.md, thème 8)
+- Décision de l'utilisateur : le produit est conçu d'abord pour le téléphone
+- L'usage au bord du bassin (consulter une séance, vérifier une alerte) et la préparation entre deux séances plaident pour une interface lisible sur mobile (hypothèse personas.md)
+- Dépôt existant en Vite/TypeScript (dossier app/) : une webapp reste la cible la plus directe
+- Architecture 100 % front-end (décision de l'utilisateur, designer) : aucun backend ni base de données externe, déploiement statique sur Vercel ou GitHub Pages, données stockées sur l'appareil
 
 ## Ce que le produit fait
 
-Une webapp qui aide les utilisateurs débutants et intermédiaires à :
+Une webapp, simulateur pédagogique, qui aide les futurs IE à :
 
-1. **Comprendre quand arroser leurs plantes** sans suivre une fréquence fixe arbitraire, en apprenant à lire les signaux réels de la plante (toucher la terre, observer les feuilles).
-2. **Diagnostiquer visuellement les problèmes** (maladies, parasites, carences) avant qu'il ne soit trop tard, avec identification fiable et protocoles de traitement.
-3. **Développer leur capacité d'observation** pour devenir autonomes progressivement et ne plus dépendre d'un système externe.
+1. **Construire une séance structurée** (briefing, échauffement, corps de séance, retour au calme, débriefing) à partir de 5 paramètres : niveau des élèves (AEL, ACEL), moment de la saison, milieu (piscine, fosse), philosophie de l'instructeur et profil d'encadrant (IE1, IE2).
+2. **Vérifier la sécurité** de chaque exercice et de l'enchaînement selon la doctrine FFESSM : alertes calculées par un moteur de règles (hypoxie en début de saison, profondeur au-delà des prérogatives, absence d'échauffement ou de protocole de sortie, etc.).
+3. **Expliquer le « pourquoi »** de chaque exercice (justification pédagogique, points de sécurité, variantes) pour préparer la présentation au jury.
+4. **Se tester** avec une checklist d'auto-évaluation calquée sur la grille officielle /20, et réviser les fiches accidents.
+5. **Construire son carnet IE** : un dossier « Carnet IE » lie exactement 10 séances dans un ordre chronologique, montre l'enchaînement d'une séance à l'autre (ce qui est supposé acquis, ce qui est préparé), calcule des indicateurs de progression (dominante, volume d'apnée, volume hypercapnique, niveau de risque) et offre une vue de cohérence globale pour justifier la progression devant le jury.
+6. **Retrouver et partager ses séances** : les séances et le carnet sont enregistrés sur l'appareil de l'utilisateur (localStorage), sans compte, et l'app fonctionne entièrement hors connexion au bord de la piscine. L'utilisateur peut exporter une séance ou le carnet pour le montrer à son tuteur ou à d'autres candidats (lien de moins de 2000 caractères pour une séance, fichier sinon) et importer une séance reçue. Un disclaimer rappelle que l'outil est théorique et que le créateur décline toute responsabilité.
 
-Le produit **éduque à l'observation** plutôt que de remplacer l'observation par des automatismes. Il **accompagne le développement de compétence** plutôt que de créer une dépendance à la notification.
+Le produit **explique** plutôt que de remplacer le jugement de l'encadrant. Il **accompagne le développement de compétence** plutôt que de générer une séance clé en main sans compréhension.
 
 ## Ce que le produit ne fait PAS (hors scope v1)
 
-- **Pas de notifications push d'arrosage automatiques** (synthese.md, thème 3 — 10/16 ont abandonné des apps à cause de ça)
-- **Pas de données taxonomiques pour collectionneurs** (segment Jean non couvert en v1)
-- **Pas de gestion de vacances** [A DECIDER — voir JTBD-F3]
-- **Pas de fonctionnalité communautaire** [A DECIDER — voir JTBD-S1]
-- **Pas d'aide au choix de plante avant achat** [A DECIDER — voir JTBD-F4]
-- **Pas de mode jardin extérieur** (segment jardiniers anciens non couvert)
-- **Pas d'app mobile native** (webapp mobile-first responsive)
+- **Pas de séance générée automatiquement sans explication** (principe pédagogique : le « pourquoi » prime)
+- **Pas de remplacement du tuteur ni du MFA** : seule la dernière version du MFA fait foi (01_referentiel_exam_ie.md)
+- **Pas de contenu présenté comme doctrine FFESSM quand il est absent des documents** : chaque règle porte un statut (corpus, suggestion, hors corpus)
+- **Pas de contenu hors documents sources mis en ligne sans relecture** : le porteur du projet relit et valide ce contenu (statut de validation visible sur chaque entrée)
+- **Pas de protocoles de fosse chiffrés tant qu'ils ne sont pas fournis et validés** (hors corpus)
+- **Pas de backend, de compte, d'authentification ni de base de données externe** (architecture 100 % front-end) : pas de synchronisation entre appareils
+- **Pas d'onboarding dédié pour l'instant** (retiré du scope ; à rouvrir si les testeurs se perdent au premier lancement)
+- **Pas de suivi des épreuves physiques** [A DECIDER — voir JTBD-F8]
+- **Pas de fonctionnalité communautaire (commentaires, fil, diagnostic collaboratif) ni de suivi multi-candidats pour tuteurs** : le partage se fait uniquement par export [A DECIDER — voir JTBD-S1]
+- **Pas de milieu naturel** (lac, mer, carrière) en v1
+- **Pas d'app mobile native** (webapp responsive)
 
 ## Hypotheses non verifiees
 
 | Hypothèse | Source | Validée par UXR ? | Commentaire |
 |-----------|--------|-------------------|-------------|
-| Les utilisateurs veulent une webapp mobile-first | Brief utilisateur | **OUI** | Aligné avec donnée UXR (segment jeune débutant utilise mobile/TikTok) |
-| Les utilisateurs veulent prioritairement suivre l'hydratation | Brief utilisateur | **OUI** | JTBD-F1 = 16/16 interviewés |
-| Les utilisateurs veulent identifier les maladies | Brief utilisateur | **OUI** | JTBD-F2 = 11/16 interviewés |
-| Les utilisateurs veulent vérifier l'état de santé | Brief utilisateur | **OUI** | JTBD-F6 = 13/16 interviewés |
-| Les 3 JTBD choisis suffisent pour une v1 viable | Brief utilisateur | **OUI** | JTBD-F3 (vacances) hors scope v1 par choix |
+| Les candidats veulent un simulateur plutôt qu'un simple catalogue d'exercices | Brief utilisateur | **NON** | À tester en entretien (axes 10 et 13 de la grille) |
+| La peur de rater l'épreuve de pédagogie est le moteur d'usage principal | Déduction personas.md | **NON** | Persona Camille, hypothèse à confirmer |
+| Les candidats veulent des alertes de sécurité bloquantes | Brief utilisateur | **NON** | Risque de rejet si perçues comme infantilisantes |
+| Les candidats veulent comprendre le « pourquoi » de chaque exercice | Brief utilisateur | **NON** | JTBD-F6 : hypothèse déduite de la grille jury |
+| Les JTBD choisis suffisent pour une v1 viable | Brief utilisateur | **NON** | F3 (accidents) peut s'avérer critique ; F5 (carnet) l'est déjà par décision |
+| Une vue de cohérence du carnet aide à justifier la progression devant le jury | Décision utilisateur | **NON** | Décision prise ; seuils et règles de cohérence (hors documents sources) à valider par le porteur |
+| Un lien de partage de moins de 2000 caractères suffit pour partager une séance | Décision utilisateur | **NON** | Décision prise ; le carnet complet se partage par fichier |
+| Un simple disclaimer (outil théorique, créateur sans responsabilité) suffit | Décision utilisateur | **NON** | Décision prise ; relecture juridique à prévoir si l'app sort du cercle des testeurs |
+| Le contenu du corpus est suffisant pour alimenter un catalogue crédible | Base de connaissances | **PARTIEL** | Critères AEL/ACEL, protocoles fosse et accidents hors PCM/syncope absents |
+| Les candidats utilisent aujourd'hui carnet, tableur et supports PDF | Déduction personas.md | **NON** | À vérifier (axes 4 et 10) |
+| Le produit doit être pensé mobile-first | Décision utilisateur | **NON** | Décision prise ; à vérifier sur l'usage réel (bord de bassin ou domicile) |
+| Une sauvegarde locale sans compte suffit aux utilisateurs | Décision utilisateur | **NON** | Décision prise (architecture 100 % front-end) ; risque de perte si l'utilisateur vide les données du site ou change d'appareil |
+| Les utilisateurs ont besoin de l'app hors connexion au bord de la piscine | Décision utilisateur | **NON** | Décision prise ; à confirmer sur l'usage réel |
+| L'export des séances est important pour les partager | Décision utilisateur | **NON** | Décision prise ; sert aussi de sauvegarde de secours ; lien limité à 2000 caractères, fichier pour le reste |
+| Le contenu hors documents sources est correct après relecture par le porteur | Décision utilisateur | **PARTIEL** | Le porteur relit et valide ; une relecture par un tuteur ou un encadrant reste souhaitable |
 
 ## Différenciation vs apps existantes
 
-Axes de différenciation validés (vs Planta, Greg, Happy Plant, Bloomify) :
+Aucune analyse concurrentielle n'a été menée. Les alternatives hypothétiques sont les supports de stage PDF, le MFA, le carnet pédagogique papier et les tableurs.
 
-1. **Pas de notifications spam** (pain point majeur — 10/16 ont abandonné pour cette raison)
-2. **Onboarding minimal** (synthese.md, thème 8 — "Je voudrais juste un truc qui me dise quand faire quoi, sans que j'aie à tout configurer")
-3. **Focus sur l'éducation à l'observation** plutôt que dépendance à l'app (synthese.md, thème 10)
-4. **Diagnostic visuel fiable** comme différenciateur premium (synthese.md, thème 12 — disposition à payer pour de l'expertise)
-5. **Ton bienveillant et non-jugeant** (synthese.md, thème 8 — "j'ai besoin qu'on me guide sans me juger si je rate")
+Axes de différenciation à valider (vs carnet, tableur, supports PDF, MFA) :
+
+1. **Explication du « pourquoi »** de chaque exercice (« ce que veut entendre l'examinateur »)
+2. **Garde-fous de sécurité issus de la doctrine** : alertes liées aux exercices, aux prérogatives et à la saison
+3. **Transparence sur l'origine des règles** : corpus, suggestion ou hors corpus
+4. **Checklist calquée sur la grille officielle /20** pour s'auto-évaluer avant le jour J
+5. **Ton bienveillant et non-jugeant** : entraînement sans enjeu (JTBD-E4)
 
 ## Criteres de reussite
 
+Les seuils ci-dessous sont des cibles de conception à valider, pas des mesures observées.
+
 **Critères fonctionnels :**
-- L'utilisateur peut diagnostiquer un problème (feuilles jaunes, taches) en moins de 2 minutes
-- L'utilisateur comprend quand arroser sans compter les jours (observation de la terre, signaux de la plante)
-- L'utilisateur complète l'onboarding en moins de 60 secondes
+- Le candidat construit une séance complète (5 phases) en moins de 15 minutes
+- Chaque exercice placé affiche sa justification et ses points de sécurité en un tap
+- Une séance hors prérogatives (profondeur > 6 m pour un IE1) est signalée avant l'enregistrement
+- La checklist donne un score /20 et un diagnostic sécurité en moins de 2 minutes
 
 **Critères de rétention :**
-- Pas d'abandon pour cause de notifications spam (taux de désactivation notifs < 10%)
-- Retour hebdomadaire sans dépendance quotidienne (engagement != dépendance)
+- Le candidat revient avant l'examen (24-25 avril 2027) pour affiner ses séances
+- Le candidat enregistre au moins 3 séances sur son appareil et les retrouve après rechargement, y compris hors connexion
+- Le candidat exporte au moins une séance pour la partager
 
 **Critères émotionnels :**
-- L'utilisateur se sent accompagné, pas jugé (ton bienveillant)
-- L'utilisateur ressent une progression de compétence (JTBD-E2)
+- Le candidat se sent plus prêt qu'avant d'utiliser l'app (JTBD-E1)
+- Le candidat ne se sent pas jugé quand il se trompe (JTBD-E4)
 
 ## Prochaines etapes
 
-1. **Lancer le feature-breakdown** — découper en 10 features max basées sur les JTBD validés F1, F2, F6
+1. **Relire et valider le contenu hors documents sources** (porteur du projet) avant toute mise à disposition des testeurs
+2. **Mener 5 à 8 entretiens** auprès de candidats IE pour confirmer ou infirmer les hypothèses (grille-analyse.md)
+3. **Lancer le feature-breakdown** — découper en 10 features max basées sur les JTBD F1, F2, F5, F6, E1 (et F3 en Should)
