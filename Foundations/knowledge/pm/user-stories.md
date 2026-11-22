@@ -3,7 +3,7 @@
 > Statut : A VALIDER
 > Source : knowledge/pm/feature-breakdown.md
 > Date : 2026-11-22
-> Scope : Must + Should uniquement (9 features sur 10)
+> Scope : Must + Should uniquement (8 features sur 9)
 > Découpage : granulaire avec séparation Design / Tech — une US par comportement distinct
 
 ## Vue d'ensemble
@@ -11,8 +11,8 @@
 | US | Type | Feature | Status | Persona | JTBD |
 |----|------|---------|--------|---------|------|
 | US-000 | Tech | Scaffolding — Setup technique | Backlog | Camille, Anaïs | Transverse |
-| US-001 | Design | F01 — Paramétrage de séance | Backlog | Camille | JTBD-F1, F4 |
-| US-002 | Tech | F01 — Paramétrage de séance | Backlog | Camille | JTBD-F1, F4 |
+| US-001 | Design | F03 — Paramétrage de séance (étape 1, ex-F01) | Backlog | Camille | JTBD-F1, F4 |
+| US-002 | Tech | F03 — Paramétrage de séance (étape 1, ex-F01) | Backlog | Camille | JTBD-F1, F4 |
 | US-003 | Design | F02 — Catalogue d'exercices explicatif | Backlog | Camille, Anaïs | JTBD-F1, F6, F2 |
 | US-004 | Tech | F02 — Base d'exercices embarquée | Backlog | Camille, Anaïs | JTBD-F1, F6, F2 |
 | US-021 | Design | F02 — Statut de validation et page « Contenu à relire » | Backlog | Porteur du projet, Camille | JTBD-F2 |
@@ -108,11 +108,11 @@ Scénario : Tests — Cadre en place
 
 ---
 
-## F01 — Paramétrage de séance (Must)
+## F03 — Paramétrage de séance, étape 1 du constructeur (Must)
 
 ### US-001 [Design] — Concevoir l'écran de paramétrage de séance
 
-**Feature source :** F01 — Paramétrage de séance
+**Feature source :** F03 — Paramétrage de séance (ex-F01)
 **Status :** Backlog
 **Type :** Design
 **Persona :** Camille, le candidat novice qui craint l'épreuve de pédagogie — ne sait pas par où commencer pour construire une séance
@@ -159,7 +159,7 @@ Scénario : Erreur — Combinaison incohérente
 
 ### US-002 [Tech] — Implémenter les paramètres de séance et leur persistance
 
-**Feature source :** F01 — Paramétrage de séance
+**Feature source :** F03 — Paramétrage de séance (ex-F01)
 **Status :** Backlog
 **Type :** Tech
 **Persona :** Camille, Anaïs
@@ -377,7 +377,7 @@ Scénario : Affichage dans le catalogue
 
 ---
 
-## F03 — Constructeur de séance structuré (Must)
+## F03 — Constructeur de séance structuré, étape 2 (Must)
 
 ### US-005 [Design] — Concevoir le constructeur de séance par phases
 

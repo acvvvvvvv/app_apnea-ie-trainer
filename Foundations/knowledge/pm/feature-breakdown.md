@@ -10,7 +10,7 @@
 
 | JTBD | Features associées | Priorité hypothétique |
 |------|-------------------|-----------------------|
-| **JTBD-F1** : Construire une séance cohérente avec un objectif mesurable | F01, F02, F03 | Critique |
+| **JTBD-F1** : Construire une séance cohérente avec un objectif mesurable | F02, F03 | Critique |
 | **JTBD-F2** : Garantir la sécurité de chaque exercice | F02, F04 | Critique |
 | **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | F10 | Critique (relevée par l'utilisateur : carnet de 10 séances à présenter) |
 | **JTBD-F6** : Justifier mes choix devant le jury | F02, F10, F08 | Critique |
@@ -25,11 +25,10 @@
 
 | # | Feature | Description | JTBD | Persona | Testable |
 |---|---------|-------------|------|---------|----------|
-| **F01** | Paramétrage de séance | Saisir 5 paramètres : niveau des élèves (AEL, ACEL), moment de la saison (Reprise, Développement, Pré-compétition/Examen), milieu (piscine, fosse), philosophie de l'instructeur (technique, volume, ludique/détente), profil d'encadrant (IE1 par défaut). Valeurs par défaut proposées, aucun champ superflu. Pour une séance du carnet, le moment de la saison est proposé d'après la phase de la séance (F10). | JTBD-F1, F4 | Camille, Anaïs | Oui : le candidat paramètre sa séance en moins de 60 secondes sur mobile |
 | **F02** | Catalogue d'exercices explicatif | Liste d'exercices (STA, DYN, DNF, fosse, sauvetage, mental) filtrée par les paramètres. Chaque fiche affiche : justification pédagogique (« pourquoi on fait ça »), points de sécurité critiques, variantes pour simplifier ou complexifier, niveau de risque. Chaque règle porte un statut d'origine (corpus, suggestion, hors corpus) et un statut de validation par le porteur du projet (à valider, validé), enregistré dans les fichiers de contenu. | JTBD-F1, F6, F2 | Camille, Anaïs | Oui : le candidat ouvre une fiche et lit la justification, la sécurité et le statut en un tap |
-| **F03** | Constructeur de séance structuré | Assembler une séance par phases (accueil et briefing, exercices à sec, échauffement, prérequis, cœur de séance, application, retour au calme, débriefing). Pour chaque phase : durée, contenu, consignes, position de l'encadrant, critères de réussite. Objectif SMART et critère d'évaluation saisis en tête. Enregistrement local sur l'appareil (voir F09). | JTBD-F1, F6 | Camille, Anaïs | Oui : le candidat obtient une séance complète avec objectif, phases et critères |
+| **F03** | Paramétrage et constructeur de séance (ex-F01 fusionnée) | **Étape 1 : paramétrage.** Saisir 5 paramètres : niveau des élèves (AEL, ACEL), moment de la saison (Reprise, Développement, Pré-compétition/Examen), milieu (piscine, fosse), philosophie de l'instructeur (technique, volume, ludique/détente), profil d'encadrant (IE1 par défaut). Valeurs par défaut proposées, aucun champ superflu ; pour une séance du carnet, le moment de la saison est proposé d'après la phase de la séance (F10). **Étape 2 : construction.** Assembler une séance par phases (accueil et briefing, exercices à sec, échauffement, prérequis, cœur de séance, application, retour au calme, débriefing). Pour chaque phase : durée, contenu, consignes, position de l'encadrant, critères de réussite. Objectif SMART et critère d'évaluation saisis en tête. Enregistrement local sur l'appareil (voir F09). | JTBD-F1, F4, F6 | Camille, Anaïs | Oui : le candidat paramètre sa séance en moins de 60 secondes sur mobile, puis obtient une séance complète avec objectif, phases et critères |
 
-**Challenge F01-F03** : Ces 3 features répondent au pain point supposé majeur (savoir par où commencer et enchaîner des exercices logiques, hypothèse personas.md). Elles reprennent la structure obligatoire d'une séance FFESSM et le gabarit de préparation écrite du support de stage. Aucune donnée terrain ne confirme encore leur poids relatif.
+**Challenge F02-F03** : Ces 2 features répondent au pain point supposé majeur (savoir par où commencer et enchaîner des exercices logiques, hypothèse personas.md). Elles reprennent la structure obligatoire d'une séance FFESSM et le gabarit de préparation écrite du support de stage. Aucune donnée terrain ne confirme encore leur poids relatif.
 
 **Tension à valider** : Pas de séance générée automatiquement. L'app guide la construction et explique ; elle ne propose pas une séance clé en main que le candidat réciterait sans la comprendre. Cela est cohérent avec JTBD-F6 (justifier devant le jury) mais à confirmer auprès des candidats.
 
@@ -146,8 +145,8 @@
 
 ## Récapitulatif
 
-**10 features proposées**, réparties en 5 blocs :
-- **3 features construction** (JTBD-F1) — cœur de l'app
+**9 features proposées** (10 maximum, une place est libre), réparties en 5 blocs :
+- **2 features construction** (JTBD-F1) — cœur de l'app ; le paramétrage est fusionné dans le constructeur
 - **2 features sécurité et accidents** (JTBD-F2, F3) — garde-fous différenciants
 - **2 features préparation au jury** (JTBD-F6, E1) — réduction de l'angoisse
 - **1 feature carnet et macro-cycle** (JTBD-F5, F6) — enchaînement et cohérence des 10 séances, promue en Must
@@ -161,7 +160,7 @@
 
 **Couverture JTBD** : 5 JTBD critiques couverts (F1, F2, F5, F6, E1) plus F3 en Should et S1 en partie. 4 JTBD hors scope v1 (F8, F7 en partie, S2, S3) avec justifications explicites.
 
-**Alignement personas** : 10/10 features répondent aux besoins de Camille (prioritaire) à des degrés divers. 8/10 répondent aussi à Anaïs (secondaire). Thomas (apnéiste performant) non couvert, conformément au brief.
+**Alignement personas** : 9/9 features répondent aux besoins de Camille (prioritaire) à des degrés divers. 7/9 répondent aussi à Anaïs (secondaire). Thomas (apnéiste performant) non couvert, conformément au brief.
 
 **Alignement différenciation** :
 - Axe 1 (explication du « pourquoi ») : F02, F08, F10
@@ -198,14 +197,14 @@
 
 ### 3. Features manquantes ? — `[A DECIDER]`
 
-**10 features max = principe de PM.** Mais peut-être qu'une feature critique manque ?
+**10 features max = principe de PM (9 aujourd'hui).** Mais peut-être qu'une feature critique manque ?
 
 **Questions à challenger** :
 - Faut-il une feature « Quiz accidents » pour réviser l'écrit, au-delà des fiches F06 ?
 - Faut-il gérer les 2 séances théoriques du carnet, au-delà des 10 séances pratiques ?
 - Faut-il un onboarding minimal ? (retiré pour l'instant ; à rouvrir si les testeurs se perdent au premier lancement)
 
-**Décision** : `[A DECIDER]` — On garde le scope actuel (10 features). Si une nouvelle feature doit entrer, il faudra choisir laquelle sortir.
+**Décision** : `[A DECIDER]` — On garde le scope actuel (9 features). Une place reste libre dans la limite de 10 ; au-delà, il faudra choisir laquelle sortir.
 
 ### 4. Scope technique : 100 % front-end, sans compte — DECISION VALIDEE
 
@@ -237,6 +236,7 @@
 - Disclaimer : OUI, outil théorique et créateur déchargé de toute responsabilité
 - Carnet IE : le planning de saison devient « Carnet IE de 10 séances / macro-cycle » (F10), feature clé en Must
 - Onboarding : retiré pour l'instant
+- Paramétrage (F01) fusionné dans le constructeur (F03) : il en devient la première étape ; la numérotation des features n'est pas décalée
 - Contenu hors documents sources : relu et validé par le porteur du projet avant mise à disposition
 - Produit : simulateur pédagogique de séances d'apnée pour futurs IE FFESSM (piscine et fosse), 5 paramètres d'entrée, alertes de sécurité par tags d'exercices
 
@@ -259,9 +259,8 @@
 
 | # | Feature | Priorité | Justification |
 |---|---------|----------|---------------|
-| **F01** | Paramétrage de séance | **Must** | Sans les paramètres, ni le catalogue ni les alertes ne peuvent s'adapter. Point d'entrée de l'app. |
 | **F02** | Catalogue d'exercices explicatif | **Must** | Sans ça, le « pourquoi » n'est pas expliqué ; porte aussi les points de sécurité de chaque exercice et les statuts de validation. Cœur du JTBD-F6, F1 et socle du JTBD-F2. |
-| **F03** | Constructeur de séance structuré | **Must** | Sans ça, il n'y a pas de séance à vérifier, à présenter ni à insérer dans un carnet. Cœur du JTBD-F1. |
+| **F03** | Paramétrage et constructeur de séance | **Must** | Sans les paramètres, ni le catalogue ni le carnet ne peuvent s'adapter au niveau, à la saison ni au milieu ; sans constructeur, il n'y a pas de séance à vérifier, à présenter ni à insérer dans un carnet. Cœur du JTBD-F1. |
 | **F09** | Sauvegarde locale, hors connexion et disclaimer | **Must** | Décision de l'utilisateur : séances et carnet enregistrés sur l'appareil, app utilisable hors connexion au bord de la piscine, disclaimer présent dès le premier lancement. |
 | **F10** | Carnet IE de 10 séances (macro-cycle) | **Must** | Décision de l'utilisateur : le carnet exact de 10 séances à progression logique est l'objet à présenter à l'examen. Sans lui, le produit ne répond pas à ce besoin essentiel. Promue depuis Could. |
 | **F04** | Alertes de sécurité en temps réel | **Should** | Rétrogradée depuis Must pour équilibrer le scope. Le produit résout le problème central sans le moteur d'alertes, car les points de sécurité figurent sur chaque fiche (F02). Reste en tête des Should : c'est la couche qui rend la sécurité active. |
@@ -276,32 +275,31 @@
 
 | Priorité | Nombre | % du total | Features |
 |----------|--------|-----------|----------|
-| **Must** | 5 | 50% | F01, F02, F03, F09, F10 |
-| **Should** | 4 | 40% | F04, F05, F06, F07 |
-| **Could** | 1 | 10% | F08 |
+| **Must** | 4 | 44% | F02, F03, F09, F10 |
+| **Should** | 4 | 44% | F04, F05, F06, F07 |
+| **Could** | 1 | 11% | F08 |
 | **Won't v1** | 0 | 0% | — |
 
-**Total** : 10 features
+**Total** : 9 features (F01 fusionnée dans F03, numérotation non décalée)
 
 ---
 
 ## Challenge de la priorisation
 
-### Must : 5 features (50%) — AU-DESSUS DE LA RÈGLE, ASSUMÉ
+### Must : 4 features (44%) — LÉGÈREMENT AU-DESSUS DE LA RÈGLE, ASSUMÉ
 
-**Règle** : Must < 40%. On est à 50%, au-dessus de la règle.
+**Règle** : Must < 40%. On est à 44%, légèrement au-dessus de la règle.
 
-**Cause** : F09 (sauvegarde locale) et F10 (carnet) sont des exigences posées par l'utilisateur. Sans elles, on serait à 3 sur 10 (30%). Sans la rétrogradation de F04, on serait à 6 sur 10 (60%).
+**Cause** : F09 (sauvegarde locale) et F10 (carnet) sont des exigences posées par l'utilisateur. La fusion de F01 dans F03 réduit le nombre de features de 10 à 9 et ramène les Must de 5 à 4. Sans la rétrogradation de F04, on serait à 5 sur 9 (56%).
 
 **Test de cohérence** : Si on enlève un seul Must, le produit résout-il encore le problème central ?
 
-- **Sans F01 (Paramétrage)** : Non. Catalogue et carnet ne peuvent plus s'adapter au niveau, à la saison ni au milieu.
 - **Sans F02 (Catalogue explicatif)** : Non. Le candidat n'a plus d'exercices ni de « pourquoi » pour justifier ses choix devant le jury, ni de points de sécurité.
-- **Sans F03 (Constructeur)** : Non. Pas de séance à construire ni à présenter.
+- **Sans F03 (Paramétrage et constructeur)** : Non. Pas de séance à construire ni à présenter, et le catalogue et le carnet ne peuvent plus s'adapter au niveau, à la saison ni au milieu.
 - **Sans F09 (Sauvegarde locale)** : Non. Aucune séance ni aucun carnet n'est conservé entre deux ouvertures et l'usage hors connexion n'est pas garanti.
 - **Sans F10 (Carnet)** : Non au regard de la décision de l'utilisateur : il n'y a plus d'enchaînement ni de progression visible sur les 10 séances de l'examen.
 
-**Verdict** : Les 5 Must sont justifiés. Le seuil de 40% reste dépassé ; pour s'en approcher, il faudrait fusionner F01 dans F03 (paramètres comme première étape du constructeur) ; à challenger.
+**Verdict** : Les 4 Must sont justifiés. Le seuil de 40% reste légèrement dépassé ; l'écart est assumé car F09 et F10 sont des décisions de l'utilisateur.
 
 ---
 
@@ -314,14 +312,14 @@
 **Tension** : La sécurité est la promesse centrale du produit (4 blocs sur 5 de la grille pratique) et le moteur d'alertes en est la partie la plus visible. Le rétrograder est un vrai choix, pas un détail.
 
 **Pourquoi F04 plutôt qu'une autre Must** :
-1. Les 5 autres Must échouent au test de cohérence : sans eux, le produit ne fonctionne plus (pas de séances, pas de paramètres, pas de sauvegarde, pas de carnet).
+1. Les 4 autres Must (F02, F03, F09, F10) échouent au test de cohérence : sans eux, le produit ne fonctionne plus (pas d'exercices, pas de séances ni de paramètres, pas de sauvegarde, pas de carnet).
 2. Sans F04, la sécurité reste présente en Must : points de sécurité et niveau de risque sur chaque fiche (F02), statuts d'origine et de validation, disclaimer (F09).
 3. F04 dépend de F02 (tags de sécurité) et peut être livrée juste après le noyau sans le remettre en cause ; c'est la plus indépendante.
 
 **Ce qu'on perd en v1 si F04 est livrée en retard** : les avertissements automatiques (hypoxie en début de saison, profondeur au-delà des prérogatives, échauffement absent) ; le candidat doit lire les fiches pour les repérer.
 
 **Alternatives** :
-- Garder F04 en Must et fusionner F01 dans F03 (les 5 Must deviennent F02, F03, F04, F09, F10, soit toujours 50% de 9 features)
+- Garder F04 en Must : les Must deviendraient F02, F03, F04, F09, F10, soit 5 sur 9 (56%) ; la fusion de F01 dans F03 est déjà faite et n'a pas suffi à absorber F04
 - Garder F04 en Must et rétrograder F02 en Should : déconseillé, car F02 porte le « pourquoi » et la source des exercices
 
 **Décision** : Should en tête des Should. À remonter en Must si les testeurs jugent que les fiches seules ne suffisent pas.
@@ -395,10 +393,9 @@
 
 ## Scope v1 recommandé (Must + Should prioritaires)
 
-**Must (5 features)** :
-- F01 : Paramétrage de séance
+**Must (4 features)** :
 - F02 : Catalogue d'exercices explicatif
-- F03 : Constructeur de séance structuré
+- F03 : Paramétrage et constructeur de séance (ex-F01 fusionnée)
 - F09 : Sauvegarde locale, hors connexion et disclaimer
 - F10 : Carnet IE de 10 séances (macro-cycle)
 
@@ -419,9 +416,9 @@
 
 | JTBD | Must | Should | Could | Couverture |
 |------|------|--------|-------|------------|
-| **JTBD-F1** : Construire une séance cohérente | F01, F02, F03 | — | — | ✅ Core couvert |
+| **JTBD-F1** : Construire une séance cohérente | F02, F03 | — | — | ✅ Core couvert |
 | **JTBD-F2** : Garantir la sécurité de chaque exercice | F02 (fiches) | F04, F06, F07 | — | ⚠️ Socle en Must (fiches), couche active en Should |
-| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | F01 (paramètre), F10 | — | — | ✅ Core couvert par le carnet |
+| **JTBD-F5** : Faire évoluer les objectifs au fil de la saison | F03 (paramètre saison), F10 | — | — | ✅ Core couvert par le carnet |
 | **JTBD-F6** : Justifier mes choix devant le jury | F02, F10 | F05, F07 | F08 | ✅ Core couvert, entraînement en Could |
 | **JTBD-E1** : Me sentir prêt et confiant avant le jour J | F10 (vue de cohérence) | F07 | F08 | ⚠️ Réassurance partielle en Must, score en Should |
 | **JTBD-F3** : Maîtriser les accidents | — | F06 | — | ⚠️ Couverture partielle (contenu limité à PCM et syncope) |
@@ -435,11 +432,11 @@
 
 **Points à valider avec l'utilisateur** :
 
-1. **F04 rétrogradée en Should** : Es-tu d'accord avec ce choix, ou préfères-tu garder F04 en Must et fusionner F01 dans F03 ?
-2. **Must = 5 features (50%)** : Es-tu d'accord de rester au-dessus du seuil de 40% à cause de F09 et F10 ?
+1. **F04 rétrogradée en Should** : Es-tu d'accord de la laisser en Should maintenant que F01 est fusionnée dans F03, ou veux-tu la remonter en Must (5 Must sur 9, soit 56%) ?
+2. **Must = 4 features (44%)** : Es-tu d'accord de rester légèrement au-dessus du seuil de 40% à cause de F09 et F10 ?
 3. **F10 (Carnet) en Must** : Es-tu d'accord de livrer en priorité le dossier de 10 séances ordonnées et l'enchaînement, puis la vue de cohérence et ses contrôles ?
 4. **F05 (Export) en Should** : Es-tu d'accord de livrer l'export après F04, ou veux-tu le forcer en Must pour garantir une sauvegarde de secours du carnet ?
 5. **Séances théoriques du carnet** : les 2 séances théoriques sont-elles hors scope v1 ?
-6. **Scope v1 recommandé** : Must (5) + Should prioritaires (F04, F05, F07) = 8 features, F06 en Should secondaire. C'est ambitieux. Es-tu d'accord avec ce scope ?
+6. **Scope v1 recommandé** : Must (4) + Should prioritaires (F04, F05, F07) = 8 features, F06 en Should secondaire. C'est ambitieux. Es-tu d'accord avec ce scope ?
 
 **Une fois ces points validés, on passe aux User Stories (Must + Should uniquement).**
