@@ -1,0 +1,885 @@
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#090909;color:#fff}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body><title>Simulateur IE Apnée Framer</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+/* Concept : DESIGN-framer. Toile noire unique (pas de mode clair), texte blanc, hiérarchie ink / ink-muted,
+   pilules blanches pour les actions, cartes charbon, une carte « spotlight » en dégradé par écran au maximum.
+   Le bleu #0099ff est réservé aux liens, à la sélection et au focus. */
+:root {
+  color-scheme: dark;
+  --bg: #090909; --card: #141414; --soft: #1c1c1c; --ink: #ffffff; --body: #ffffff; --mute: #999999;
+  --line: #262626; --primary: #ffffff; --on-primary: #000000; --blue: #0099ff;
+  --violet: #6a4cf5; --magenta: #d44df0; --orange: #ff7a3d; --coral: #ff5577; --success: #22c55e;
+  --pale: rgba(34,197,94,.14); --pos: #22c55e;
+  --warn-bg: rgba(255,122,61,.16); --warn-ink: #ff8a55; --warn-line: #ff7a3d;
+  --neg-bg: rgba(255,85,119,.16); --neg-ink: #ff6c8a; --neg-line: #ff5577;
+  --info-bg: rgba(0,153,255,.14); --info-ink: #4db5ff;
+  --font-display: Geist, "Mona Sans", Inter, system-ui, -apple-system, sans-serif;
+  --font-body: Inter, system-ui, -apple-system, sans-serif;
+}
+html, body { background: var(--bg); }
+body {
+  color: var(--ink); font-family: var(--font-body); font-size: 15px; line-height: 1.3; letter-spacing: -0.01em;
+  font-feature-settings: "cv01", "cv05", "cv09", "cv11", "ss03", "ss07";
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  padding-block: 0;
+}
+.display { font-family: var(--font-display); font-weight: 500; letter-spacing: -0.04em; font-feature-settings: "ss02"; }
+button, input, select, textarea { font-family: inherit; letter-spacing: inherit; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+input[type="date"], input[type="number"], input[type="text"], textarea, select {
+  background: var(--soft); color: var(--ink); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; width: 100%; font-size: 16px;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: var(--blue); box-shadow: 0 0 0 3px rgba(0,153,255,.25); }
+input::placeholder, textarea::placeholder { color: var(--mute); }
+textarea { resize: vertical; min-height: 72px; }
+input[type="checkbox"] { width: 22px; height: 22px; accent-color: #0099ff; flex: none; }
+summary { cursor: pointer; }
+.tnum { font-variant-numeric: tabular-nums; }
+.spot { background: linear-gradient(150deg, #5a3fe0 0%, #6a4cf5 52%, #a64cf0 100%); color: #fff; }
+.float { box-shadow: inset 0 0.5px 0 rgba(255,255,255,.10), 0 10px 30px rgba(0,0,0,.25); }
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+@keyframes rise { from { transform: translateY(12px); opacity: 0 } to { transform: none; opacity: 1 } }
+.rise { animation: rise .18s ease-out; }
+</style>
+
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>
+  tailwind.config = { theme: { extend: {
+    colors: { bg:'var(--bg)', card:'var(--card)', soft:'var(--soft)', ink:'var(--ink)', body:'var(--body)', mute:'var(--mute)', line:'var(--line)',
+      primary:'var(--primary)', 'on-primary':'var(--on-primary)', pale:'var(--pale)', pos:'var(--pos)',
+      'warn-bg':'var(--warn-bg)', 'warn-ink':'var(--warn-ink)', 'warn-line':'var(--warn-line)',
+      'neg-bg':'var(--neg-bg)', 'neg-ink':'var(--neg-ink)', 'neg-line':'var(--neg-line)', 'info-bg':'var(--info-bg)', 'info-ink':'var(--info-ink)' },
+    borderRadius: { '2xl': '20px', '3xl': '30px' }
+  } } };
+</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Geist:wght@500;600&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js"></script>
+<script>window.react = window.React; /* le build UMD de lucide-react lit la variable globale "react" et expose "LucideReact" */</script>
+<script src="https://unpkg.com/lucide-react@0.468.0/dist/umd/lucide-react.min.js"></script>
+
+<div id="root"></div>
+
+<script>
+/* ============================================================================
+   DONNÉES EMBARQUÉES (100 % front-end). Source : base de connaissances IE/FFESSM.
+   origine  : corpus (documents sources) | suggestion (adaptation, à valider)
+   valid    : corpus | a_valider | valide   (statut de relecture par le porteur du projet)
+   ============================================================================ */
+const NIVEAUX = {
+  AEL:  { label: 'AEL',  long: 'Apnéiste Eau Libre',          hint: 'Autonomie relative jusqu’à 6 m' },
+  ACEL: { label: 'ACEL', long: 'Apnéiste Confirmé Eau Libre', hint: 'Autonomie relative jusqu’à 20 m' },
+};
+const SAISONS = {
+  REPRISE:       { label: 'Reprise',                 hint: 'Foncier, technique, hypercapnie légère (novembre à décembre)' },
+  DEVELOPPEMENT: { label: 'Développement',           hint: 'Hypercapnie puis introduction de l’hypoxie (janvier à mi-mars)' },
+  PRE_EXAMEN:    { label: 'Pré-compétition / Examen', hint: 'Mental, protocoles, affûtage (mi-mars à l’examen)' },
+};
+const MILIEUX = { PISCINE: { label: 'Piscine', hint: 'Bassin, 0 à 6 m' }, FOSSE: { label: 'Fosse', hint: 'Profondeur, au-delà de 6 m possible selon le brevet' } };
+const PHILOS = {
+  TECHNIQUE: { label: 'Focus technique',  hint: 'Démonstrations, remédiation, séries courtes' },
+  VOLUME:    { label: 'Focus volume',     hint: 'Répétitions, foncier, vigilance fatigue' },
+  LUDIQUE:   { label: 'Ludique / détente', hint: 'Intensité réduite, relais, pédagogie par la réussite' },
+};
+const PROFILS = {
+  IE1_MAJEUR: { label: 'IE1', max: 6,  hint: 'Encadrement jusqu’à 6 m' },
+  IE1_MINEUR: { label: 'IE1 mineur', max: 6, hint: '6 m, avec un encadrant majeur présent sur site' },
+  IE2:        { label: 'IE2', max: 20, hint: '20 m, sous conditions (DP ou DB)' },
+};
+const PHASES = [
+  { id: 'accueil',      label: 'Accueil et briefing',          duree: 8,  hint: 'Objectifs, état de forme, consignes de sécurité' },
+  { id: 'sec',          label: 'Exercices à sec',              duree: 7,  hint: 'Ventilation, relâchement, protocole de sortie' },
+  { id: 'echauffement', label: 'Échauffement',                 duree: 12, hint: 'Groupes musculaires et charge en CO₂' },
+  { id: 'prerequis',    label: 'Montée en charge et prérequis', duree: 6,  hint: 'Vérifier ce qui est acquis' },
+  { id: 'coeur',        label: 'Cœur de séance',               duree: 35, hint: 'Démontrer, faire faire, corriger, évaluer' },
+  { id: 'application',  label: 'Application',                  duree: 10, hint: 'Baisse progressive de charge' },
+  { id: 'retour',       label: 'Retour au calme',              duree: 5,  hint: 'Nage lente, récupération' },
+  { id: 'debrief',      label: 'Débriefing',                   duree: 7,  hint: 'Positif, contrôle des acquis, séance suivante' },
+];
+const DOMS = {
+  technique: 'Technique', foncier: 'Foncier', hypercapnie: 'Hypercapnie', hypoxie: 'Hypoxie',
+  lactique: 'Lactique', mental: 'Mental', securite: 'Sécurité', aucune: '—',
+};
+const RISQUES = { 1: 'Risque faible', 2: 'Risque modéré', 3: 'Risque élevé', 4: 'Risque très élevé' };
+const TAGS = {
+  HYPOXIE_SYNCOPE: 'Risque hypoxique / syncope', PCM_SAMBA: 'Risque de PCM (samba)', BINOME_OBLIGATOIRE: 'Binôme obligatoire',
+  SURVEILLANCE_RAPPROCHEE: 'Surveillance rapprochée', SURVEILLANCE_ACTIVE: 'Encadrant proche', POINT_APPUI: 'Point d’appui',
+  PROTOCOLE_SORTIE: 'Protocole de sortie', CARBONARCOSE: 'Maux de tête / CO₂', RECUP_LONGUE: 'Éviter les récupérations trop longues',
+  PAS_STATIQUE_AU_FOND: 'Pas de statique au fond', COMPENSATION: 'Compensation non forcée', LESTAGE_LARGABLE: 'Lestage largable',
+  PROFONDEUR_LIMITE: 'Profondeur limitée par le brevet', MATERIEL_SECOURS_6M: 'Matériel de secours au-delà de 6 m',
+  SAUVETAGE_RIFAA: 'Protocole RIFAA', NIVEAU_MIN_ACEL: 'Réservé ACEL', SIGNAL_CONSCIENCE: 'Signal de conscience',
+};
+const ALL_N = ['AEL', 'ACEL'], ALL_M = ['PISCINE', 'FOSSE'], ALL_S = ['REPRISE', 'DEVELOPPEMENT', 'PRE_EXAMEN'];
+
+const EX = [
+  { id: 'BRF-01', nom: 'Briefing et consignes de sécurité à sec', disc: 'Préparation', phase: 'accueil', dom: 'securite', risque: 1, apnees: 0, prof: 0,
+    niveaux: ALL_N, milieux: ALL_M, saisons: ALL_S, tags: ['BINOME_OBLIGATOIRE', 'POINT_APPUI'], origine: 'corpus', valid: 'corpus', src: 'Pratique p.19',
+    params: '5 à 10 minutes (durée indicative).',
+    pourquoi: 'Donner envie, vérifier la forme et les acquis des élèves, poser les règles avant d’entrer dans l’eau. Le jury note la présentation des objectifs et des consignes.',
+    secu: ['Je me mets à l’eau en premier.', 'On prend toujours un point d’appui entre deux apnées.', 'On ne fait jamais d’apnée seul : je surveille chacune de vos apnées.', 'Vous respectez mes consignes, même si vous pourriez faire plus.'],
+    simplifier: 'Limiter à 3 consignes essentielles et les faire reformuler par les élèves.', complexifier: 'Ajouter la répartition des rôles de surveillance en binôme.' },
+  { id: 'ECH-01', nom: 'Échauffement nage palmée', disc: 'Préparation', phase: 'echauffement', dom: 'foncier', risque: 1, apnees: 0, prof: 2,
+    niveaux: ALL_N, milieux: ALL_M, saisons: ALL_S, tags: [], origine: 'corpus', valid: 'corpus', src: 'Pratique p.6',
+    params: 'Groupes musculaires sollicités et charge en CO₂ ; intensité selon la période de l’année (durée de 10 à 15 min : suggestion).',
+    pourquoi: 'Préparer le corps et amorcer la charge en CO₂ avant le travail spécifique. Un échauffement négligé est une erreur fréquente sanctionnée.',
+    secu: ['Intensité adaptée à la période : plus foncier en début de saison.', 'Sauf travail spécifique « sans échauffement » assumé et justifié.'],
+    simplifier: 'Nage lente en surface avec palmes courtes.', complexifier: 'Ajouter des changements de rythme à intensité modérée.' },
+  { id: 'STA-01', nom: 'Statique d’initiation avec signal de conscience', disc: 'Statique', phase: 'coeur', dom: 'technique', risque: 1, apnees: 6, prof: 2,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ['REPRISE', 'DEVELOPPEMENT'], tags: ['BINOME_OBLIGATOIRE', 'PROTOCOLE_SORTIE', 'POINT_APPUI', 'SIGNAL_CONSCIENCE'], origine: 'corpus', valid: 'corpus', src: 'Pratique p.20',
+    params: '30 s expiratoire, 30 s poumons pleins, 45 s avec protocole de sortie, 1 min avec signal de conscience à 30 s, 45 s et 1 min, puis signal à 1 min seulement ; si facile 1 min 15 puis 1 min 30.',
+    pourquoi: 'Donner une première perception sécurisée de l’apnée, automatiser la ventilation et surtout le protocole de sortie. Le signal de conscience sert de critère d’évaluation objectif.',
+    secu: ['Un surveillant par apnéiste à chaque apnée, le moniteur à l’eau en premier.', 'Aucune apnée sans point d’appui, aucune hyperventilation.', 'Surveillance rapprochée jusqu’à 1 minute après la sortie.', 'Respecter les consignes même si l’élève pourrait faire plus.'],
+    simplifier: 'Rester à 30 à 45 s, apnée expiratoire d’abord, signal de conscience seul.', complexifier: 'Passer à 1 min 15 puis 1 min 30 avec un seul signal.' },
+  { id: 'STA-02', nom: 'Statique hypercapnique à récupération dégressive', disc: 'Statique', phase: 'coeur', dom: 'hypercapnie', risque: 2, apnees: 8, prof: 2,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ['DEVELOPPEMENT'], tags: ['CARBONARCOSE', 'BINOME_OBLIGATOIRE', 'RECUP_LONGUE'], origine: 'corpus', valid: 'corpus', src: 'Sport p.41',
+    params: 'Apnée d’environ 60 % du maximum (ex. 2 min), récupération dégressive : 1 min, 50 s, 45 s, 40 s, 30 s, jusqu’à 10 s.',
+    pourquoi: 'Abaisser progressivement la sensibilité au CO₂ avec des apnées courtes et maîtrisées, une récupération suffisante pour l’oxygène mais pas pour éliminer tout le CO₂. Prépare le STA 1 min de l’examen.',
+    secu: ['Attention aux maux de tête : intoxication au CO₂ (carbonarcose), arrêter la série.', 'Aucune hyperventilation pendant les récupérations courtes.', 'Binôme ou observateur entre chaque apnée.'],
+    simplifier: 'Apnée à 40-50 % du maximum, récupération de départ 1 min 30, s’arrêter à 30 s.', complexifier: 'Descendre jusqu’à 10 s de récupération.' },
+  { id: 'STA-03', nom: 'Statique hypoxique', disc: 'Statique', phase: 'coeur', dom: 'hypoxie', risque: 4, apnees: 4, prof: 2,
+    niveaux: ['ACEL'], milieux: ['PISCINE'], saisons: ['PRE_EXAMEN'], tags: ['HYPOXIE_SYNCOPE', 'PCM_SAMBA', 'SURVEILLANCE_RAPPROCHEE', 'BINOME_OBLIGATOIRE', 'NIVEAU_MIN_ACEL'], origine: 'corpus', valid: 'corpus', src: 'Sport p.43',
+    params: 'Série de 4 apnées de 3 min avec 3 min de récupération (temps d’apnée égal au temps de récupération), à adapter au niveau.',
+    pourquoi: 'Habituer l’organisme à maintenir un effort avec un taux d’oxygène décroissant et préparer le mental. C’est la dominante de la phase ciblée avant l’examen.',
+    secu: ['Les exercices hypoxiques sont les plus accidentogènes : vigilance particulière.', 'Surveillance dédiée et rapprochée jusqu’à 1 minute après chaque apnée.', 'Connaître l’élève, poser des limites, jamais en début de saison.', 'Préparer le sauvetage : oxygène, BAVU, 2 insufflations, alerter.'],
+    simplifier: 'Apnées de 2 min avec 3 min de récupération, 2 à 3 répétitions.', complexifier: 'Récupération égale au temps d’apnée, sans augmenter en même temps durée et nombre.' },
+  { id: 'STA-04', nom: 'Statique 1 min puis dynamique 30 m', disc: 'Statique', phase: 'coeur', dom: 'hypoxie', risque: 3, apnees: 2, prof: 2,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ['DEVELOPPEMENT', 'PRE_EXAMEN'], tags: ['HYPOXIE_SYNCOPE', 'PROTOCOLE_SORTIE', 'BINOME_OBLIGATOIRE'], origine: 'corpus', valid: 'corpus', src: 'Intro p.11',
+    params: 'STA 1 min puis DYN 30 m minimum (épreuve physique de l’examen). Le délai entre les deux n’est pas précisé dans les documents.',
+    pourquoi: 'Reproduire une épreuve physique de l’IE et travailler l’enchaînement ventilation, relâchement, nage, avec un protocole de sortie complet entre les deux phases.',
+    secu: ['Protocole de sortie du statique complet avant de repartir en dynamique.', 'Surveillance continue pendant la nage ; ne pas enchaîner si le signe OK n’est pas franc.'],
+    simplifier: 'STA 45 s puis DYN 25 m avec 3 min de récupération (suggestion).', complexifier: 'STA 1 min 15 puis DYN 30 m (suggestion).' },
+  { id: 'DYN-01', nom: 'Initiation dynamique 12,5 m puis 25 m', disc: 'Dynamique', phase: 'coeur', dom: 'technique', risque: 2, apnees: 4, prof: 2,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ['REPRISE', 'DEVELOPPEMENT'], tags: ['LESTAGE_LARGABLE', 'SURVEILLANCE_ACTIVE', 'BINOME_OBLIGATOIRE'], origine: 'corpus', valid: 'corpus', src: 'Pratique p.21',
+    params: '12,5 m ×2 puis 25 m ×2 avec leurs palmes, puis avec ceinture ou plomb de cou ; un élève après l’autre, moniteur à mi-bassin.',
+    pourquoi: 'Évaluer le niveau, vérifier les prérequis et introduire le lestage. Progression du simple vers le complexe, du confortable vers le challenge.',
+    secu: ['Lestage largable, jamais de baudrier.', 'Moniteur à mi-bassin, qui accompagne chaque élève jusqu’au bout.', 'Passer à 25 m seulement si 12,5 m est réussi sans stress.'],
+    simplifier: 'Sans lestage, 12,5 m seulement, palmes courtes, récupération allongée.', complexifier: 'Avec lestage, 25 m avec virage.' },
+  { id: 'DYN-02', nom: 'Série hypercapnique dynamique', disc: 'Dynamique', phase: 'coeur', dom: 'hypercapnie', risque: 2, apnees: 10, prof: 2,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ['REPRISE', 'DEVELOPPEMENT'], tags: ['CARBONARCOSE', 'BINOME_OBLIGATOIRE', 'RECUP_LONGUE', 'POINT_APPUI'], origine: 'corpus', valid: 'corpus', src: 'Sport p.41',
+    params: 'Distance : 50 % de la distance maximale maîtrisée. Récupération : 50 % du temps d’apnée. Répétitions nombreuses : série de 10.',
+    pourquoi: 'Développer la tolérance au CO₂ et l’endurance, cœur du travail de début de saison. Prépare le 3 × 50 m de l’examen.',
+    secu: ['Maux de tête : arrêter la série.', 'Éviter les récupérations trop longues en surface pour garder une légère hypercapnie.', 'Surveillance renforcée sur les dernières répétitions : fatigue et PCM.'],
+    simplifier: '40 % de la distance, récupération 60 à 70 % du temps d’apnée, 6 à 8 répétitions (suggestion).', complexifier: 'Introduire la vitesse ou réduire la récupération sur la dernière série (suggestion).' },
+  { id: 'DYN-03', nom: 'Série hypoxique dynamique', disc: 'Dynamique', phase: 'coeur', dom: 'hypoxie', risque: 4, apnees: 6, prof: 2,
+    niveaux: ['ACEL'], milieux: ['PISCINE'], saisons: ['PRE_EXAMEN'], tags: ['HYPOXIE_SYNCOPE', 'PCM_SAMBA', 'SURVEILLANCE_RAPPROCHEE', 'BINOME_OBLIGATOIRE', 'NIVEAU_MIN_ACEL'], origine: 'corpus', valid: 'corpus', src: 'Sport p.42',
+    params: 'Distance : 80 à 90 % de la distance maximale. Récupération : 3 à 4 fois le temps d’apnée. 4 à 8 répétitions.',
+    pourquoi: 'Habituer l’organisme au manque d’oxygène en gardant une technique propre ; dominante de la phase ciblée avant l’examen.',
+    secu: ['Exercice accidentogène : surveillance rapprochée, encadrant à hauteur du nageur.', 'Signes de PCM : lâcher de bulles, accélération en fin d’apnée, changement de trajectoire.', 'Aucune hyperventilation ; point d’appui dès la sortie.'],
+    simplifier: '70 % de la distance, 4 répétitions, récupération 4 fois le temps d’apnée (suggestion).', complexifier: '90 % de la distance, 8 répétitions, récupération 3 fois le temps d’apnée.' },
+  { id: 'DYN-04', nom: 'Série lactique en petites palmes', disc: 'Dynamique', phase: 'coeur', dom: 'lactique', risque: 2, apnees: 6, prof: 2,
+    niveaux: ['ACEL'], milieux: ['PISCINE'], saisons: ['DEVELOPPEMENT'], tags: ['SURVEILLANCE_ACTIVE', 'BINOME_OBLIGATOIRE'], origine: 'corpus', valid: 'corpus', src: 'Sport p.44',
+    params: 'Séries d’apnée rapide en petites palmes, intensité élevée, récupération courte ou longue, récupération active en surface ; nombre de séries compatible avec le niveau.',
+    pourquoi: 'Améliorer la tolérance musculaire aux lactates ; prépare le 400 m et le mannequin, efforts courts et intenses.',
+    secu: ['Hypoxie, effort et fatigue : risque de PCM, jamais en fin de longue séance.', 'Jambes lourdes : fatigue ou signe de syncope, en cas de doute arrêter.'],
+    simplifier: '25 m rapide, récupération longue, 4 séries.', complexifier: '50 m rapide, récupération courte, séries multiples.' },
+  { id: 'DYN-05', nom: 'Série 3 × 50 m, départ toutes les 1 min 45', disc: 'Dynamique', phase: 'coeur', dom: 'hypercapnie', risque: 3, apnees: 3, prof: 2,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ['DEVELOPPEMENT', 'PRE_EXAMEN'], tags: ['HYPOXIE_SYNCOPE', 'BINOME_OBLIGATOIRE', 'RECUP_LONGUE', 'POINT_APPUI'], origine: 'corpus', valid: 'corpus', src: 'Intro p.10-11',
+    params: '3 × 50 m, départ toutes les 1 min 45 (épreuve physique de l’examen, validation « fait »).',
+    pourquoi: 'Valider une épreuve de l’examen ; format fractionné hypercapnique : distance moyenne, récupération courte.',
+    secu: ['Un surveillant par couloir ; vérifier le signe OK avant de relancer.', 'Un élève qui n’est pas OK sort de la série.'],
+    simplifier: 'Départ toutes les 2 min 30 puis 2 min 15 puis 2 min, en 25 m d’abord (suggestion).', complexifier: 'Départ toutes les 1 min 30 ou 4 × 50 m (suggestion).' },
+  { id: 'SAU-01', nom: 'Séance de sauvetage : 25 m, RIFAA, remorquage', disc: 'Sauvetage', phase: 'coeur', dom: 'securite', risque: 3, apnees: 2, prof: 3,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ['DEVELOPPEMENT', 'PRE_EXAMEN'], tags: ['SAUVETAGE_RIFAA', 'SURVEILLANCE_ACTIVE', 'BINOME_OBLIGATOIRE'], origine: 'corpus', valid: 'corpus', src: 'Intro p.12',
+    params: '25 m avec palmes, récupération d’un apnéiste au fond, prise en charge RIFAA en surface, remorquage de 25 m voies aériennes hors de l’eau, appui au bord.',
+    pourquoi: 'Chaque apnéiste est un apnéiste de sécurité : reconnaître les signes, surveiller son binôme, apporter une première réponse.',
+    secu: ['Effort et apnée : jamais à froid, jamais sans échauffement.', 'Victime consciente (jeu de rôle), un second encadrant en surveillance.'],
+    simplifier: 'Victime en surface, 10 m, sans mannequin (suggestion).', complexifier: 'Victime à 2-6 m, avec mannequin, temps imposé (suggestion).' },
+  { id: 'PAL-01', nom: 'Remédiation du palmage', disc: 'Technique', phase: 'prerequis', dom: 'technique', risque: 1, apnees: 0, prof: 2,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ['REPRISE', 'DEVELOPPEMENT'], tags: [], origine: 'corpus', valid: 'corpus', src: 'Sport p.50',
+    params: 'Palmes courtes en début de saison pour remédier au palmage avant les palmes longues ; dureté adaptée à la morphologie.',
+    pourquoi: 'Décomposer le geste en tâches élémentaires et corriger avant d’augmenter la charge.',
+    secu: ['Palmes trop dures : crampes et fatigue, hypoxie plus rapide.'],
+    simplifier: 'Éducatifs en surface, sans apnée.', complexifier: 'Passer aux palmes longues sur de courtes distances.' },
+  { id: 'MEN-01', nom: 'Visualisation et ancrage', disc: 'Mental', phase: 'coeur', dom: 'mental', risque: 2, apnees: 2, prof: 2,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ['DEVELOPPEMENT', 'PRE_EXAMEN'], tags: ['BINOME_OBLIGATOIRE'], origine: 'corpus', valid: 'corpus', src: 'Sport p.46-48',
+    params: 'Un dynamique de 25 m suivi de 30 s d’apnée au bout ; simulation d’un objectif (50 m, une ventilation, puis 25 m) ; répétition d’un 25 m avec virage maîtrisé.',
+    pourquoi: 'Le stress augmente la consommation d’oxygène : réduire le stress par la répétition, la positivité et la confiance dans ses apnéistes de sécurité.',
+    secu: ['Visualisation à sec d’abord.', 'Pas de statique au fond ni d’apnée sans binôme.'],
+    simplifier: 'Visualisation à sec uniquement.', complexifier: 'Simulation complète d’un passage d’examen.' },
+  { id: 'APP-01', nom: 'Relais ludiques en surface', disc: 'Préparation', phase: 'application', dom: 'technique', risque: 1, apnees: 0, prof: 2,
+    niveaux: ALL_N, milieux: ['PISCINE'], saisons: ALL_S, tags: [], origine: 'corpus', valid: 'corpus', src: 'Pratique p.21',
+    params: 'Petits relais, activités ludiques pour baisser la charge.',
+    pourquoi: 'Terminer sur du plaisir, consolider sans intensité et garder la motivation du groupe.',
+    secu: ['Rester en surface, sans apnée.'],
+    simplifier: 'Un seul relais par équipes.', complexifier: 'Relais avec consigne technique (glisse, virage).' },
+  { id: 'FOS-01', nom: 'Cours avant fosse', disc: 'Fosse', phase: 'sec', dom: 'securite', risque: 1, apnees: 0, prof: 0,
+    niveaux: ALL_N, milieux: ['FOSSE'], saisons: ALL_S, tags: ['COMPENSATION', 'LESTAGE_LARGABLE', 'PROTOCOLE_SORTIE'], origine: 'corpus', valid: 'corpus', src: 'Pratique p.15 ; Programmer p.20',
+    params: 'Compensation, lestage, protocole de sortie, signaux, surveillance (durée libre).',
+    pourquoi: 'Installer les prérequis de sécurité avant la profondeur : inutile de travailler la verticalité si la compensation et le lestage ne sont pas acquis.',
+    secu: ['Compensation maîtrisée et jamais forcée.', 'Lestage largable ; ceinture ou plomb de cou, pas de baudrier.', 'Plan de secours et matériel d’oxygénothérapie sur place au-delà de 6 m.'],
+    simplifier: 'Cours à sec uniquement (compensation, signaux).', complexifier: 'Mise en situation à faible profondeur (suggestion).' },
+  { id: 'FOS-02', nom: 'Descente à 15 m en poids constant', disc: 'Fosse', phase: 'coeur', dom: 'technique', risque: 3, apnees: 4, prof: 15,
+    niveaux: ['ACEL'], milieux: ['FOSSE'], saisons: ['DEVELOPPEMENT', 'PRE_EXAMEN'], tags: ['PROFONDEUR_LIMITE', 'COMPENSATION', 'PAS_STATIQUE_AU_FOND', 'MATERIEL_SECOURS_6M'], origine: 'corpus', valid: 'corpus', src: 'PédaG p.52',
+    params: 'Exemple de progression pédagogique du corpus (nombre de séances et travail technique à définir). 15 m dépasse les prérogatives d’un IE1.',
+    pourquoi: 'Illustrer une progression sur une séquence, avec évaluation intermédiaire : si positive on passe à la suite, sinon on retravaille les prérequis.',
+    secu: ['Jamais de statique au fond.', 'Surveillance de la remontée et protocole de sortie.', 'Profondeur limitée au niveau et au brevet de l’encadrant.'],
+    simplifier: 'Limiter à 6 m, limite d’un IE1.', complexifier: 'Hors corpus.' },
+  { id: 'FOS-03', nom: 'Initiation à la gueuse à faible profondeur', disc: 'Fosse', phase: 'coeur', dom: 'technique', risque: 2, apnees: 4, prof: 5,
+    niveaux: ALL_N, milieux: ['FOSSE'], saisons: ['REPRISE', 'DEVELOPPEMENT'], tags: ['COMPENSATION', 'MATERIEL_SECOURS_6M', 'PAS_STATIQUE_AU_FOND'], origine: 'suggestion', valid: 'a_valider', src: 'PédaG p.16 (intitulé) ; paramètres : suggestion',
+    params: 'Descente guidée sur la gueuse à 5 m maximum (suggestion). Aucun protocole de fosse chiffré dans les documents sources.',
+    pourquoi: 'Acquérir la technique en profondeur dans la limite d’un IE1, avec adaptation à la profondeur, surveillance et sauvetage.',
+    secu: ['Compensation non forcée.', 'Longe et ligne balisée ; surveillance depuis la surface.', 'Pas de statique au fond.'],
+    simplifier: 'Descente à 3 m.', complexifier: 'Hors corpus.' },
+  { id: 'RET-01', nom: 'Retour au calme : nage lente 50 m', disc: 'Préparation', phase: 'retour', dom: 'foncier', risque: 1, apnees: 0, prof: 2,
+    niveaux: ALL_N, milieux: ALL_M, saisons: ALL_S, tags: [], origine: 'corpus', valid: 'corpus', src: 'Pratique p.21',
+    params: 'Nage en surface 50 m, récupération.',
+    pourquoi: 'Baisse progressive de charge et récupération avant le débriefing.', secu: ['Rester attentif aux élèves fatigués.'],
+    simplifier: '25 m seulement.', complexifier: 'Ajouter un temps de relâchement à sec.' },
+  { id: 'DEB-01', nom: 'Débriefing positif', disc: 'Préparation', phase: 'debrief', dom: 'securite', risque: 1, apnees: 0, prof: 0,
+    niveaux: ALL_N, milieux: ALL_M, saisons: ALL_S, tags: [], origine: 'corpus', valid: 'corpus', src: 'Pratique p.11',
+    params: 'Féliciter, encourager, rappeler les points clés, annoncer la prochaine séance.',
+    pourquoi: 'Contrôler les acquis, faire un débrief sécurité et préparer la suite. Le jury évalue le débriefing positif et la clôture.',
+    secu: ['Débrief sécurité systématique.'],
+    simplifier: 'Trois questions orales.', complexifier: 'Tour de table d’auto-évaluation.' },
+];
+const exOf = (id) => EX.find((e) => e.id === id);
+
+const ACCIDENTS = [
+  { id: 'PCM', nom: 'Perte de contrôle moteur (PCM, samba)', source: 'Théo p.9',
+    mecanisme: 'Atteinte du seuil hypoxique, altération des fonctions neurologiques, dysfonctionnements moteurs.',
+    causes: 'Hyperventilation, différence de pression partielle (ppO₂, ppCO₂), temps d’apnée majoré par la profondeur.',
+    facteurs: 'Mauvaise position de la tête, séances longues et répétées, temps passé au fond, efforts, mauvaise reprise ventilatoire, froid.',
+    symptomes: 'Mouvements saccadés, réponse motrice altérée, champ visuel rétréci, peau et muqueuses violacées, pâleur, regard altéré, tremblements. Vu par l’encadrant : lâcher de bulles, baisse du tonus, accélération en fin d’apnée, changement de trajectoire.',
+    cat: 'Apnéiste : se laisser secourir. IE : intervenir immédiatement, tête hors de l’eau, retirer le masque, surveiller la reprise (risque de noyade), arrêter l’atelier.',
+    prevention: 'Ne pas hyperventiler, ne pas forcer, pas de statique au fond, point d’appui dès la sortie. IE : consignes en surface, sécurité par binôme, surveillance rapprochée jusqu’à 1 min après la sortie, éviter les récupérations trop longues en surface.' },
+  { id: 'SYN', nom: 'Syncope', source: 'Théo p.9',
+    mecanisme: 'Atteinte du seuil hypoxique, altération des fonctions neurologiques, perte de connaissance.',
+    causes: 'Mêmes mécanismes que la PCM.', facteurs: 'Voir PCM.',
+    symptomes: 'Champ visuel rétréci, jambes lourdes, perte de connaissance ; peut survenir jusqu’à 1 min après la remontée. Vu par l’encadrant : bouchon à la surface, lâcher de bulles, mouvements ralentis.',
+    cat: '2 insufflations, surveillance de la reprise ventilatoire et de la conscience, alerter et oxygène (RIFAA).',
+    prevention: 'Mêmes mesures que la PCM : binôme, surveillance rapprochée, pas d’hyperventilation.' },
+];
+
+const SEUIL_SAUT = 0.5; // suggestion, à valider : hausse du volume d’apnée d’une séance à l’autre
+
+/* ============================================================================
+   LOGIQUE : séances, indicateurs, alertes, carnet
+   ============================================================================ */
+const { useState, useEffect, useMemo, useRef, useCallback, createContext, useContext } = React;
+const html = htm.bind(React.createElement);
+const Ctx = createContext({});
+const uid = () => Math.random().toString(36).slice(2, 9);
+const LK = window.LucideReact || window.lucideReact || {};
+const Fallback = () => null;
+const I = new Proxy({}, { get: (_, k) => LK[k] || Fallback });
+
+const emptyPhases = () => Object.fromEntries(PHASES.map((p) => [p.id, { duree: p.duree, consignes: '', position: '', items: [] }]));
+const newSession = (over = {}) => ({
+  id: uid(), titre: '', objectif: '', critere: '', prerequis: '',
+  params: { niveau: 'AEL', saison: 'REPRISE', milieu: 'PISCINE', philo: 'TECHNIQUE', profil: 'IE1_MAJEUR' },
+  phases: emptyPhases(), secu: { surveillance: 'standard', protocoleSortie: false, poss: false, o2: false },
+  statut: 'brouillon', exemple: false, createdAt: Date.now(), updatedAt: Date.now(), ...over,
+});
+const sessionEx = (s) => PHASES.flatMap((p) => s.phases[p.id].items.map((it) => ({ ...exOf(it.exId), phaseId: p.id, uid: it.uid }))).filter((e) => e.id);
+const isHypox = (e) => e.tags.includes('HYPOXIE_SYNCOPE');
+const isEmptySession = (s) => !s.titre && !s.objectif && sessionEx(s).length === 0;
+
+function indicators(s) {
+  const list = sessionEx(s);
+  const apnees = list.reduce((a, e) => a + e.apnees, 0);
+  const co2 = list.filter((e) => e.dom === 'hypercapnie').reduce((a, e) => a + e.apnees, 0);
+  const coeur = list.filter((e) => !['securite'].includes(e.dom) || e.apnees > 0);
+  const byDom = {};
+  coeur.forEach((e) => { if (e.apnees > 0 || e.phaseId === 'coeur') byDom[e.dom] = (byDom[e.dom] || 0) + Math.max(e.apnees, 1); });
+  let dom = 'aucune', best = -1;
+  Object.entries(byDom).forEach(([d, v]) => { if (v > best) { best = v; dom = d; } });
+  const duree = PHASES.reduce((a, p) => a + (Number(s.phases[p.id].duree) || 0), 0);
+  const risque = list.reduce((a, e) => Math.max(a, e.risque), 0);
+  const prof = list.reduce((a, e) => Math.max(a, e.prof), 0);
+  return { apnees, co2, dom, risque, duree, prof, partial: list.some((e) => e.origine !== 'corpus'), n: list.length };
+}
+
+function alerts(s) {
+  const out = [];
+  const list = sessionEx(s);
+  const ind = indicators(s);
+  const max = PROFILS[s.params.profil].max;
+  const hyp = list.filter(isHypox);
+  const add = (id, niveau, titre, texte, source, statut, acc) => out.push({ id, niveau, titre, texte, source, statut, acc });
+  if (s.params.saison === 'REPRISE' && hyp.length)
+    add('ALR-001', 'bloquant', 'Hypoxie en début de saison', 'Les exercices hypoxiques sont les plus accidentogènes. On les réserve à la fin de saison, après le travail hypercapnique. Remplace par une série hypercapnique.', 'Sport p.43 ; Programmer p.6', 'corpus', 'PCM');
+  if (ind.prof > max)
+    add('ALR-002', 'bloquant', 'Profondeur au-delà de ton brevet', 'Un exercice atteint ' + ind.prof + ' m alors que le profil ' + PROFILS[s.params.profil].label + ' encadre jusqu’à ' + max + ' m. Limite l’exercice à ' + max + ' m ou change de profil si tu es concerné.', 'Champ p.3-4 ; Rég p.31', 'corpus');
+  if (hyp.length && s.secu.surveillance === 'standard')
+    add('ALR-003', 'bloquant', 'Surveillance rapprochée à prévoir', 'Un exercice porte un risque de syncope jusqu’à 1 minute après la sortie. Passe la surveillance en rapprochée ou dédiée dans l’encart Sécurité.', 'Théo p.9', 'corpus', 'SYN');
+  if (hyp.length >= 2)
+    add('ALR-004', 'avertissement', 'Deux exercices à risque hypoxique', 'Les séances longues et répétées favorisent la PCM. Garde un seul exercice hypoxique par séance.', 'Théo p.9', 'corpus', 'PCM');
+  if (!s.phases.echauffement.items.length)
+    add('ALR-005', 'avertissement', 'Pas d’échauffement', 'Il manque un échauffement. Veux-tu en ajouter un ? C’est une erreur fréquente sanctionnée par le jury.', 'Pratique p.10', 'corpus');
+  if (ind.apnees > 0 && !s.secu.protocoleSortie)
+    add('ALR-006', 'avertissement', 'Protocole de sortie à confirmer', 'Coche le protocole de sortie dans l’encart Sécurité : point d’appui, masque retiré, ventilation, « OK, tout va bien ».', 'Pratique p.10 ; p.20', 'corpus');
+  if (s.params.niveau === 'AEL' && list.some((e) => e.risque >= 4))
+    add('ALR-007', 'avertissement', 'Exercice très engageant pour des AEL', 'Cet exercice est réservé à des élèves plus avancés. Pense à une variante simplifiée.', 'Sport p.43', 'suggestion');
+  if (!s.critere.trim())
+    add('ALR-011', 'avertissement', 'Critère d’évaluation manquant', 'Le jury évalue le réalisme de tes objectifs et ton critère d’évaluation de fin de séance.', 'Pratique p.23', 'corpus');
+  if ((s.params.milieu === 'FOSSE' || ind.prof > 6) && !(s.secu.poss && s.secu.o2))
+    add('ALR-013', 'avertissement', 'Matériel de secours au-delà de 6 m', 'Confirme le plan de secours (POSS) et l’oxygénothérapie dans l’encart Sécurité.', 'Rég p.37-39', 'corpus');
+  if (list.some((e) => e.tags.includes('CARBONARCOSE')))
+    add('ALR-008', 'info', 'Surveille les maux de tête', 'Certains exercices hypercapniques peuvent provoquer une intoxication au CO₂ (carbonarcose).', 'Sport p.41', 'corpus');
+  if (!s.phases.debrief.items.length)
+    add('ALR-017', 'info', 'Débriefing à prévoir', 'Un débriefing positif, un contrôle des acquis et l’annonce de la prochaine séance valent des points.', 'Pratique p.23', 'corpus');
+  if (ind.duree > 120)
+    add('ALR-014', 'info', 'Séance de plus de 2 heures', 'Une séance dure en général de 1 h à 2 h ; l’épreuve simule 1 h 30.', 'Pratique p.2', 'suggestion');
+  const rank = { bloquant: 0, avertissement: 1, info: 2 };
+  return out.sort((a, b) => rank[a.niveau] - rank[b.niveau]);
+}
+
+const isoPlus = (iso, days) => { const d = new Date(iso + 'T12:00:00'); d.setDate(d.getDate() + days); return d.toISOString().slice(0, 10); };
+function phaseOfDate(date, exam) {
+  if (!date) return null;
+  const y = exam.slice(0, 4);
+  if (date < y + '-01-01') return 'REPRISE';
+  if (date < isoPlus(exam, -40)) return 'DEVELOPPEMENT';
+  return 'PRE_EXAMEN';
+}
+const fmtDate = (iso) => (iso ? new Date(iso + 'T12:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }) : 'Date à fixer');
+
+function carnetRows(carnet, seances) {
+  return carnet.slots.map((sl, i) => {
+    const s = seances.find((x) => x.id === sl.seanceId) || null;
+    return { i, rank: i + 1, date: sl.date, phase: phaseOfDate(sl.date, carnet.examDate), s, ind: s ? indicators(s) : null };
+  });
+}
+function evolution(prev, cur, prevRank) {
+  const out = [];
+  if (!prev || !cur) return out;
+  out.push(prev.dom === cur.dom ? 'Même dominante que la séance ' + prevRank + ' (' + DOMS[cur.dom] + ')' : 'Passe de ' + DOMS[prev.dom].toLowerCase() + ' à ' + DOMS[cur.dom].toLowerCase());
+  if (cur.co2 > prev.co2) out.push('↗ Plus de travail hypercapnique (' + prev.co2 + ' puis ' + cur.co2 + ' apnées)');
+  else if (cur.co2 < prev.co2) out.push('↘ Moins de travail hypercapnique (' + prev.co2 + ' puis ' + cur.co2 + ' apnées)');
+  else out.push('→ Même volume hypercapnique');
+  if (cur.risque > prev.risque) out.push('↗ Risque en hausse');
+  return out;
+}
+function coherence(rows, carnet) {
+  const out = [];
+  const filled = rows.filter((r) => r.s);
+  if (filled.length < 10) out.push({ id: 'C5', niveau: 'info', titre: filled.length + ' séance' + (filled.length > 1 ? 's' : '') + ' sur 10', texte: 'Le carnet compte exactement 10 séances encadrées. Il en manque ' + (10 - filled.length) + '.', source: 'Intro p.7', statut: 'corpus', at: null });
+  let seenCo2 = false, run = 1;
+  filled.forEach((r, k) => {
+    const prev = filled[k - 1];
+    if (r.ind.dom === 'hypoxie' && !seenCo2)
+      out.push({ id: 'C1', niveau: 'avertissement', titre: 'Hypoxie avant l’hypercapnie (séance ' + r.rank + ')', texte: 'En saison, l’hypercapnie se travaille avant l’hypoxie. Aucune séance précédente ne développe la tolérance au CO₂.', source: 'Sport p.55-56', statut: 'corpus', at: r.i });
+    if (r.ind.co2 > 0) seenCo2 = true;
+    if (prev) {
+      if (prev.ind.apnees > 0 && r.ind.apnees > prev.ind.apnees * (1 + SEUIL_SAUT))
+        out.push({ id: 'C2', niveau: 'avertissement', titre: 'Progression brusque (séance ' + r.rank + ')', texte: 'Le volume d’apnée passe de ' + prev.ind.apnees + ' à ' + r.ind.apnees + '. Un seuil de ' + Math.round(SEUIL_SAUT * 100) + ' % est proposé, à valider.', source: 'Surcompensation, Sport p.24-27 ; seuil : suggestion', statut: 'suggestion', at: r.i });
+      run = prev.ind.dom === r.ind.dom ? run + 1 : 1;
+      if (run === 3)
+        out.push({ id: 'C3', niveau: 'info', titre: 'Trois séances de même dominante (séance ' + r.rank + ')', texte: 'Dominante « ' + DOMS[r.ind.dom].toLowerCase() + ' » trois fois de suite : vérifie que la progression est visible.', source: 'Suggestion', statut: 'suggestion', at: r.i });
+      if (prev.date && r.date && r.date < prev.date)
+        out.push({ id: 'C4', niveau: 'avertissement', titre: 'Dates dans le désordre (séance ' + r.rank + ')', texte: 'La séance ' + r.rank + ' est datée avant la séance ' + prev.rank + '.', source: 'Ordre chronologique du carnet', statut: 'corpus', at: r.i });
+    }
+  });
+  const rank = { avertissement: 0, info: 1 };
+  return out.sort((a, b) => rank[a.niveau] - rank[b.niveau]);
+}
+function draftSynthese(rows) {
+  const filled = rows.filter((r) => r.s);
+  if (!filled.length) return '';
+  const segs = [];
+  filled.forEach((r) => {
+    const last = segs[segs.length - 1];
+    if (last && last.dom === r.ind.dom) { last.to = r.rank; } else segs.push({ dom: r.ind.dom, from: r.rank, to: r.rank });
+  });
+  const lignes = segs.map((g) => (g.from === g.to ? 'Séance ' + g.from : 'Séances ' + g.from + ' à ' + g.to) + ' : ' + DOMS[g.dom].toLowerCase() + '.');
+  return 'Progression du carnet.\n' + lignes.join('\n') + '\nJustification : chaque phase prépare la suivante, du foncier et de la technique vers l’hypercapnie puis l’hypoxie, en respectant la logique de saison jusqu’à l’examen.';
+}
+
+/* ----- Exemple (10 séances) ----- */
+function buildExample() {
+  const plan = [
+    ['Découverte statique et premiers 25 m', 'REPRISE', 'AEL', '2026-11-26', ['STA-01', 'DYN-01']],
+    ['Technique de palmage et dynamique court', 'REPRISE', 'AEL', '2026-12-03', ['PAL-01', 'DYN-01', 'STA-01']],
+    ['Hypercapnie légère', 'REPRISE', 'AEL', '2026-12-10', ['DYN-02']],
+    ['Hypercapnie : série de 10 × 25 m', 'REPRISE', 'AEL', '2026-12-17', ['DYN-02', 'STA-01']],
+    ['Statique hypercapnique', 'DEVELOPPEMENT', 'ACEL', '2027-01-14', ['STA-02']],
+    ['Série 3 × 50 m', 'DEVELOPPEMENT', 'ACEL', '2027-01-28', ['DYN-05', 'STA-02']],
+    ['Lactique en petites palmes', 'DEVELOPPEMENT', 'ACEL', '2027-02-11', ['DYN-04', 'PAL-01']],
+    ['Introduction à l’hypoxie', 'DEVELOPPEMENT', 'ACEL', '2027-03-04', ['STA-04', 'MEN-01']],
+    ['Série hypoxique encadrée', 'PRE_EXAMEN', 'ACEL', '2027-03-25', ['DYN-03']],
+    ['Simulation d’examen', 'PRE_EXAMEN', 'ACEL', '2027-04-08', ['STA-04', 'SAU-01']],
+  ];
+  const seances = plan.map(([titre, saison, niveau, , coeur]) => {
+    const s = newSession({ titre: 'Exemple · ' + titre, exemple: true, statut: 'prete',
+      objectif: 'À la fin de la séance, chaque apnéiste réalise le travail prévu avec un protocole de sortie complet.',
+      critere: 'Signe OK franc à chaque sortie, série terminée sans dégradation de la glisse.' });
+    s.params.saison = saison; s.params.niveau = niveau;
+    s.secu = { surveillance: 'rapprochee', protocoleSortie: true, poss: true, o2: true };
+    const put = (ph, id) => s.phases[ph].items.push({ uid: uid(), exId: id });
+    put('accueil', 'BRF-01'); put('echauffement', 'ECH-01'); put('retour', 'RET-01'); put('debrief', 'DEB-01');
+    coeur.forEach((id) => put(exOf(id).phase, id));
+    return s;
+  });
+  const carnet = { titre: 'Exemple · Carnet IE 2026-27', examDate: '2027-04-24', synthese: '', exemple: true,
+    slots: plan.map((p, i) => ({ date: p[3], seanceId: seances[i].id })) };
+  return { seances, carnet };
+}
+
+/* ----- Partage : lien compact (limite 2000 caractères) ----- */
+const SHARE_BASE = 'https://ie-trainer.app/#s=';
+const b64 = (str) => btoa(unescape(encodeURIComponent(str))).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+const unb64 = (str) => decodeURIComponent(escape(atob(str.replace(/-/g, '+').replace(/_/g, '/'))));
+function shareLink(s) {
+  const p = s.params;
+  const compact = { v: 1, t: s.titre, o: s.objectif, c: s.critere, q: s.prerequis,
+    p: [p.niveau, p.saison, p.milieu, p.philo, p.profil],
+    f: PHASES.map((ph) => { const x = s.phases[ph.id]; return [x.duree, x.items.map((i) => i.exId), x.consignes, x.position]; }),
+    u: [s.secu.surveillance, s.secu.protocoleSortie ? 1 : 0, s.secu.poss ? 1 : 0, s.secu.o2 ? 1 : 0] };
+  const url = SHARE_BASE + b64(JSON.stringify(compact));
+  return { url, len: url.length };
+}
+function parseShared(text) {
+  const t = text.trim();
+  if (!t) return null;
+  try {
+    if (t.startsWith('{')) { const o = JSON.parse(t); return o.phases ? { ...o, id: uid() } : null; }
+    const raw = t.includes('#s=') ? t.split('#s=')[1] : t;
+    const c = JSON.parse(unb64(raw.trim()));
+    const s = newSession({ titre: c.t, objectif: c.o, critere: c.c, prerequis: c.q });
+    [s.params.niveau, s.params.saison, s.params.milieu, s.params.philo, s.params.profil] = c.p;
+    PHASES.forEach((ph, i) => { const [d, ids, cons, pos] = c.f[i]; s.phases[ph.id] = { duree: d, consignes: cons, position: pos, items: ids.filter(exOf).map((id) => ({ uid: uid(), exId: id })) }; });
+    s.secu = { surveillance: c.u[0], protocoleSortie: !!c.u[1], poss: !!c.u[2], o2: !!c.u[3] };
+    return s;
+  } catch (e) { return null; }
+}
+
+/* ----- Stockage local (localStorage, avec repli mémoire) ----- */
+const SKEY = 'ie-trainer-v1', DKEY = 'ie-trainer-disclaimer-v1', DISCLAIMER_VERSION = 1;
+const store = {
+  mem: {},
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return this.mem[k] ?? d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch (e) { this.mem[k] = v; return false; } },
+};
+</script>
+
+<script>
+/* ============================================================================
+   COMPOSANTS UI
+   ============================================================================ */
+const cx = (...a) => a.filter(Boolean).join(' ');
+
+const Btn = ({ variant = 'primary', icon, children, className, ...p }) => {
+  const v = {
+    primary: 'bg-primary text-on-primary hover:brightness-90 active:scale-[.98]',
+    secondary: 'bg-soft text-ink hover:brightness-125',
+    tertiary: 'bg-soft text-ink ring-1 ring-inset ring-white/15 hover:brightness-125',
+    danger: 'bg-neg-bg text-neg-ink',
+    ghost: 'bg-transparent text-ink hover:bg-soft',
+  }[variant];
+  const Ic = icon ? I[icon] : null;
+  return html`<button type="button" ...${p} className=${cx('inline-flex items-center justify-center gap-2 rounded-full px-[18px] py-2.5 font-medium text-[14px] min-h-[44px] whitespace-nowrap disabled:opacity-40 disabled:cursor-not-allowed transition', v, className)}>
+    ${Ic && html`<${Ic} size=${18} aria-hidden="true" />`}${children}</button>`;
+};
+const IconBtn = ({ icon, label, className, ...p }) => {
+  const Ic = I[icon];
+  return html`<button type="button" aria-label=${label} title=${label} ...${p} className=${cx('inline-flex items-center justify-center rounded-full bg-soft text-ink w-11 h-11 hover:brightness-125 disabled:opacity-30', className)}><${Ic} size=${18} aria-hidden="true" /></button>`;
+};
+const Card = ({ tone = 'card', className, children, ...p }) => {
+  const t = { card: 'bg-card rounded-2xl p-5', sage: 'bg-soft rounded-2xl p-5', green: 'spot rounded-3xl p-6', dark: 'bg-ink text-bg rounded-2xl p-5' }[tone];
+  return html`<section ...${p} className=${cx(t, className)}>${children}</section>`;
+};
+const Pill = ({ tone = 'soft', children, icon, className }) => {
+  const t = { soft: 'bg-soft text-ink', pale: 'bg-pale text-pos', warn: 'bg-warn-bg text-warn-ink', neg: 'bg-neg-bg text-neg-ink', info: 'bg-info-bg text-info-ink', ink: 'bg-ink text-bg', violet: 'bg-[rgba(106,76,245,.4)] text-white' }[tone];
+  const Ic = icon ? I[icon] : null;
+  return html`<span className=${cx('inline-flex items-center gap-1 rounded-[6px] px-2.5 py-1 text-[13px] font-medium leading-5', t, className)}>${Ic && html`<${Ic} size=${13} aria-hidden="true" />`}${children}</span>`;
+};
+const RisquePill = ({ r }) => html`<${Pill} tone=${{ 1: 'pale', 2: 'soft', 3: 'warn', 4: 'neg' }[r]} icon=${r >= 3 ? 'TriangleAlert' : 'ShieldCheck'}>${RISQUES[r]}<//>`;
+const OriginePills = ({ ex }) => html`<span className="inline-flex flex-wrap gap-1.5">
+  <${Pill} tone=${ex.origine === 'corpus' ? 'pale' : 'warn'} icon=${ex.origine === 'corpus' ? 'BookCheck' : 'Lightbulb'}>${ex.origine === 'corpus' ? 'Corpus' : 'Suggestion'}<//>
+  ${ex.valid === 'a_valider' && html`<${Pill} tone="warn" icon="Clock">À valider<//>`}
+  ${ex.valid === 'valide' && html`<${Pill} tone="pale" icon="Check">Validé<//>`}</span>`;
+
+const Segmented = ({ options, value, onChange, label }) => html`<div role="radiogroup" aria-label=${label} className="grid gap-2" style=${{ gridTemplateColumns: 'repeat(auto-fit,minmax(120px,1fr))' }}>
+  ${Object.entries(options).map(([k, o]) => html`<button key=${k} type="button" role="radio" aria-checked=${value === k} onClick=${() => onChange(k)}
+    className=${cx('text-left rounded-[10px] px-4 py-3 min-h-[56px] transition', value === k ? 'bg-soft text-ink ring-1 ring-[#0099ff]' : 'text-ink ring-1 ring-inset ring-white/10 hover:bg-soft')}>
+    <span className="flex items-center justify-between gap-2 font-medium">${o.label}${value === k && html`<${I.Check} size=${15} aria-hidden="true" />`}</span><span className="block text-[13px] leading-4 mt-0.5 text-mute">${o.hint}</span></button>`)}</div>`;
+
+const Field = ({ label, hint, id, children }) => html`<div className="flex flex-col gap-1.5"><label htmlFor=${id} className="font-semibold text-[15px]">${label}</label>
+  ${hint && html`<p className="text-[13px] text-mute leading-4">${hint}</p>`}${children}</div>`;
+
+const Sheet = ({ open, onClose, title, children }) => {
+  useEffect(() => { if (!open) return; const f = (e) => e.key === 'Escape' && onClose(); window.addEventListener('keydown', f); return () => window.removeEventListener('keydown', f); }, [open]);
+  if (!open) return null;
+  return html`<div className="fixed inset-0 z-50 flex items-end justify-center" role="dialog" aria-modal="true" aria-label=${title}>
+    <div className="absolute inset-0 bg-black/70" onClick=${onClose}></div>
+    <div className="rise float relative w-full max-w-[560px] bg-card text-ink rounded-t-[30px] max-h-[90vh] flex flex-col" style=${{ paddingBottom: 'env(safe-area-inset-bottom,0px)' }}>
+      <div className="flex items-center justify-between gap-3 px-5 pt-5 pb-3"><h2 className="display text-xl">${title}</h2><${IconBtn} icon="X" label="Fermer" onClick=${onClose} /></div>
+      <div className="overflow-y-auto px-5 pb-6 flex flex-col gap-4">${children}</div></div></div>`;
+};
+
+const ExFiche = ({ ex, params }) => {
+  const compat = params ? [
+    ['Niveau ' + NIVEAUX[params.niveau].label, ex.niveaux.includes(params.niveau)],
+    [MILIEUX[params.milieu].label, ex.milieux.includes(params.milieu)],
+    ['Saison : ' + SAISONS[params.saison].label, ex.saisons.includes(params.saison)],
+  ] : null;
+  return html`<div className="flex flex-col gap-4">
+    <div className="flex flex-wrap gap-1.5"><${RisquePill} r=${ex.risque} /><${Pill} icon="Activity">${DOMS[ex.dom]}<//><${OriginePills} ex=${ex} /></div>
+    ${compat && html`<div className="flex flex-wrap gap-1.5" aria-label="Compatibilité avec ta séance">${compat.map(([l, ok]) => html`<${Pill} key=${l} tone=${ok ? 'pale' : 'warn'} icon=${ok ? 'Check' : 'TriangleAlert'}>${ok ? l : l + ' : non prévu'}<//>`)}</div>`}
+    <div><h3 className="font-semibold mb-1">Pourquoi on le fait</h3><p className="text-body text-[15px] leading-6">${ex.pourquoi}</p></div>
+    <div className="rounded-xl bg-warn-bg text-warn-ink p-4"><h3 className="font-semibold mb-1 flex items-center gap-2"><${I.ShieldAlert} size=${16} aria-hidden="true" /> Points de sécurité critiques</h3>
+      <ul className="list-disc pl-5 text-[15px] leading-6">${ex.secu.map((t, i) => html`<li key=${i}>${t}</li>`)}</ul></div>
+    <div className="grid gap-3" style=${{ gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))' }}>
+      <div className="rounded-xl bg-soft p-4"><h3 className="font-semibold text-[15px] flex items-center gap-1.5"><${I.ArrowDownToLine} size=${15} aria-hidden="true" /> Simplifier</h3><p className="text-[15px] leading-6 text-body">${ex.simplifier}</p></div>
+      <div className="rounded-xl bg-soft p-4"><h3 className="font-semibold text-[15px] flex items-center gap-1.5"><${I.ArrowUpFromLine} size=${15} aria-hidden="true" /> Complexifier</h3><p className="text-[15px] leading-6 text-body">${ex.complexifier}</p></div></div>
+    <div><h3 className="font-semibold mb-1">Paramètres</h3><p className="text-body text-[15px] leading-6">${ex.params}</p><p className="text-[13px] text-mute mt-1">Source : ${ex.src}${ex.prof > 0 ? ' · profondeur ' + ex.prof + ' m' : ''}</p></div>
+    ${ex.tags.length > 0 && html`<div className="flex flex-wrap gap-1.5">${ex.tags.map((t) => html`<${Pill} key=${t}>${TAGS[t]}<//>`)}</div>`}</div>`;
+};
+
+const AccidentFiche = ({ a }) => html`<div className="flex flex-col gap-3">
+  ${[['Mécanisme', a.mecanisme], ['Causes', a.causes], ['Facteurs favorisants', a.facteurs], ['Symptômes', a.symptomes], ['Conduite à tenir', a.cat], ['Prévention', a.prevention]].map(([t, v]) => html`<div key=${t}><h3 className="font-semibold">${t}</h3><p className="text-body text-[15px] leading-6">${v}</p></div>`)}
+  <p className="text-[13px] text-mute">Source : ${a.source}. Contenu issu des documents sources.</p></div>`;
+
+const Empty = ({ icon, title, text, children, spot }) => {
+  const Ic = I[icon];
+  return html`<div className=${cx('p-8 text-center flex flex-col items-center gap-3', spot ? 'spot rounded-3xl' : 'bg-card rounded-2xl')}><span className=${cx('w-14 h-14 rounded-full flex items-center justify-center', spot ? 'bg-white/20 text-white' : 'bg-soft text-ink')}><${Ic} size=${26} aria-hidden="true" /></span>
+    <h2 className="display text-xl">${title}</h2><p className="text-body max-w-[34ch]">${text}</p><div className="flex flex-col gap-2 w-full max-w-[320px]">${children}</div></div>`;
+};
+
+const PageHead = ({ title, sub, right }) => html`<header className="flex flex-wrap items-start justify-between gap-x-3 gap-y-4 pt-6 pb-4"><div className="min-w-0 flex-1 basis-[200px]"><h1 className="display text-[36px] leading-[1.04]">${title}</h1>${sub && html`<p className="text-mute mt-1">${sub}</p>`}</div>${right}</header>`;
+
+/* ----- Disclaimer ----- */
+const DISCLAIMER = 'Cet outil est théorique et destiné à l’entraînement. Il ne remplace ni le MFA, ni ton tuteur, ni le directeur de bassin. Son créateur décline toute responsabilité quant à l’usage des séances et des informations proposées.';
+const DisclaimerGate = ({ onAccept }) => html`<div className="fixed inset-0 z-[60] bg-black/60 flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="dtitle">
+  <div className="rise float bg-card text-ink rounded-[30px] p-6 max-w-[460px] w-full flex flex-col gap-4">
+    <span className="w-12 h-12 rounded-full bg-warn-bg text-warn-ink flex items-center justify-center"><${I.Info} size=${24} aria-hidden="true" /></span>
+    <h2 id="dtitle" className="display text-2xl">Avant de commencer</h2>
+    <p className="text-body leading-6">${DISCLAIMER}</p>
+    <p className="text-body leading-6">Aucun compte n’est demandé. Tes séances sont enregistrées sur cet appareil, dans ce navigateur : exporte-les pour les garder en sécurité.</p>
+    <${Btn} icon="Check" onClick=${onAccept} autoFocus>J’ai compris<//></div></div>`;
+
+/* ============================================================================
+   ÉCRANS
+   ============================================================================ */
+function Seances({ data, actions, go }) {
+  const { seances, carnet, prefs } = data;
+  const [share, setShare] = useState(null);
+  return html`<div className="flex flex-col gap-4 pb-6">
+    <${PageHead} title="Mes séances" sub=${seances.length ? seances.length + ' séance' + (seances.length > 1 ? 's' : '') + ' sur cet appareil' : 'Prépare ton carnet de 10 séances'}
+      right=${html`<${Btn} icon="Plus" onClick=${() => actions.createSession()}>Nouvelle séance<//>`} />
+    ${!prefs.bannerHidden && html`<div className="rounded-2xl bg-info-bg text-info-ink p-4 flex gap-3 items-start" role="note"><${I.HardDrive} size=${20} className="mt-0.5 shrink-0" aria-hidden="true" />
+      <p className="text-[15px] leading-6 flex-1">Tes séances sont enregistrées sur cet appareil, sans compte. Exporte-les pour les garder en sécurité ou les partager.</p>
+      <${IconBtn} icon="X" label="Masquer ce message" onClick=${() => actions.setPref('bannerHidden', true)} /></div>`}
+    ${!data.storageOk && html`<div className="rounded-2xl bg-warn-bg text-warn-ink p-4 text-[15px] leading-6" role="alert">Le stockage de ce navigateur est indisponible : tes séances restent en mémoire jusqu’à la fermeture de la page. Exporte-les pour ne pas les perdre.</div>`}
+    ${seances.length === 0 && html`<${Empty} spot=${true} icon="Waves" title="Tu n’as pas encore de séance" text="Paramètre ta séance, choisis tes exercices, et l’app te dit pourquoi et où sont les risques.">
+      <${Btn} icon="Plus" onClick=${() => actions.createSession()}>Créer ma première séance<//>
+      <${Btn} variant="secondary" icon="FlaskConical" onClick=${actions.loadExample}>Charger un exemple de carnet<//><//>`}
+    <ul className="flex flex-col gap-3">${seances.map((s) => {
+      const ind = indicators(s), al = alerts(s), bl = al.filter((a) => a.niveau === 'bloquant').length;
+      const slot = carnet ? carnet.slots.findIndex((x) => x.seanceId === s.id) : -1;
+      return html`<li key=${s.id}><${Card} className="flex flex-col gap-3">
+        <div className="flex items-start justify-between gap-2"><div className="min-w-0"><h2 className="font-semibold text-lg leading-6 break-words">${s.titre || 'Séance sans titre'}</h2>
+          <p className="text-mute text-[13px]">${slot >= 0 ? 'Carnet IE, séance ' + (slot + 1) + ' sur 10 · ' : ''}modifiée ${new Date(s.updatedAt).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}</p></div>
+          <${Pill} tone=${s.statut === 'prete' ? 'pale' : 'soft'} icon=${s.statut === 'prete' ? 'Check' : 'Pencil'}>${s.statut === 'prete' ? 'Prête' : 'Brouillon'}<//></div>
+        <div className="flex flex-wrap gap-1.5"><${Pill}>${NIVEAUX[s.params.niveau].label}<//><${Pill}>${SAISONS[s.params.saison].label}<//><${Pill}>${MILIEUX[s.params.milieu].label}<//>
+          <${Pill} icon="Clock">${ind.duree} min<//><${Pill} icon="Activity">${DOMS[ind.dom]}<//>${bl > 0 && html`<${Pill} tone="neg" icon="OctagonAlert">${bl} point${bl > 1 ? 's' : ''} bloquant${bl > 1 ? 's' : ''}<//>`}</div>
+        <div className="flex flex-wrap gap-2"><${Btn} variant="tertiary" icon="FolderOpen" onClick=${() => actions.openBuilder(s.id)}>Ouvrir<//>
+          <${IconBtn} icon="Share2" label="Partager" onClick=${() => setShare(s)} /><${IconBtn} icon="Copy" label="Dupliquer" onClick=${() => actions.duplicate(s.id)} />
+          <${IconBtn} icon="Trash2" label="Supprimer" onClick=${() => actions.removeSession(s.id)} /></div></${Card}></li>`;
+    })}</ul>
+    <${ShareSheet} s=${share} onClose=${() => setShare(null)} toast=${actions.toast} /></div>`;
+}
+
+function ShareSheet({ s, onClose, toast }) {
+  const link = useMemo(() => (s ? shareLink(s) : null), [s]);
+  const ok = link && link.len <= 2000;
+  const copy = (txt, msg) => { try { navigator.clipboard.writeText(txt).then(() => toast(msg), () => toast('Copie impossible ici : sélectionne le texte.')); } catch (e) { toast('Copie impossible ici : sélectionne le texte.'); } };
+  return html`<${Sheet} open=${!!s} onClose=${onClose} title="Partager cette séance">
+    ${s && html`<div className="flex flex-col gap-4">
+      <div className=${cx('rounded-xl p-4', ok ? 'bg-pale text-pos' : 'bg-warn-bg text-warn-ink')}>
+        <p className="font-semibold tnum">${ok ? 'Le lien tient dans la limite' : 'Séance trop longue pour un lien'} : ${link.len} sur 2000 caractères</p>
+        <p className="text-[14px] leading-5 mt-1">${ok ? 'Il reste lisible dans une messagerie.' : 'Au-delà de 2000 caractères, un lien risque d’être coupé. Partage la séance par fichier.'}</p></div>
+      <${Btn} icon="Link" disabled=${!ok} onClick=${() => copy(link.url, 'Lien copié')}>Copier le lien<//>
+      <${Btn} variant="secondary" icon="FileJson" onClick=${() => copy(JSON.stringify(s), 'Fichier de séance copié')}>Copier le fichier de séance<//>
+      <p className="text-[13px] text-mute leading-5">Dans le prototype, l’adresse du lien est fictive. Impression PDF : non disponible dans cet aperçu. ${DISCLAIMER}</p></div>`}<//>`;
+}
+
+/* ----- Constructeur ----- */
+function Picker({ open, onClose, session, phaseId, onAdd }) {
+  const [mode, setMode] = useState('adaptes'), [q, setQ] = useState(''), [sel, setSel] = useState(null), [target, setTarget] = useState(phaseId);
+  useEffect(() => { if (open) { setSel(null); setTarget(phaseId); setQ(''); } }, [open, phaseId]);
+  const p = session.params;
+  const fits = (e) => e.niveaux.includes(p.niveau) && e.milieux.includes(p.milieu) && e.saisons.includes(p.saison);
+  const list = EX.filter((e) => (mode === 'tous' || fits(e)) && (!q || (e.nom + ' ' + e.disc).toLowerCase().includes(q.toLowerCase())));
+  return html`<${Sheet} open=${open} onClose=${onClose} title=${sel ? sel.nom : 'Ajouter un exercice'}>
+    ${sel ? html`<${ExFiche} ex=${sel} params=${p} />
+      <${Field} id="tphase" label="Placer dans la phase"><select id="tphase" value=${target} onChange=${(e) => setTarget(e.target.value)}>${PHASES.map((ph) => html`<option key=${ph.id} value=${ph.id}>${ph.label}</option>`)}</select><//>
+      <div className="flex gap-2 flex-wrap"><${Btn} variant="secondary" icon="ArrowLeft" onClick=${() => setSel(null)}>Retour<//><${Btn} icon="Plus" onClick=${() => { onAdd(target, sel.id); onClose(); }}>Ajouter à ma séance<//></div>`
+    : html`<div className="flex gap-2" role="tablist"><${Btn} variant=${mode === 'adaptes' ? 'primary' : 'secondary'} className="flex-1 !px-3" onClick=${() => setMode('adaptes')}>Adaptés à ma séance<//><${Btn} variant=${mode === 'tous' ? 'primary' : 'secondary'} className="flex-1 !px-3" onClick=${() => setMode('tous')}>Tous<//></div>
+      <input type="text" placeholder="Rechercher un exercice" aria-label="Rechercher un exercice" value=${q} onInput=${(e) => setQ(e.target.value)} />
+      ${list.length === 0 && html`<p className="text-body">Aucun exercice adapté à ces paramètres. <button className="underline font-semibold" onClick=${() => setMode('tous')}>Voir tous les exercices</button></p>`}
+      <ul className="flex flex-col gap-2">${list.map((e) => html`<li key=${e.id}><button type="button" onClick=${() => setSel(e)} className="w-full text-left rounded-xl bg-soft hover:brightness-95 p-4 flex flex-col gap-2">
+        <span className="font-semibold leading-5">${e.nom}</span>
+        <span className="flex flex-wrap gap-1.5"><${RisquePill} r=${e.risque} /><${Pill}>${e.disc}<//>${!fits(e) && html`<${Pill} tone="warn">Hors paramètres<//>`}<${OriginePills} ex=${e} /></span></button></li>`)}</ul>`}<//>`;
+}
+
+function AlertsList({ list, onAcc }) {
+  if (!list.length) return html`<div className="rounded-xl bg-pale text-pos p-4"><p className="font-semibold flex items-center gap-2"><${I.ShieldCheck} size=${18} aria-hidden="true" /> Aucun point de vigilance détecté par l’app.</p><p className="text-[14px] mt-1">Pense à vérifier avec ton tuteur : cette vérification est indicative.</p></div>`;
+  const style = { bloquant: 'bg-neg-bg text-neg-ink', avertissement: 'bg-warn-bg text-warn-ink', info: 'bg-info-bg text-info-ink' };
+  const ico = { bloquant: 'OctagonAlert', avertissement: 'TriangleAlert', info: 'Info' };
+  const lab = { bloquant: 'À corriger', avertissement: 'Avertissement', info: 'Information' };
+  return html`<ul className="flex flex-col gap-3">${list.map((a, i) => { const Ic = I[ico[a.niveau]]; return html`<li key=${a.id + i} className=${cx('rounded-xl p-4', style[a.niveau])}>
+    <p className="font-semibold flex items-center gap-2"><${Ic} size=${18} aria-hidden="true" /> ${a.titre}</p>
+    <p className="text-[15px] leading-6 mt-1">${a.texte}</p>
+    <p className="text-[13px] mt-2 opacity-90">${lab[a.niveau]} · ${a.source} · ${a.statut === 'corpus' ? 'Corpus' : 'Suggestion, à valider'}</p>
+    ${a.acc && onAcc && html`<button type="button" className="mt-2 underline font-semibold text-[14px]" onClick=${() => onAcc(a.acc)}>Voir la fiche accident</button>`}</li>`; })}</ul>`;
+}
+
+function Builder({ data, id, actions, onBack }) {
+  const s = data.seances.find((x) => x.id === id);
+  const [step, setStep] = useState(isEmptySession(s) ? 1 : 2);
+  const [pick, setPick] = useState(null), [showAl, setShowAl] = useState(false), [acc, setAcc] = useState(null);
+  if (!s) return null;
+  const upd = (fn) => actions.updateSession(id, fn);
+  const al = alerts(s), bl = al.filter((a) => a.niveau === 'bloquant').length, ind = indicators(s);
+  const setP = (k, v) => upd((x) => { x.params[k] = v; });
+  const addEx = (phaseId, exId) => upd((x) => { x.phases[phaseId].items.push({ uid: uid(), exId }); });
+  const move = (phaseId, idx, d) => upd((x) => { const a = x.phases[phaseId].items; const j = idx + d; if (j < 0 || j >= a.length) return; [a[idx], a[j]] = [a[j], a[idx]]; });
+  const del = (phaseId, idx) => upd((x) => { x.phases[phaseId].items.splice(idx, 1); });
+  const slot = data.carnet ? data.carnet.slots.findIndex((sl) => sl.seanceId === id) : -1;
+  const rows = data.carnet ? carnetRows(data.carnet, data.seances) : [];
+  const prev = slot > 0 ? rows[slot - 1] : null, next = slot >= 0 && slot < 9 ? rows[slot + 1] : null;
+  const evo = slot > 0 && prev && prev.ind ? evolution(prev.ind, ind, prev.rank) : [];
+  return html`<div className="flex flex-col gap-4 pb-40">
+    <header className="flex items-center gap-3 pt-5"><${IconBtn} icon="ArrowLeft" label="Retour à mes séances" onClick=${() => onBack(s)} />
+      <div className="min-w-0 flex-1"><p className="text-[13px] text-mute">${s.statut === 'prete' ? 'Séance prête' : 'Brouillon enregistré sur cet appareil'}</p><h1 className="display text-xl leading-6 truncate">${s.titre || 'Nouvelle séance'}</h1></div></header>
+    <div className="grid grid-cols-2 gap-2 p-1 rounded-full bg-card" role="tablist">
+      ${[[1, 'Paramètres'], [2, 'Construction']].map(([n, l]) => html`<button key=${n} role="tab" aria-selected=${step === n} onClick=${() => setStep(n)} className=${cx('rounded-full py-2.5 font-medium min-h-[44px]', step === n ? 'bg-soft text-ink ring-1 ring-white/20' : 'text-mute')}>${n}. ${l}</button>`)}</div>
+    ${slot >= 0 && html`<${Card} tone="green" className="flex flex-col gap-2"><p className="font-semibold flex items-center gap-2"><${I.BookMarked} size=${18} aria-hidden="true" /> Dans ton carnet · séance ${slot + 1} sur 10</p>
+      <p className="text-[15px] leading-6">${prev ? 'Avant : ' + (prev.s ? prev.s.titre : 'à construire') : 'Première séance : point de départ de ta progression.'}${prev && prev.ind ? ' (' + DOMS[prev.ind.dom].toLowerCase() + ')' : ''}</p>
+      <p className="text-[15px] leading-6">${next ? 'Après : ' + (next.s ? next.s.titre : 'à construire') : slot === 9 ? 'Dernière séance du carnet.' : ''}</p>
+      ${evo.length > 0 && html`<ul className="text-[15px] leading-6 list-disc pl-5">${evo.map((t, i) => html`<li key=${i}>${t}</li>`)}</ul>`}
+      ${prev && prev.s && html`<p className="text-[14px] text-body">Cette séance suppose acquis : ${prev.s.objectif || 'l’objectif de la séance précédente'}</p>`}<//>`}
+    ${step === 1 && html`<${Card} className="flex flex-col gap-5">
+      <${Field} id="titre" label="Titre de la séance"><input id="titre" type="text" value=${s.titre} placeholder="Ex. Hypercapnie : série de 10 × 25 m" onInput=${(e) => upd((x) => { x.titre = e.target.value; })} /><//>
+      <${Field} label="Niveau des élèves"><${Segmented} label="Niveau des élèves" options=${NIVEAUX} value=${s.params.niveau} onChange=${(v) => setP('niveau', v)} /><//>
+      <${Field} label="Moment de la saison"><${Segmented} label="Moment de la saison" options=${SAISONS} value=${s.params.saison} onChange=${(v) => setP('saison', v)} /><//>
+      <${Field} label="Milieu"><${Segmented} label="Milieu" options=${MILIEUX} value=${s.params.milieu} onChange=${(v) => setP('milieu', v)} /><//>
+      <${Field} label="Philosophie de l’instructeur"><${Segmented} label="Philosophie" options=${PHILOS} value=${s.params.philo} onChange=${(v) => setP('philo', v)} /><//>
+      <${Field} label="Ton profil d’encadrant"><${Segmented} label="Profil d’encadrant" options=${PROFILS} value=${s.params.profil} onChange=${(v) => setP('profil', v)} /><//>
+      ${s.params.milieu === 'FOSSE' && s.params.profil !== 'IE2' && html`<p className="rounded-xl bg-info-bg text-info-ink p-4 text-[15px] leading-6">En tant qu’IE1, tu encadres jusqu’à 6 m. On adaptera les exercices de fosse à cette limite.</p>`}
+      <${Btn} icon="ArrowRight" onClick=${() => setStep(2)}>Continuer vers la construction<//><//>`}
+    ${step === 2 && html`<div className="flex flex-col gap-4">
+      <${Card} className="flex flex-col gap-4">
+        <${Field} id="obj" label="Objectif de la séance" hint="Précis, mesurable, atteignable, réaliste, daté (SMART)"><textarea id="obj" value=${s.objectif} placeholder="À la fin de la séance, chaque apnéiste réalise 2 × 25 m avec un protocole de sortie complet." onInput=${(e) => upd((x) => { x.objectif = e.target.value; })}></textarea><//>
+        <${Field} id="crit" label="Critère d’évaluation de fin de séance"><input id="crit" type="text" value=${s.critere} placeholder="Ex. Signe OK franc à chaque sortie" onInput=${(e) => upd((x) => { x.critere = e.target.value; })} /><//>
+        <${Field} id="prq" label="Prérequis"><input id="prq" type="text" value=${s.prerequis} placeholder="Ex. Ventilation préparatoire acquise" onInput=${(e) => upd((x) => { x.prerequis = e.target.value; })} /><//></${Card}>
+      <${Card} tone="sage" className="flex flex-col gap-3"><div className="flex items-baseline justify-between"><h2 className="font-semibold">Durée totale</h2><span className="display text-2xl tnum">${ind.duree} min</span></div>
+        <div className="flex h-3 rounded-full overflow-hidden bg-card" aria-hidden="true">${PHASES.map((ph, i) => html`<div key=${ph.id} style=${{ width: (100 * (Number(s.phases[ph.id].duree) || 0)) / Math.max(ind.duree, 1) + '%', background: i % 2 ? 'var(--magenta)' : 'var(--violet)' }}></div>`)}</div>
+        <div className="flex flex-wrap gap-1.5"><${Pill} icon="Activity">${DOMS[ind.dom]}<//><${Pill} icon="Waves">${ind.apnees} apnées<//><${Pill}>${ind.n} exercice${ind.n > 1 ? 's' : ''}<//>${ind.partial && html`<${Pill} tone="warn">Données partielles<//>`}</div></${Card}>
+      ${PHASES.map((ph) => { const phs = s.phases[ph.id]; return html`<${Card} key=${ph.id} className="flex flex-col gap-3">
+        <div className="flex items-start justify-between gap-3"><div><h2 className="font-semibold text-lg leading-6">${ph.label}</h2><p className="text-[13px] text-mute">${ph.hint}</p></div>
+          <label className="flex items-center gap-1.5 shrink-0"><span className="sr-only">Durée de ${ph.label} en minutes</span><input type="number" min="0" max="120" value=${phs.duree} onInput=${(e) => upd((x) => { x.phases[ph.id].duree = e.target.value; })} className="!w-[72px] text-center tnum" aria-label=${'Durée de ' + ph.label + ' en minutes'} /><span className="text-mute text-sm">min</span></label></div>
+        ${phs.items.length === 0 && ['echauffement', 'coeur', 'debrief'].includes(ph.id) && html`<p className="rounded-xl bg-warn-bg text-warn-ink p-3 text-[14px]">${ph.id === 'echauffement' ? 'Il manque un échauffement. Veux-tu en ajouter un ?' : ph.id === 'coeur' ? 'Le cœur de séance est vide : c’est là que se joue ton objectif.' : 'Prévois un débriefing positif.'}</p>`}
+        <ul className="flex flex-col gap-2">${phs.items.map((it, idx) => { const e = exOf(it.exId); return html`<li key=${it.uid} className="rounded-xl bg-soft p-3 flex items-center gap-2">
+          <button type="button" className="flex-1 min-w-0 text-left" onClick=${() => setPick({ view: e })}><span className="font-semibold leading-5 block">${e.nom}</span>
+            <span className="flex flex-wrap gap-1.5 mt-1.5"><${RisquePill} r=${e.risque} /><${OriginePills} ex=${e} /></span></button>
+          <div className="flex flex-col gap-1"><${IconBtn} icon="ChevronUp" label="Monter" className="!w-9 !h-9" disabled=${idx === 0} onClick=${() => move(ph.id, idx, -1)} /><${IconBtn} icon="ChevronDown" label="Descendre" className="!w-9 !h-9" disabled=${idx === phs.items.length - 1} onClick=${() => move(ph.id, idx, 1)} /></div>
+          <${IconBtn} icon="Trash2" label=${'Retirer ' + e.nom} onClick=${() => del(ph.id, idx)} /></li>`; })}</ul>
+        <${Btn} variant="tertiary" icon="Plus" onClick=${() => setPick({ phase: ph.id })}>Ajouter un exercice<//>
+        <details><summary className="text-[14px] font-semibold text-body">Consignes et position de l’encadrant</summary><div className="flex flex-col gap-3 mt-3">
+          <${Field} id=${'c-' + ph.id} label="Consignes"><textarea id=${'c-' + ph.id} value=${phs.consignes} onInput=${(e) => upd((x) => { x.phases[ph.id].consignes = e.target.value; })}></textarea><//>
+          <${Field} id=${'p-' + ph.id} label="Position de l’encadrant"><input id=${'p-' + ph.id} type="text" value=${phs.position} placeholder="Ex. À mi-bassin" onInput=${(e) => upd((x) => { x.phases[ph.id].position = e.target.value; })} /><//></div></details></${Card}>`; })}
+      <${Card} className="flex flex-col gap-4"><h2 className="font-semibold text-lg flex items-center gap-2"><${I.ShieldCheck} size=${20} aria-hidden="true" /> Sécurité de la séance</h2>
+        <${Field} id="surv" label="Surveillance" hint="Jusqu’à 1 minute après la sortie pour les exercices à risque"><select id="surv" value=${s.secu.surveillance} onChange=${(e) => upd((x) => { x.secu.surveillance = e.target.value; })}>
+          <option value="standard">Standard : binômes et surveillance de chaque apnée</option><option value="rapprochee">Rapprochée : encadrant à hauteur du nageur</option><option value="dediee">Dédiée : un surveillant par apnéiste</option></select><//>
+        ${[['protocoleSortie', 'Protocole de sortie enseigné et vérifié', 'Point d’appui, masque retiré, ventilation, « OK, tout va bien »'], ['poss', 'Plan de secours (POSS) et moyen d’alerte sur place', 'Téléphone, accès des secours, fiches d’évacuation'], ['o2', 'Oxygène et BAVU disponibles', 'Obligatoire au-delà de 6 m']].map(([k, l, h]) => html`<label key=${k} className="flex items-start gap-3"><input type="checkbox" checked=${s.secu[k]} onChange=${(e) => upd((x) => { x.secu[k] = e.target.checked; })} /><span><span className="font-semibold block leading-5">${l}</span><span className="text-[13px] text-mute">${h}</span></span></label>`)}</${Card}>
+      <p className="text-[13px] text-mute leading-5 px-1">${DISCLAIMER}</p></div>`}
+    <div className="fixed inset-x-0 bottom-0 z-30 bg-card border-t border-line" style=${{ paddingBottom: 'env(safe-area-inset-bottom,0px)', paddingLeft: 'max(16px,env(safe-area-inset-left,0px))', paddingRight: 'max(16px,env(safe-area-inset-right,0px))' }}>
+      <div className="mx-auto max-w-[560px] flex items-center gap-2 py-3">
+        <button type="button" onClick=${() => setShowAl(true)} className=${cx('flex items-center gap-2 rounded-full px-4 min-h-[48px] font-semibold flex-1 justify-center', bl ? 'bg-neg-bg text-neg-ink' : al.length ? 'bg-warn-bg text-warn-ink' : 'bg-pale text-pos')}>
+          <${bl ? I.OctagonAlert : al.length ? I.TriangleAlert : I.ShieldCheck} size=${18} aria-hidden="true" /> ${bl ? bl + ' à corriger' : al.length ? al.length + ' point' + (al.length > 1 ? 's' : '') : 'Sécurité OK'}</button>
+        <${Btn} className="flex-1" icon="Check" disabled=${bl > 0 || !s.titre.trim()} onClick=${() => { upd((x) => { x.statut = 'prete'; }); actions.toast('Séance enregistrée sur cet appareil'); onBack(s, true); }}>Valider<//></div>
+      ${(bl > 0 || !s.titre.trim()) && html`<p className="text-center text-[13px] text-mute pb-2 -mt-1">${!s.titre.trim() ? 'Donne un titre à ta séance pour la valider.' : 'Corrige les points bloquants pour valider.'}</p>`}</div>
+    <${Picker} open=${!!pick && !pick.view} onClose=${() => setPick(null)} session=${s} phaseId=${pick && pick.phase ? pick.phase : 'coeur'} onAdd=${addEx} />
+    <${Sheet} open=${!!pick && !!pick.view} onClose=${() => setPick(null)} title=${pick && pick.view ? pick.view.nom : ''}>${pick && pick.view && html`<${ExFiche} ex=${pick.view} params=${s.params} />`}<//>
+    <${Sheet} open=${showAl} onClose=${() => setShowAl(false)} title="Sécurité de ta séance"><${AlertsList} list=${al} onAcc=${(a) => { setShowAl(false); setAcc(ACCIDENTS.find((x) => x.id === a || (a === 'SYN' && x.id === 'SYN'))); }} />
+      <p className="text-[13px] text-mute">Les alertes aident à repérer les points sensibles ; elles ne valident jamais une séance.</p><//>
+    <${Sheet} open=${!!acc} onClose=${() => setAcc(null)} title=${acc ? acc.nom : ''}>${acc && html`<${AccidentFiche} a=${acc} />`}<//></div>`;
+}
+
+/* ----- Catalogue ----- */
+function Catalogue() {
+  const [f, setF] = useState({ niveau: 'ALL', saison: 'ALL', milieu: 'ALL', disc: 'ALL', q: '' });
+  const [sel, setSel] = useState(null);
+  const discs = ['ALL', ...Array.from(new Set(EX.map((e) => e.disc)))];
+  const list = EX.filter((e) => (f.niveau === 'ALL' || e.niveaux.includes(f.niveau)) && (f.saison === 'ALL' || e.saisons.includes(f.saison)) && (f.milieu === 'ALL' || e.milieux.includes(f.milieu)) && (f.disc === 'ALL' || e.disc === f.disc) && (!f.q || e.nom.toLowerCase().includes(f.q.toLowerCase())));
+  const filt = (k, label, opts) => html`<${Field} id=${'f-' + k} label=${label}><select id=${'f-' + k} value=${f[k]} onChange=${(e) => setF({ ...f, [k]: e.target.value })}><option value="ALL">Tous</option>${Object.entries(opts).map(([v, o]) => html`<option key=${v} value=${v}>${o.label}</option>`)}</select><//>`;
+  return html`<div className="flex flex-col gap-4 pb-6"><${PageHead} title="Exercices" sub=${list.length + ' exercice' + (list.length > 1 ? 's' : '') + ' · le pourquoi, la sécurité, les variantes'} />
+    <${Card} className="flex flex-col gap-3"><input type="text" aria-label="Rechercher" placeholder="Rechercher un exercice" value=${f.q} onInput=${(e) => setF({ ...f, q: e.target.value })} />
+      <div className="grid grid-cols-3 gap-2">${filt('niveau', 'Niveau', NIVEAUX)}${filt('saison', 'Saison', SAISONS)}${filt('milieu', 'Milieu', MILIEUX)}</div>
+      <div className="flex flex-wrap gap-1.5" role="group" aria-label="Discipline">${discs.map((d) => html`<button key=${d} type="button" aria-pressed=${f.disc === d} onClick=${() => setF({ ...f, disc: d })} className=${cx('rounded-full px-3.5 py-2 text-[14px] font-semibold min-h-[40px]', f.disc === d ? 'bg-ink text-bg' : 'bg-soft text-ink')}>${d === 'ALL' ? 'Toutes' : d}</button>`)}</div></${Card}>
+    ${list.length === 0 && html`<${Empty} icon="SearchX" title="Aucun exercice trouvé" text="Essaie d’élargir les filtres."><${Btn} variant="secondary" onClick=${() => setF({ niveau: 'ALL', saison: 'ALL', milieu: 'ALL', disc: 'ALL', q: '' })}>Réinitialiser les filtres<//><//>`}
+    <ul className="flex flex-col gap-3">${list.map((e) => html`<li key=${e.id}><button type="button" onClick=${() => setSel(e)} className="w-full text-left rounded-2xl bg-card p-5 flex flex-col gap-2 hover:brightness-95">
+      <span className="flex items-start justify-between gap-2"><span className="font-semibold text-lg leading-6">${e.nom}</span><${I.ChevronRight} size=${20} className="shrink-0 mt-0.5 text-mute" aria-hidden="true" /></span>
+      <span className="flex flex-wrap gap-1.5"><${RisquePill} r=${e.risque} /><${Pill}>${e.disc}<//><${OriginePills} ex=${e} /></span></button></li>`)}</ul>
+    <${Sheet} open=${!!sel} onClose=${() => setSel(null)} title=${sel ? sel.nom : ''}>${sel && html`<${ExFiche} ex=${sel} />`}<//></div>`;
+}
+
+/* ----- Carnet ----- */
+function Carnet({ data, actions }) {
+  const { carnet, seances } = data;
+  const [tab, setTab] = useState('slots'), [titre, setTitre] = useState('Carnet IE 2026-27'), [exam, setExam] = useState('2027-04-24'), [openC, setOpenC] = useState(null);
+  if (!carnet) return html`<div className="flex flex-col gap-4 pb-6"><${PageHead} title="Carnet IE" sub="10 séances encadrées, une progression logique" />
+    <${Card} className="flex flex-col gap-4"><p className="text-body leading-6">Le carnet lie exactement 10 séances dans l’ordre. Tu vois d’une séance à l’autre ce qui est acquis, ce qui progresse, et si l’ensemble est cohérent pour le jury.</p>
+      <${Field} id="ctitre" label="Titre du carnet"><input id="ctitre" type="text" value=${titre} onInput=${(e) => setTitre(e.target.value)} /><//>
+      <${Field} id="cexam" label="Date de l’examen" hint="Les phases de saison se calent sur cette date"><input id="cexam" type="date" value=${exam} onInput=${(e) => setExam(e.target.value)} /><//>
+      <${Btn} icon="BookMarked" disabled=${!exam} onClick=${() => actions.createCarnet(titre, exam)}>Créer mon carnet<//>
+      <${Btn} variant="secondary" icon="FlaskConical" onClick=${actions.loadExample}>Charger un exemple de 10 séances<//><//></div>`;
+  const rows = carnetRows(carnet, seances), co = coherence(rows, carnet), filled = rows.filter((r) => r.s).length;
+  const unassigned = seances.filter((s) => !carnet.slots.some((sl) => sl.seanceId === s.id));
+  const phaseTone = { REPRISE: 'soft', DEVELOPPEMENT: 'violet', PRE_EXAMEN: 'ink' };
+  const maxA = Math.max(1, ...rows.map((r) => (r.ind ? r.ind.apnees : 0)));
+  return html`<div className="flex flex-col gap-4 pb-6"><div className="pt-6"><${Card} tone="green" className="flex flex-col gap-4"><p className="text-[13px] font-medium text-white/80">Carnet IE · examen le ${fmtDate(carnet.examDate)}</p>
+      <h1 className="display text-[32px] leading-[1.05]">${carnet.titre}</h1>
+      <div className="flex items-end justify-between gap-3"><span className="display text-[64px] leading-none tnum">${filled}<span className="text-[28px] opacity-70">/10</span></span><span className="text-[14px] font-medium text-white/90 pb-1">séance${filled > 1 ? 's' : ''} construite${filled > 1 ? 's' : ''}</span></div><//></div>
+    <div className="grid grid-cols-2 gap-2 p-1 rounded-full bg-card" role="tablist">${[['slots', 'Emplacements'], ['coh', 'Cohérence']].map(([k, l]) => html`<button key=${k} role="tab" aria-selected=${tab === k} onClick=${() => setTab(k)} className=${cx('rounded-full py-2.5 font-medium min-h-[44px]', tab === k ? 'bg-soft text-ink ring-1 ring-white/20' : 'text-mute')}>${l}${k === 'coh' && co.filter((c) => c.niveau === 'avertissement').length > 0 ? ' · ' + co.filter((c) => c.niveau === 'avertissement').length : ''}</button>`)}</div>
+    ${tab === 'slots' && html`<ol className="flex flex-col gap-3">${rows.map((r) => html`<li key=${r.i}><${Card} className="flex flex-col gap-3">
+      <div className="flex items-center gap-3"><span className="display w-11 h-11 rounded-full bg-ink text-bg flex items-center justify-center text-lg tnum shrink-0">${r.rank}</span>
+        <div className="flex-1 min-w-0"><input type="date" aria-label=${'Date de la séance ' + r.rank} value=${r.date} onInput=${(e) => actions.setSlot(r.i, { date: e.target.value })} /></div>
+        ${r.phase && html`<${Pill} tone=${phaseTone[r.phase]}>${SAISONS[r.phase].label.split(' /')[0]}<//>`}</div>
+      ${r.s ? html`<div className="flex flex-col gap-2"><p className="font-semibold leading-6">${r.s.titre || 'Séance sans titre'}</p>
+        <div className="flex flex-wrap gap-1.5"><${Pill} icon="Activity">${DOMS[r.ind.dom]}<//><${Pill} icon="Waves">${r.ind.apnees} apnées<//><${RisquePill} r=${r.ind.risque || 1} /></div>
+        <div className="flex flex-wrap gap-2"><${Btn} variant="tertiary" icon="FolderOpen" onClick=${() => actions.openBuilder(r.s.id)}>Ouvrir<//>
+          <${IconBtn} icon="ChevronUp" label="Monter la séance" disabled=${r.i === 0} onClick=${() => actions.swapSlot(r.i, r.i - 1)} /><${IconBtn} icon="ChevronDown" label="Descendre la séance" disabled=${r.i === 9} onClick=${() => actions.swapSlot(r.i, r.i + 1)} />
+          <${IconBtn} icon="Unlink" label="Retirer du carnet" onClick=${() => actions.setSlot(r.i, { seanceId: null })} /></div></div>`
+      : html`<div className="flex flex-col gap-2"><${Btn} icon="Hammer" onClick=${() => actions.createSession(r.i)}>Construire cette séance<//>
+        ${unassigned.length > 0 && html`<label className="flex flex-col gap-1.5"><span className="text-[14px] font-semibold">Ou lier une séance existante</span><select aria-label=${'Lier une séance à l’emplacement ' + r.rank} value="" onChange=${(e) => e.target.value && actions.setSlot(r.i, { seanceId: e.target.value })}><option value="">Choisir une séance</option>${unassigned.map((s) => html`<option key=${s.id} value=${s.id}>${s.titre || 'Séance sans titre'}</option>`)}</select></label>`}</div>`}</${Card}></li>`)}</ol>
+      <div className="flex flex-col gap-2"><${Btn} variant="tertiary" icon="FileJson" onClick=${() => actions.copy(JSON.stringify({ carnet, seances: seances.filter((s) => carnet.slots.some((sl) => sl.seanceId === s.id)) }), 'Carnet copié (fichier de données)')}>Copier le carnet (fichier de données)<//>
+        <${Btn} variant="ghost" icon="Trash2" onClick=${actions.deleteCarnet}>Supprimer ce carnet (les séances restent)<//></div>`}
+    ${tab === 'coh' && html`<div className="flex flex-col gap-4">
+      <${Card} className="flex flex-col gap-3"><h2 className="font-semibold text-lg">Progression des 10 séances</h2>
+        <div className="grid gap-1" style=${{ gridTemplateColumns: 'repeat(10,minmax(0,1fr))' }} role="img" aria-label="Volume d’apnée par séance, dont travail hypercapnique">
+          ${rows.map((r) => html`<div key=${r.i} className="flex flex-col items-center gap-1.5 min-w-0"><div className="h-[120px] w-full flex flex-col justify-end rounded-md bg-soft overflow-hidden">
+            ${r.ind && html`<div style=${{ height: (100 * (r.ind.apnees - r.ind.co2)) / maxA + '%', background: 'var(--mute)' }}></div><div style=${{ height: (100 * r.ind.co2) / maxA + '%', background: 'linear-gradient(180deg,var(--magenta),var(--violet))' }}></div>`}</div>
+            <span className="text-[12px] font-semibold tnum">${r.rank}</span>
+            <span className=${cx('text-[11px] font-bold rounded-full w-5 h-5 flex items-center justify-center', r.ind ? { 1: 'bg-pale text-pos', 2: 'bg-soft text-ink', 3: 'bg-warn-bg text-warn-ink', 4: 'bg-neg-bg text-neg-ink' }[r.ind.risque || 1] : 'text-mute')}>${r.ind ? r.ind.risque || 1 : '·'}</span></div>`)}</div>
+        <div className="grid gap-1" style=${{ gridTemplateColumns: 'repeat(10,minmax(0,1fr))' }} aria-hidden="true">${rows.map((r) => html`<div key=${r.i} className=${cx('rounded-sm h-5 text-[10px] font-bold flex items-center justify-center', r.phase === 'DEVELOPPEMENT' ? 'bg-[rgba(106,76,245,.45)] text-white' : r.phase === 'PRE_EXAMEN' ? 'bg-ink text-bg' : 'bg-soft text-mute')}>${r.phase ? SAISONS[r.phase].label[0] : '?'}</div>`)}</div>
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-[13px] text-body"><span className="flex items-center gap-1.5"><i className="inline-block w-3 h-3 rounded-sm" style=${{ background: 'linear-gradient(180deg,var(--magenta),var(--violet))' }}></i>Travail hypercapnique</span><span className="flex items-center gap-1.5"><i className="inline-block w-3 h-3 rounded-sm" style=${{ background: 'var(--mute)' }}></i>Autres apnées</span><span>Pastille : niveau de risque 1 à 4</span></div>
+        <div className="flex flex-wrap gap-x-3 gap-y-1 text-[12px] text-mute"><span>R : Reprise</span><span>D : Développement</span><span>P : Pré-compétition</span><span>Examen : ${fmtDate(carnet.examDate)}</span></div>
+        <details><summary className="text-[14px] font-semibold">Voir les valeurs</summary><div className="overflow-x-auto mt-2"><table className="w-full text-[14px] tnum"><thead><tr className="text-left text-mute"><th className="py-1 pr-2">N°</th><th className="pr-2">Date</th><th className="pr-2">Dominante</th><th className="pr-2">Apnées</th><th className="pr-2">CO₂</th><th>Risque</th></tr></thead>
+          <tbody>${rows.map((r) => html`<tr key=${r.i} className="border-t border-line"><td className="py-1 pr-2">${r.rank}</td><td className="pr-2">${fmtDate(r.date)}</td><td className="pr-2">${r.ind ? DOMS[r.ind.dom] : '—'}</td><td className="pr-2">${r.ind ? r.ind.apnees : '—'}</td><td className="pr-2">${r.ind ? r.ind.co2 : '—'}</td><td>${r.ind ? r.ind.risque : '—'}</td></tr>`)}</tbody></table></div></details></${Card}>
+      <${Card} className="flex flex-col gap-3"><h2 className="font-semibold text-lg">Points de vigilance</h2>
+        ${co.length === 0 ? html`<p className="rounded-xl bg-pale text-pos p-4 font-semibold">Aucun point de vigilance : ta progression paraît cohérente.</p>`
+          : html`<ul className="flex flex-col gap-2">${co.map((c, i) => html`<li key=${i} className=${cx('rounded-xl p-4', c.niveau === 'avertissement' ? 'bg-warn-bg text-warn-ink' : 'bg-info-bg text-info-ink')}><p className="font-semibold">${c.titre}</p><p className="text-[15px] leading-6 mt-1">${c.texte}</p><p className="text-[13px] mt-1.5">${c.source} · ${c.statut === 'corpus' ? 'Corpus' : 'Suggestion, à valider'}</p></li>`)}</ul>`}
+        <p className="text-[13px] text-mute leading-5">Ces points ne bloquent jamais : la progression reste ton jugement pédagogique. Les seuils sont des suggestions à valider.</p></${Card}>
+      <${Card} className="flex flex-col gap-3"><h2 className="font-semibold text-lg">Pourquoi cet ordre</h2><p className="text-[14px] text-mute">Ta justification de la progression, à présenter au jury.</p>
+        <textarea aria-label="Pourquoi cet ordre" className="!min-h-[140px]" value=${carnet.synthese} onInput=${(e) => actions.setCarnet({ synthese: e.target.value })} placeholder="Ex. Je pars du foncier et de la technique, je développe la tolérance au CO₂, puis j’introduis l’hypoxie à l’approche de l’examen."></textarea>
+        <div className="flex gap-2 flex-wrap"><${Btn} variant="secondary" icon="Wand2" onClick=${() => actions.setCarnet({ synthese: draftSynthese(rows) })}>Générer un brouillon<//><${Btn} variant="tertiary" icon="Copy" onClick=${() => actions.copy(carnet.synthese, 'Texte copié')}>Copier<//></div></${Card}></div>`}</div>`;
+}
+
+/* ----- Plus ----- */
+function Plus({ data, actions }) {
+  const [imp, setImp] = useState(''), [conf, setConf] = useState(false), [acc, setAcc] = useState(null);
+  const parsed = useMemo(() => parseShared(imp), [imp]);
+  const size = JSON.stringify({ seances: data.seances, carnet: data.carnet }).length;
+  return html`<div className="flex flex-col gap-4 pb-6"><${PageHead} title="Plus" sub="Disclaimer, import, sauvegarde et fiches accidents" />
+    <${Card} className="flex flex-col gap-3"><h2 className="font-semibold text-lg flex items-center gap-2"><${I.Info} size=${20} aria-hidden="true" /> À propos</h2><p className="text-body leading-6">${DISCLAIMER}</p>
+      <p className="text-[14px] text-mute leading-5">Prototype : aucune donnée n’est envoyée nulle part. Les règles portent leur origine (corpus ou suggestion) ; seule la dernière version du MFA fait foi.</p></${Card}>
+    <${Card} className="flex flex-col gap-3"><h2 className="font-semibold text-lg flex items-center gap-2"><${I.Import} size=${20} aria-hidden="true" /> Importer une séance reçue</h2>
+      <${Field} id="imp" label="Colle un lien ou un fichier de séance"><textarea id="imp" value=${imp} onInput=${(e) => setImp(e.target.value)} placeholder="https://ie-trainer.app/#s=… ou {…}"></textarea><//>
+      ${imp.trim() && !parsed && html`<p className="rounded-xl bg-warn-bg text-warn-ink p-3 text-[15px]">On n’a pas pu lire cette séance. Demande à la personne de te la renvoyer.</p>`}
+      ${parsed && html`<div className="rounded-xl bg-pale text-pos p-4"><p className="font-semibold">${parsed.titre || 'Séance sans titre'}</p><p className="text-[14px]">${NIVEAUX[parsed.params.niveau].label} · ${SAISONS[parsed.params.saison].label} · ${indicators(parsed).n} exercices</p></div>`}
+      <${Btn} icon="Plus" disabled=${!parsed} onClick=${() => { actions.addSession(parsed); setImp(''); actions.toast('Séance ajoutée à Mes séances'); }}>Ajouter à mes séances<//></${Card}>
+    <${Card} className="flex flex-col gap-3"><h2 className="font-semibold text-lg flex items-center gap-2"><${I.HardDrive} size=${20} aria-hidden="true" /> Données de cet appareil</h2>
+      <p className="text-body leading-6">${data.seances.length} séance${data.seances.length > 1 ? 's' : ''}, ${data.carnet ? '1 carnet' : 'aucun carnet'}. Espace utilisé : <span className="tnum font-semibold">${(size / 1024).toFixed(1)} Ko</span> sur environ 5 000 Ko.</p>
+      <p className="text-[14px] text-mute leading-5">Les données restent dans ce navigateur. Elles disparaissent si tu vides les données du site ou si tu changes d’appareil : exporte-les.</p>
+      <${Btn} variant="tertiary" icon="FileJson" onClick=${() => actions.copy(JSON.stringify({ seances: data.seances, carnet: data.carnet }), 'Sauvegarde copiée')}>Copier toute ma sauvegarde<//>
+      ${!conf ? html`<${Btn} variant="danger" icon="Trash2" onClick=${() => setConf(true)}>Effacer toutes mes données<//>`
+        : html`<div className="rounded-xl bg-neg-bg text-neg-ink p-4 flex flex-col gap-3"><p className="font-semibold">Effacer définitivement ${data.seances.length} séance${data.seances.length > 1 ? 's' : ''} et le carnet ?</p><div className="flex gap-2"><${Btn} variant="tertiary" onClick=${() => setConf(false)}>Annuler<//><${Btn} variant="danger" className="!bg-neg-ink !text-bg" onClick=${() => { actions.resetAll(); setConf(false); }}>Effacer<//></div></div>`}</${Card}>
+    <${Card} className="flex flex-col gap-3"><h2 className="font-semibold text-lg flex items-center gap-2"><${I.Siren} size=${20} aria-hidden="true" /> Fiches accidents</h2>
+      <p className="text-[14px] text-mute">Format de l’examen. Seules la PCM et la syncope sont détaillées dans les documents sources ; les autres accidents sont à compléter.</p>
+      ${ACCIDENTS.map((a) => html`<${Btn} key=${a.id} variant="secondary" icon="FileText" className="!justify-start" onClick=${() => setAcc(a)}>${a.nom}<//>`)}
+      <p className="rounded-xl bg-warn-bg text-warn-ink p-3 text-[14px]">Barotraumatismes, hypercapnie, noyade : à compléter avec le MFA ou la CRA.</p></${Card}>
+    <${Sheet} open=${!!acc} onClose=${() => setAcc(null)} title=${acc ? acc.nom : ''}>${acc && html`<${AccidentFiche} a=${acc} />`}<//></div>`;
+}
+
+/* ============================================================================
+   APPLICATION
+   ============================================================================ */
+const TABS = [['seances', 'Séances', 'ClipboardList'], ['carnet', 'Carnet', 'BookMarked'], ['exercices', 'Exercices', 'Dumbbell'], ['plus', 'Plus', 'Menu']];
+const hashTab = () => { const h = (location.hash || '').replace('#', ''); return TABS.some((t) => t[0] === h) ? h : 'seances'; };
+
+function App() {
+  const init = useMemo(() => store.get(SKEY, null), []);
+  const [seances, setSeances] = useState(init ? init.seances || [] : []);
+  const [carnet, setCarnet] = useState(init ? init.carnet || null : null);
+  const [prefs, setPrefs] = useState(init ? init.prefs || {} : {});
+  const [storageOk, setStorageOk] = useState(true);
+  const [tab, setTab] = useState(hashTab());
+  const [building, setBuilding] = useState(null);
+  const [toastMsg, setToastMsg] = useState(null);
+  const [disclaimerOk, setDisclaimerOk] = useState(() => (store.get(DKEY, null) || {}).v === DISCLAIMER_VERSION);
+  const tRef = useRef(null);
+
+  useEffect(() => { const f = () => { setTab(hashTab()); setBuilding(null); }; window.addEventListener('hashchange', f); return () => window.removeEventListener('hashchange', f); }, []);
+  useEffect(() => { setStorageOk(store.set(SKEY, { seances, carnet, prefs })); }, [seances, carnet, prefs]);
+
+  const toast = useCallback((msg, action) => { setToastMsg({ msg, action }); clearTimeout(tRef.current); tRef.current = setTimeout(() => setToastMsg(null), 6000); }, []);
+  const copy = (txt, msg) => { try { navigator.clipboard.writeText(txt).then(() => toast(msg), () => toast('Copie impossible ici : utilise le menu Partager.')); } catch (e) { toast('Copie impossible ici.'); } };
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+
+  const actions = {
+    toast, copy,
+    setPref: (k, v) => setPrefs((p) => ({ ...p, [k]: v })),
+    createSession: (slotIdx) => {
+      const s = newSession();
+      if (typeof slotIdx === 'number' && carnet) { const ph = phaseOfDate(carnet.slots[slotIdx].date, carnet.examDate); if (ph) s.params.saison = ph; if (ph === 'DEVELOPPEMENT' || ph === 'PRE_EXAMEN') s.params.niveau = 'ACEL'; }
+      setSeances((a) => [s, ...a]);
+      if (typeof slotIdx === 'number') setCarnet((c) => ({ ...c, slots: c.slots.map((sl, i) => (i === slotIdx ? { ...sl, seanceId: s.id } : sl)) }));
+      setBuilding(s.id);
+    },
+    addSession: (s) => setSeances((a) => [{ ...s, id: uid(), updatedAt: Date.now() }, ...a]),
+    openBuilder: (id) => setBuilding(id),
+    updateSession: (id, fn) => setSeances((a) => a.map((s) => { if (s.id !== id) return s; const n = clone(s); fn(n); n.updatedAt = Date.now(); if (n.statut === 'prete') n.statut = 'prete'; return n; })),
+    duplicate: (id) => setSeances((a) => { const s = a.find((x) => x.id === id); const c = clone(s); c.id = uid(); c.titre = (s.titre || 'Séance') + ' (copie)'; c.statut = 'brouillon'; c.exemple = false; c.updatedAt = Date.now(); return [c, ...a]; }),
+    removeSession: (id) => {
+      const s = seances.find((x) => x.id === id); const idx = seances.findIndex((x) => x.id === id); const prevCarnet = carnet;
+      setSeances((a) => a.filter((x) => x.id !== id));
+      if (carnet) setCarnet((c) => ({ ...c, slots: c.slots.map((sl) => (sl.seanceId === id ? { ...sl, seanceId: null } : sl)) }));
+      toast('Séance supprimée', { label: 'Annuler', run: () => { setSeances((a) => { const b = a.slice(); b.splice(idx, 0, s); return b; }); setCarnet(prevCarnet); setToastMsg(null); } });
+    },
+    loadExample: () => { const ex = buildExample(); setSeances((a) => [...ex.seances, ...a]); setCarnet(ex.carnet); location.hash = 'carnet'; toast('Exemple chargé : 10 séances dans le carnet'); },
+    createCarnet: (titre, examDate) => {
+      const start = isoPlus(examDate, -150);
+      setCarnet({ titre: titre || 'Carnet IE', examDate, synthese: '', slots: Array.from({ length: 10 }, (_, i) => ({ date: isoPlus(start, Math.round((i * 130) / 9)), seanceId: null })) });
+    },
+    deleteCarnet: () => { setCarnet(null); toast('Carnet supprimé, tes séances sont conservées'); },
+    setCarnet: (patch) => setCarnet((c) => ({ ...c, ...patch })),
+    setSlot: (i, patch) => setCarnet((c) => ({ ...c, slots: c.slots.map((sl, k) => (k === i ? { ...sl, ...patch } : sl)) })),
+    swapSlot: (i, j) => setCarnet((c) => { const s = c.slots.map((x) => ({ ...x })); const t = s[i].seanceId; s[i].seanceId = s[j].seanceId; s[j].seanceId = t; return { ...c, slots: s }; }),
+    resetAll: () => { setSeances([]); setCarnet(null); setPrefs({}); toast('Données effacées'); },
+  };
+  const onBack = (s) => { if (isEmptySession(s)) { setSeances((a) => a.filter((x) => x.id !== s.id)); setCarnet((c) => (c ? { ...c, slots: c.slots.map((sl) => (sl.seanceId === s.id ? { ...sl, seanceId: null } : sl)) } : c)); } setBuilding(null); };
+  const accept = () => { store.set(DKEY, { v: DISCLAIMER_VERSION, at: Date.now() }); setDisclaimerOk(true); };
+  const data = { seances, carnet, prefs, storageOk };
+
+  if (building && seances.some((s) => s.id === building))
+    return html`<${React.Fragment}><main className="mx-auto w-full max-w-[560px]"><${Builder} key=${building} data=${data} id=${building} actions=${actions} onBack=${onBack} /></main>
+      ${!disclaimerOk && html`<${DisclaimerGate} onAccept=${accept} />`}<${Toast} t=${toastMsg} /><//>`;
+
+  return html`<${React.Fragment}>
+    <main className="mx-auto w-full max-w-[560px] pb-32">
+      ${tab === 'seances' && html`<${Seances} data=${data} actions=${actions} />`}
+      ${tab === 'carnet' && html`<${Carnet} data=${data} actions=${actions} />`}
+      ${tab === 'exercices' && html`<${Catalogue} />`}
+      ${tab === 'plus' && html`<${Plus} data=${data} actions=${actions} />`}</main>
+    <nav aria-label="Navigation principale" className="fixed inset-x-0 bottom-0 z-40 bg-card border-t border-line" style=${{ paddingBottom: 'env(safe-area-inset-bottom,0px)', paddingLeft: 'max(8px,env(safe-area-inset-left,0px))', paddingRight: 'max(8px,env(safe-area-inset-right,0px))' }}>
+      <ul className="mx-auto max-w-[560px] grid grid-cols-4">${TABS.map(([k, l, ic]) => { const Ic = I[ic]; return html`<li key=${k}><a href=${'#' + k} aria-current=${tab === k ? 'page' : undefined} className=${cx('flex flex-col items-center gap-1 py-2.5 min-h-[60px] font-semibold text-[12px]', tab === k ? 'text-ink' : 'text-mute')}>
+        <span className=${cx('rounded-full px-5 py-1', tab === k ? 'bg-soft text-ink' : '')}><${Ic} size=${20} aria-hidden="true" /></span>${l}</a></li>`; })}</ul></nav>
+    ${!disclaimerOk && html`<${DisclaimerGate} onAccept=${accept} />`}<${Toast} t=${toastMsg} /><//>`;
+}
+
+function Toast({ t }) {
+  if (!t) return null;
+  return html`<div className="fixed inset-x-0 z-[70] flex justify-center px-4 pointer-events-none" style=${{ bottom: 'calc(84px + env(safe-area-inset-bottom,0px))' }} role="status">
+    <div className="rise float pointer-events-auto bg-soft text-ink rounded-2xl px-5 py-3 flex items-center gap-4 max-w-[480px]"><span className="text-[15px]">${t.msg}</span>
+      ${t.action && html`<button type="button" className="font-medium underline text-[#0099ff]" onClick=${t.action.run}>${t.action.label}</button>`}</div></div>`;
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(html`<${App} />`);
+</script>
+
+</body></html>
